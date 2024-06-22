@@ -5,20 +5,19 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative z-10 overflow-hidden bg-white pb-16 pt-[120px] dark:bg-gray-dark md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px]"
+      className="relative z-10 overflow-hidden bg-white pb-16 pt-[120px] dark:bg-gray-dark md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[170px] 2xl:pb-[170px] 2xl:pt-[180px]"
     >
       <div className="container mx-auto px-4">
-        <div className="flex flex-col-reverse md:flex-row-reverse items-center justify-between md:w-full">
+        <div className="flex flex-col-reverse md:flex-row-reverse items-center justify-between md:w-full md:h-full">
           {/* Adjust margins in the flex item containing the image for mobile views */}
-          <div className="w-full md:w-2/5 flex items-center justify-center mt-8 md:mt-0">
-            <div className="relative w-full">
+          <div className="hidden md:flex w-full h-full md:w-2/5 mt-8 md:mt-0">
+            <div className="relative w-full h-auto">
               <Image
-                src="/images/hero/hero_section_illustration.png"
+                src="/images/hero/hero_section_illustration.svg"
                 alt="Educational Illustration"
-                layout='responsive'
-                width={692}
-                height={500}
-                objectFit='contain'
+                width={0}
+                height={0}
+                className="w-full h-auto md:max-w-md lg:max-w-lg xl:max-w-lg"
               />
             </div>
           </div>
