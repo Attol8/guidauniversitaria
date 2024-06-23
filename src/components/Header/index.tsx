@@ -44,12 +44,12 @@ const Header = () => {
   return (
     <>
       <header
-        className={`header left-0 top-0 z-40 flex w-full items-center ${sticky
+        className={`header left-0 top-0 z-40 flex w-full items-center mx-auto ${sticky
           ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
           : "absolute bg-transparent"
           }`}
       >
-        <div className="logo-container flex items-center flex-col px-4 py-4">
+        <div className="logo-container flex items-center flex-col pl-4 py-4">
           <Link href="/" className="flex items-center flex-col text-center">
             <Image
               src="/images/logo/online-learning.png"
@@ -57,8 +57,6 @@ const Header = () => {
               width={50}
               height={15}
               className="relative"
-              layout="fixed"
-              objectFit="cover"  // Ensures the image covers the div size
             />
             <span style={{
               fontFamily: '"Manrope", sans-serif',
@@ -129,7 +127,7 @@ const Header = () => {
             </ul>
           </nav>
         </div>
-        <div className="w-auto px-4 flex items-center justify-end">
+        <div className="w-auto pr-4 flex items-center justify-end">
           <Link
             href="/signin"
             className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
