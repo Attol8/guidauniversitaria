@@ -5,9 +5,27 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 const FAKE_COURSE_DATA = [
-  { id: 1, name: 'Intro to Python', category: 'Technology', description: 'Learn the basics of Python.' },
-  { id: 2, name: 'Advanced React', category: 'Technology', description: 'Deep dive into React and Next.js.' },
-  { id: 3, name: 'Business Analytics', category: 'Business', description: 'Understand core concepts in business analytics.' }
+  {
+    id: 1,
+    name: 'Intro to Python',
+    category: 'Technology',
+    image: 'https://picsum.photos/seed/python/400/300', // Seed "python" ensures the same image is loaded each time
+    description: 'Learn the basics of Python.'
+  },
+  {
+    id: 2,
+    name: 'Advanced React',
+    category: 'Technology',
+    image: 'https://picsum.photos/seed/react/400/300', // Seed "react" ensures the same image is loaded each time
+    description: 'Deep dive into React and Next.js.'
+  },
+  {
+    id: 3,
+    name: 'Business Analytics',
+    category: 'Business',
+    image: 'https://picsum.photos/seed/business/400/300', // Seed "business" ensures the same image is loaded each time
+    description: 'Understand core concepts in business analytics.'
+  }
 ];
 
 const TrovaCorsi = () => {
@@ -21,7 +39,8 @@ const TrovaCorsi = () => {
 
   const fetchCourses = async () => {
     const filteredCourses = FAKE_COURSE_DATA.filter(course =>
-      course.name.toLowerCase().includes(searchTerm.toLowerCase()) && course.category.includes(filter)
+      course.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (filter ? course.category === filter : true)
     );
     setCourses(filteredCourses);
   };
@@ -66,12 +85,27 @@ const TrovaCorsi = () => {
               Business
             </button>
           </div>
-          {courses.map(course => (
+          {/* {courses.map(course => (
             <div key={course.id} className="p-2 border-b border-gray-300">
               <h3 className="font-bold text-[#1a3d1f]">{course.name}</h3>
               <p className="text-black">{course.description}</p>
             </div>
-          ))}
+          ))} */}
+
+          <div className="container mx-auto px-4 py-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {courses.map(course => (
+                <div key={course.id} className="bg-white p-4 shadow rounded-lg border">
+                  <img src={course.image} alt={course.name} className="w-full h-auto mb-4 rounded" />
+                  <h3 className="font-bold text-[#1a3d1f]">{course.name}</h3>
+                  <p className="text-black">{course.description}</p>
+                  <Link href={`/courses/${course.id}`} className="text-blue-500 hover:text-blue-700">
+                    Learn more
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
