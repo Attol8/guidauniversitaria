@@ -9,7 +9,6 @@ const Hero = () => {
     >
       <div className="container mx-auto px-4 h-full flex items-center justify-center">
         <div className="flex flex-col items-center justify-between h-full w-full md:flex-row-reverse md:items-start">
-          {/* Adjust margins in the flex item containing the image for mobile views */}
           <div className="w-full md:w-2/5 order-last md:order-none mt-8 md:mt-0">
             <div className="relative w-full h-auto">
               <Image
@@ -23,20 +22,18 @@ const Hero = () => {
           </div>
           <div className="w-full md:w-3/5 px-4">
             <div className="text-center md:text-left mx-auto max-w-full">
-              <h1 className="mb-5 text-3xl font-bold leading-tight text-[#1a3d1f] dark:text-white sm:text-5xl sm:leading-tight md:text-5xl md:leading-tight">
+              <h1 className="text-6xl font-extrabold leading-tight text-[#1a3d1f] dark:text-white mb-3">
                 Trova il corso universitario perfetto per te.
               </h1>
-              <p className="mb-12 text-small !leading-relaxed text-body-color dark:text-body-color-dark sm:text-base md:text-lg">
+              <p className="text-lg text-black opacity-80 mb-5 font-semibold">
                 Scopri il corso che fa per te con GuidaUniversitaria.it. Informazioni complete su corsi e carriere universitarie a portata di mano.
               </p>
-              <div className="flex flex-col items-center md:flex-row md:items-start md:justify-start">
-                <Link
-                  href="https://nextjstemplates.com/templates/saas-starter-startup"
-                  className="mb-8 md:mb-0 rounded-full bg-[#3e763d] px-8 py-3 text-lg font-semibold text-white shadow-lg duration-300 ease-in-out hover:bg-[#2f5930] transform hover:-translate-y-1"
-                >
-                  Cerca Corso 🔎
-                </Link>
-              </div>
+              <Link
+                href="https://nextjstemplates.com/templates/saas-starter-startup"
+                className="text-white bg-primary items-center cursor-pointer flex-wrap font-semibold justify-center px-4 text-center capitalize inline-flex w-64 h-12 min-h-[3.00rem] border-2 border-primary border-solid rounded-lg"
+              >
+                Cerca Corso 🔎
+              </Link>
             </div>
           </div>
         </div>
