@@ -50,7 +50,7 @@ const TrovaCorsi = () => {
   }, [searchTerm, filter]);
 
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-base-100 text-base-content">
       <Head>
         <title>Trova Corsi | Find perfect university courses for you</title>
         <meta name="description" content="Search university courses based on your interests and needs." />
@@ -60,28 +60,34 @@ const TrovaCorsi = () => {
         <input
           type="text"
           placeholder="Search for courses..."
-          className="p-2 border border-gray-300 rounded-md w-full focus:border-blue-500 focus:outline-none"
+          className="input input-bordered input-primary w-full"
           onChange={e => setSearchTerm(e.target.value)}
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
           {courses.map(course => (
-            <div key={course.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-              <div className="relative">
-                <img src={course.image} alt={course.name} className="w-full h-auto object-cover" />
-                <button className="absolute top-2 right-2 text-gray-600 hover:text-red-500">
-                  <FontAwesomeIcon icon={farHeart} size="lg" />
-                </button>
-              </div>
-              <div className="p-4">
-                <h3 className="font-bold text-xl mb-2">{course.name}</h3>
-                <div className="text-sm text-gray-700">{course.description}</div>
-                <div className="mt-3 flex justify-between items-center">
-                  <span className="text-sm font-semibold">Acceptance Rate: {course.acceptanceRate}</span>
-                  <span className="text-sm font-semibold">Avg Net Price: {course.avgNetPrice}</span>
+            <div key={course.id} className="card card-bordered bg-base-100 shadow-xl relative">
+              <button className="btn btn-ghost btn-circle absolute top-2 right-2 bg-white">
+                <FontAwesomeIcon icon={farHeart} size="lg" />
+              </button>
+              <figure>
+                <img src={course.image} alt={course.name} />
+              </figure>
+              <div className="card-body">
+                <h2 className="card-title">{course.name}</h2>
+                <p>{course.description}</p>
+                <div className="card-actions justify-between">
+                  <div className="text-sm font-semibold">
+                    Acceptance Rate: <span className="badge badge-outline">{course.acceptanceRate}</span>
+                  </div>
+                  <div className="text-sm font-semibold">
+                    Avg Net Price: <span className="badge badge-outline">{course.avgNetPrice}</span>
+                  </div>
                 </div>
-                <Link href={`/courses/${course.id}`} className="text-indigo-600 hover:text-indigo-800 mt-4 block text-sm">
-                  Learn more
-                </Link>
+                <div className="flex justify-between card-actions mt-2">
+                  <Link href={`/courses/${course.id}`} className="btn btn-primary">
+                    Learn More
+                  </Link>
+                </div>
               </div>
             </div>
           ))}
@@ -92,3 +98,6 @@ const TrovaCorsi = () => {
 };
 
 export default TrovaCorsi;
+
+
+
