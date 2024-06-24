@@ -44,26 +44,28 @@ const Header = () => {
   return (
     <>
       <header
-        className={`header left-0 top-0 z-40 flex w-full items-center ${sticky
+        className={`header left-0 top-0 z-40 flex w-full items-center mx-auto ${sticky
           ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
           : "absolute bg-transparent"
           }`}
       >
         <div className="container mx-auto flex justify-between items-center px-4">
-          <div className="w-auto px-4">
-            <Link
-              href="/"
-              className={`header-logo block ${sticky ? "py-5 lg:py-2" : "py-8"}`}
-            >
+          <div className="logo-container flex items-center flex-col py-4">
+            <Link href="/" className="flex items-center flex-col text-center">
               <Image
                 src="/images/logo/online-learning.png"
-                alt="logo"
+                alt="Logo"
                 width={50}
                 height={15}
-                className="w-full dark:hidden"
+                className="relative"
               />
+              <span style={{ fontFamily: '"Manrope", sans-serif', fontWeight: 800, fontSize: '20px' }}>
+                <span style={{ color: '#3e763d' }}>guida </span>
+                <span style={{ color: '#1a3d1f' }}>universitaria</span>
+              </span>
             </Link>
           </div>
+
           <div className="flex-grow flex justify-center px-4">
             <nav
               id="navbarCollapse"
@@ -122,7 +124,7 @@ const Header = () => {
               </ul>
             </nav>
           </div>
-          <div className="w-auto px-4 flex items-center justify-end">
+          <div className="w-auto pr-4 flex items-center justify-end">
             <Link
               href="/signin"
               className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
@@ -159,7 +161,7 @@ const Header = () => {
             </button>
           </div>
         </div>
-      </header>
+      </header >
     </>
   );
 };
