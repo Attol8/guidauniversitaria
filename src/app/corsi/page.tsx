@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
+import { db } from 'firebaseConfig.js';
 
 const FAKE_COURSE_DATA = [
   {
