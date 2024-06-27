@@ -1,2 +1,3 @@
 *.local
 dev_firebase_config.json
+test_courses_data.json
