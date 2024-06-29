@@ -31,6 +31,4 @@ if (process.env.NODE_ENV === 'development') {
   connectFunctionsEmulator(functions, '127.0.0.1', 5001);
 }
 
-console.log(firebaseConfig);
-// auth
 export { db, storage, functions };
