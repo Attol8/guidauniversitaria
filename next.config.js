@@ -12,7 +12,7 @@ module.exports = (phase, { defaultConfig }) => {
   // Define custom Next.js configuration
   const nextConfig = {
     images: {
-      domains: ["localhost"],
+      domains: ["localhost", 'picsum.photos', 'via.placeholder.com'],
       remotePatterns: [
         {
           protocol: "https",

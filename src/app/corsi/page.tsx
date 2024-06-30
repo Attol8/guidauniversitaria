@@ -1,12 +1,10 @@
 "use client";
 import { useState, useEffect } from 'react';
-import Breadcrumb from "@/components/Common/Breadcrumb";
 import Head from 'next/head';
-import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
+import Breadcrumb from "@/components/Common/Breadcrumb";
 import { db } from 'firebaseConfig';
 import { collection, query, getDocs, limit } from 'firebase/firestore';
+import CourseCard from "@/components/CourseCard/CourseCard";  // Import the CourseCard component
 
 const TrovaCorsi = () => {
   const [courses, setCourses] = useState([]);
@@ -53,28 +51,9 @@ const TrovaCorsi = () => {
           className="p-2 border border-gray-300 rounded-md w-full focus:border-blue-500 focus:outline-none"
           onChange={e => setSearchTerm(e.target.value)}
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           {courses.map(course => (
-            <div key={course.id} className="bg-white shadow-lg rounded-lg overflow-hidden relative flex flex-col">
-              <div className="relative">
-                <img src={course.image} alt={course.nomeCorso} className="w-full h-auto object-cover" />
-                <button className="absolute top-2 right-2 text-gray-600 hover:text-red-500">
-                  <FontAwesomeIcon icon={farHeart} size="lg" />
-                </button>
-              </div>
-              <div className="p-4 pb-12">
-                <h3 className="font-bold text-xl mb-2">{course.nomeCorso}</h3>
-                <div className="text-sm text-gray-700">{course.sede?.comuneDescrizione || 'No description available'}</div>
-                <div className="mt-3 flex justify-between items-center">
-                  <span className="text-sm font-semibold">Starting Year: {course.anno?.descrizione || 'N/A'}</span>
-                  <span className="text-sm font-semibold">Language: {course.lingua || 'N/A'}</span>
-                </div>
-              </div>
-              <Link href={`/courses/${course.id}`} className="btn btn-primary btn-outline btn-sm mt-auto mb-4 mx-8">
-                Learn more
-
-              </Link>
-            </div>
+            <CourseCard key={course.id} course={course} />  // Use CourseCard here
           ))}
         </div>
       </div>
