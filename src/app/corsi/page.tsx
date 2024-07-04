@@ -16,10 +16,8 @@ const TrovaCorsi = () => {
       try {
         const coursesCollection = collection(db, 'courses');
         const q = query(coursesCollection, limit(10));
-        console.log(q);
         const querySnapshot = await getDocs(q);
         const fetchedCourses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log(fetchedCourses);
         setCourses(fetchedCourses);
       } catch (error) {
         console.error("Error fetching courses:", error);

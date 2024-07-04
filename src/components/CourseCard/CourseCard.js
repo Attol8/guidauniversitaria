@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 
@@ -13,15 +14,40 @@ function truncateMiddle(text, startChars, endChars, maxLength) {
   return `${start}...${end}`;
 }
 
+async function getLogoPath(codeUn) {
+  const logoExtensions = ['jpg', 'png', 'svg', 'jpeg'];
+  for (const ext of logoExtensions) {
+    const logoPath = `/images/uni_images/uni_logos/${codeUn}_logo.${ext}`;
+    const exists = await fetch(logoPath, { method: 'HEAD' })
+      .then(res => res.ok)
+      .catch(() => false);
+    if (exists) {
+      return logoPath;
+    }
+  }
+  return "https://via.placeholder.com/80?text=Logo"; // Default logo
+}
+
+
 const CourseCard = ({ course }) => {
-  // Calculate the middle truncated text
+
+  const [logoPath, setLogoPath] = useState("https://via.placeholder.com/80?text=Logo");
+
+  useEffect(() => {
+    async function fetchLogoPath() {
+      const path = await getLogoPath(course.codeUn);
+      setLogoPath(path);
+    }
+    fetchLogoPath();
+  }, [course.codeUn]);
+
   const courseTitle = truncateMiddle(course.nomeCorso, 30, 30, 90);
 
   return (
     <div className="course-card bg-white shadow-lg rounded-lg overflow-hidden flex flex-col">
       <div className="image-section relative">
         <img src={`https://picsum.photos/seed/${course.id}/458/200`} alt={course.nomeCorso} className="w-full object-cover" style={{ height: '200px' }} />
-        <img src="https://via.placeholder.com/80?text=Logo" alt="Logo" className="logo absolute left-8 -bottom-6 h-120 w-120 rounded-lg shadow-xl" />
+        <img src={logoPath} alt="Logo" className="logo absolute left-8 -bottom-6 rounded-lg shadow-xl" style={{ width: '80px', height: '80px', objectFit: 'contain', backgroundColor: 'white' }} />
         <button className="favorite-btn absolute top-2 right-2 text-gray-600 hover:text-red-500">
           <FontAwesomeIcon icon={farHeart} size="lg" />
         </button>
