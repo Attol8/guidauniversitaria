@@ -49,7 +49,7 @@ const TrovaCorsi = () => {
           className="p-2 border border-gray-300 rounded-md w-full focus:border-blue-500 focus:outline-none"
           onChange={e => setSearchTerm(e.target.value)}
         />
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-12 mt-4">
           {courses.map(course => (
             <CourseCard key={course.id} course={course} />  // Use CourseCard here
           ))}
