@@ -15,23 +15,23 @@ function truncateMiddle(text, startChars, endChars, maxLength) {
 }
 
 async function getLogoPath(codeUn) {
-  const logoExtensions = ['jpg', 'png', 'svg', 'jpeg'];
-  for (const ext of logoExtensions) {
-    const logoPath = `/images/uni_images/uni_logos/${codeUn}_logo.${ext}`;
-    const exists = await fetch(logoPath, { method: 'HEAD' })
-      .then(res => res.ok)
-      .catch(() => false);
-    if (exists) {
-      return logoPath;
-    }
+  const logoPath = `/images/uni_images/uni_logos/${codeUn}_logo.png`;
+  const exists = await fetch(logoPath, { method: 'HEAD' })
+    .then(res => res.ok)
+    .catch(() => false);
+
+  if (exists) {
+    return logoPath;
+  } else {
+    return "https://via.placeholder.com/80?text=Logo"; // Default logo
   }
-  return "https://via.placeholder.com/80?text=Logo"; // Default logo
 }
 
 
 const CourseCard = ({ course }) => {
 
   const [logoPath, setLogoPath] = useState("https://via.placeholder.com/80?text=Logo");
+  const [heroImage, setHeroImage] = useState("");
 
   useEffect(() => {
     async function fetchLogoPath() {
@@ -41,12 +41,18 @@ const CourseCard = ({ course }) => {
     fetchLogoPath();
   }, [course.codeUn]);
 
+    // Effect to select a random hero image
+    useEffect(() => {
+      const randomIndex = Math.floor(Math.random() * 10) + 1; // Generates a random number between 1 and 10
+      setHeroImage(`/images/uni_images/uni_heroes/${randomIndex}_hero.jpg`);
+    }, [course.id]); // Change hero image only when the course id changes
+
   const courseTitle = truncateMiddle(course.nomeCorso, 30, 30, 90);
 
   return (
     <div className="course-card bg-white shadow-lg rounded-lg overflow-hidden flex flex-col">
       <div className="image-section relative">
-        <img src={`https://picsum.photos/seed/${course.id}/458/200`} alt={course.nomeCorso} className="w-full object-cover" style={{ height: '200px' }} />
+        <img src={heroImage} alt={course.nomeCorso} className="w-full object-cover" style={{ height: '200px' }} />
         <img src={logoPath} alt="Logo" className="logo absolute left-8 -bottom-6 rounded-lg shadow-xl" style={{ width: '80px', height: '80px', objectFit: 'contain', backgroundColor: 'white' }} />
         <button className="favorite-btn absolute top-2 right-2 text-gray-600 hover:text-red-500">
           <FontAwesomeIcon icon={farHeart} size="lg" />
