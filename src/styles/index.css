@@ -30,4 +30,28 @@
   input#checkboxLabel:checked ~ .box span {
     @apply opacity-100;
   }
+
+  .course-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    max-height: 4.5em; /* Adjust based on line-height and font-size */
+    line-height: 1.5em;
+    height: 3; /* Ensuring it always takes exactly three lines */
+  }
+  
+  
+  .course-title:hover:after {
+    content: attr(data-title); /* Use the title as tooltip text */
+    position: absolute;
+    left: 0;
+    bottom: 100%; /* Display the tooltip above the title */
+    white-space: nowrap;
+    background-color: black;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    z-index: 1;
+  }
 }
