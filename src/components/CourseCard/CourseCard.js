@@ -50,11 +50,12 @@ const CourseCard = ({ course }) => {
   const courseTitle = truncateMiddle(course.nomeCorso, 30, 30, 90);
 
   return (
-    <div className="course-card bg-white shadow-lg rounded-lg overflow-hidden flex flex-col">
+    <div className="course-card bg-white shadow-xl rounded-lg overflow-hidden flex flex-col">
       <div className="image-section relative">
         <img src={heroImage} alt={course.nomeCorso} className="w-full object-cover" style={{ height: '200px' }} />
         <img src={logoPath} alt="Logo" className="logo absolute left-8 -bottom-6 rounded-lg shadow-xl" style={{ width: '80px', height: '80px', objectFit: 'contain', backgroundColor: 'white' }} />
-        <button className="favorite-btn absolute top-2 right-2 text-gray-600 hover:text-red-500">
+        <button className="favorite-btn absolute top-2 right-2 text-gray-600 hover:text-red-500"
+                style={{ backgroundColor: 'white', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
           <FontAwesomeIcon icon={farHeart} size="lg" />
         </button>
       </div>
