@@ -1,41 +1,10 @@
 "use client";
 import { useState, useEffect } from 'react';
-import Breadcrumb from "@/components/Common/Breadcrumb";
 import Head from 'next/head';
-import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
-import { db } from 'firebaseConfig.js';
-
-const FAKE_COURSE_DATA = [
-  {
-    id: 1,
-    name: 'Intro to Python',
-    category: 'Technology',
-    image: 'https://picsum.photos/seed/python/500/300',
-    description: 'Learn the basics of Python.',
-    acceptanceRate: '85%',
-    avgNetPrice: '$2,000'
-  },
-  {
-    id: 2,
-    name: 'Advanced React',
-    category: 'Technology',
-    image: 'https://picsum.photos/seed/react/500/300',
-    description: 'Deep dive into React and Next.js.',
-    acceptanceRate: '60%',
-    avgNetPrice: '$2,500'
-  },
-  {
-    id: 3,
-    name: 'Business Analytics',
-    category: 'Business',
-    image: 'https://picsum.photos/seed/business/500/300',
-    description: 'Understand core concepts in business analytics.',
-    acceptanceRate: '75%',
-    avgNetPrice: '$3,000'
-  }
-];
+import Breadcrumb from "@/components/Common/Breadcrumb";
+import { db } from 'firebaseConfig';
+import { collection, query, getDocs, limit } from 'firebase/firestore';
+import CourseCard from "@/components/CourseCard/CourseCard";  // Import the CourseCard component
 
 const TrovaCorsi = () => {
   const [courses, setCourses] = useState([]);
@@ -43,8 +12,24 @@ const TrovaCorsi = () => {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    const filteredCourses = FAKE_COURSE_DATA.filter(course =>
-      course.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    const fetchCourses = async () => {
+      try {
+        const coursesCollection = collection(db, 'courses');
+        const q = query(coursesCollection, limit(10));
+        const querySnapshot = await getDocs(q);
+        const fetchedCourses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setCourses(fetchedCourses);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  useEffect(() => {
+    const filteredCourses = courses.filter(course =>
+      course.nomeCorso.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (filter ? course.category === filter : true)
     );
     setCourses(filteredCourses);
@@ -64,31 +49,13 @@ const TrovaCorsi = () => {
           className="p-2 border border-gray-300 rounded-md w-full focus:border-blue-500 focus:outline-none"
           onChange={e => setSearchTerm(e.target.value)}
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-12 mt-4">
           {courses.map(course => (
-            <div key={course.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-              <div className="relative">
-                <img src={course.image} alt={course.name} className="w-full h-auto object-cover" />
-                <button className="absolute top-2 right-2 text-gray-600 hover:text-red-500">
-                  <FontAwesomeIcon icon={farHeart} size="lg" />
-                </button>
-              </div>
-              <div className="p-4">
-                <h3 className="font-bold text-xl mb-2">{course.name}</h3>
-                <div className="text-sm text-gray-700">{course.description}</div>
-                <div className="mt-3 flex justify-between items-center">
-                  <span className="text-sm font-semibold">Acceptance Rate: {course.acceptanceRate}</span>
-                  <span className="text-sm font-semibold">Avg Net Price: {course.avgNetPrice}</span>
-                </div>
-                <Link href={`/courses/${course.id}`} className="text-indigo-600 hover:text-indigo-800 mt-4 block text-sm">
-                  Learn more
-                </Link>
-              </div>
-            </div>
+            <CourseCard key={course.id} course={course} />  // Use CourseCard here
           ))}
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

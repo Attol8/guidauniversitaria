@@ -76,7 +76,36 @@ module.exports = {
       dropShadow: {
         three: "0px 5px 15px rgba(6, 8, 15, 0.05)",
       },
+  
     },
   },
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          
+        "primary": "#3e763d",
+                  
+        "secondary": "#2d572c",
+                  
+        "accent": "#00ffff",
+                  
+        "neutral": "#572c57",
+                  
+        "base-100": "#ffffff",
+                  
+        "info": "#572c57",
+                  
+        "success": "#00ff00",
+                  
+        "warning": "#ff0000",
+                  
+        "error": "#ff0000",
+          },
+        },
+      ],
+    },
+    
   plugins: [require('daisyui')],
+  
 };
