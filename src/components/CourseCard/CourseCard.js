@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 
-// A function to truncate text with ellipsis in the middle
 function truncateMiddle(text, startChars, endChars, maxLength) {
   if (text.length <= maxLength) {
     return text;
@@ -27,9 +26,7 @@ async function getLogoPath(codeUn) {
   }
 }
 
-
 const CourseCard = ({ course }) => {
-
   const [logoPath, setLogoPath] = useState("https://via.placeholder.com/80?text=Logo");
   const [heroImage, setHeroImage] = useState("");
 
@@ -41,11 +38,10 @@ const CourseCard = ({ course }) => {
     fetchLogoPath();
   }, [course.codeUn]);
 
-    // Effect to select a random hero image
-    useEffect(() => {
-      const randomIndex = Math.floor(Math.random() * 10) + 1; // Generates a random number between 1 and 10
-      setHeroImage(`/images/uni_images/uni_heroes/${randomIndex}_hero.jpg`);
-    }, [course.id]); // Change hero image only when the course id changes
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * 10) + 1;
+    setHeroImage(`/images/uni_images/uni_heroes/${randomIndex}_hero.jpg`);
+  }, [course.id]);
 
   const courseTitle = truncateMiddle(course.nomeCorso, 30, 30, 90);
 
@@ -61,8 +57,8 @@ const CourseCard = ({ course }) => {
       </div>
       <div className="info-section flex flex-col p-8 pt-12 space-y-4 flex-grow">
         <h3 className="course-title font-bold text-xl" title={course.nomeCorso}>{courseTitle}</h3>
-        <p className="course-univeristy text-sm text-gray-700">{course.nomeStruttura || 'N/A'}</p>
-        <p className="course-description text-sm text-gray-700 truncate">{course.sede?.comuneDescrizione || 'N/A'}</p>
+        <p className="course-university text-lg text-gray-800 font-semibold">{course.nomeStruttura || 'N/A'}</p>
+        <p className="course-description text-md text-gray-800 font-semibold">{course.sede?.comuneDescrizione || 'N/A'}</p>
         <div className="additional-info flex justify-between items-center">
           <span className="starting-year text-sm font-semibold">Starting Year: {course.anno?.descrizione || 'N/A'}</span>
           <span className="language text-sm font-semibold">Language: {course.lingua || 'N/A'}</span>
