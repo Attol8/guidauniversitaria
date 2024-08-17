@@ -13,15 +13,21 @@ const CourseSearch = ({ onResults }) => {
       
       const fetchedCourses = await response.json();
       
-      // Format the data for ReactSearchBox
-      const formattedCourses = fetchedCourses.map(course => ({
+      const formattedSearchData = fetchedCourses.map(course => ({
+        key: course.id,
+        value: course.nomeCorso,
+      }));
+      
+      setSearchData(formattedSearchData);
+      
+      const allData = fetchedCourses.map(course => ({
         key: course.id,
         value: course.nomeCorso,
         ...course
       }));
       
-      setSearchData(formattedCourses);
-      onResults(formattedCourses);
+      onResults(allData);
+
     } catch (error) {
       console.error("Error fetching courses:", error);
       onResults([]);
@@ -38,9 +44,6 @@ const CourseSearch = ({ onResults }) => {
         onChange={(value) => {
           setSearchTerm(value);
           debouncedFetchCourses(value);
-        }}
-        fuseConfigs={{
-          threshold: 0.3,
         }}
         value={searchTerm}
       />
