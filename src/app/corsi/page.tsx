@@ -20,7 +20,7 @@ const TrovaCorsi = () => {
       </Head>
       <Breadcrumb pageName="Trova Corsi" description="Search university courses based on your interests and needs." />
       <div className="container mx-auto px-4 py-8">
-        <CourseSearch onResults={handleSearchResults} searchData={filteredCourses} />
+        <CourseSearch onResults={handleSearchResults} />
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-12 mt-4">
           {filteredCourses.map(course => (
             <CourseCard key={course.id} course={course} />
