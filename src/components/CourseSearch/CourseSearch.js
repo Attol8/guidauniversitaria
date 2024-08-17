@@ -1,58 +1,43 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import ReactSearchBox from 'react-search-box';
 import _ from 'lodash';
-import { collection, query, getDocs, where, limit } from 'firebase/firestore';
-import { db } from 'firebaseConfig';
 
-const CourseSearch = ({ onResults, searchData }) => {
+const CourseSearch = ({ onResults }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchData, setSearchData] = useState([]);
 
   const fetchCourses = useCallback(async (term) => {
     try {
-      const coursesRef = collection(db, 'courses');
-      let coursesQuery;
-
-      if (term && term.length > 0) {
-        coursesQuery = query(
-          coursesRef,
-          where('nomeCorso', '>=', term),
-          where('nomeCorso', '<=', term + '\uf8ff'),
-          limit(20)
-        );
-      } else {
-        // If no search term or search term is less than 3 characters, load the first 20 courses
-        coursesQuery = query(coursesRef, limit(20));
-      }
-
-      const querySnapshot = await getDocs(coursesQuery);
-      let fetchedCourses = querySnapshot.docs.map(doc => {
-        return {
-          id: doc.id,
-          value: doc.data().nomeCorso, // This is the text that will be displayed in the search box dropdown
-          ...doc.data()
-        };
-      });
-
-      onResults(fetchedCourses); // Pass the results to the parent component
+      console.log(term);
+      const response = await fetch(`http://127.0.0.1:5001/guidauniversitaria/us-central1/search_courses?term=${encodeURIComponent(term)}`);
+      
+      const fetchedCourses = await response.json();
+      
+      // Format the data for ReactSearchBox
+      const formattedCourses = fetchedCourses.map(course => ({
+        key: course.id,
+        value: course.nomeCorso,
+        ...course
+      }));
+      
+      setSearchData(formattedCourses);
+      onResults(formattedCourses);
     } catch (error) {
       console.error("Error fetching courses:", error);
-      onResults([]); // In case of error, return an empty array
+      onResults([]);
     }
   }, [onResults]);
 
-  const debouncedFetchCourses = useCallback(_.debounce(fetchCourses, 500), [fetchCourses]);
-
-  useEffect(() => {
-    debouncedFetchCourses(searchTerm);
-  }, [searchTerm, debouncedFetchCourses]);
+  const debouncedFetchCourses = useCallback(_.debounce(fetchCourses, 300), [fetchCourses]);
 
   return (
     <div className="mb-6">
       <ReactSearchBox
         placeholder="Search for courses..."
-        data={searchData} // Use filtered search data
+        data={searchData}
         onChange={(value) => {
           setSearchTerm(value);
+          debouncedFetchCourses(value);
         }}
         fuseConfigs={{
           threshold: 0.3,
