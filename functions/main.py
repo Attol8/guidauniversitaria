@@ -1,3 +1,4 @@
+from fuzzywuzzy import process
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
 from firebase_functions import firestore_fn, https_fn
@@ -50,18 +51,45 @@ all_courses = load_courses_from_storage()
 @cross_origin(origins=["http://localhost:3000"], methods=["GET", "OPTIONS"])
 def search_courses(request: https_fn.Request) -> https_fn.Response:
     term = request.args.get("term", "").lower()
+    print(term)
+
     if not term:
         # If no search term, return all courses (or first 20 if you prefer)
         return https_fn.Response(
             json.dumps(all_courses[:20]), status=200, content_type="application/json"
         )
-    # Perform simple search (you can implement more complex search logic here)
-    results = [course for course in all_courses if term in course["nomeCorso"].lower()]
 
-    # Sort results (you can implement more sophisticated sorting if needed)
-    results.sort(key=lambda x: x["nomeCorso"])
+    # Perform fuzzy search
+    course_names = [course["nomeCorso"] for course in all_courses]
+    fuzzy_matches = process.extract(
+        term, course_names, limit=20
+    )  # Increase limit to ensure we get enough unique results
+
+    # Get the matching courses
+    print(fuzzy_matches)
+    results = []
+    seen_ids = set()  # To keep track of unique course IDs
+    for match in fuzzy_matches:
+        course_name, score = match
+        if score > 50:  # You can adjust this threshold
+            matching_course = next(
+                course for course in all_courses if course["nomeCorso"] == course_name
+            )
+            if (
+                matching_course["id"] not in seen_ids
+            ):  # Check if we've already added this course
+                results.append(matching_course)
+                seen_ids.add(matching_course["id"])
+
+        if len(results) == 20:  # Stop once we have 20 unique results
+            break
+
+    # Sort results by score (highest first)
+    results.sort(
+        key=lambda x: process.extractOne(term, [x["nomeCorso"]])[1], reverse=True
+    )
     print(results)
 
     return https_fn.Response(
-        json.dumps(results[:20]), status=200, content_type="application/json"
+        json.dumps(results), status=200, content_type="application/json"
     )
