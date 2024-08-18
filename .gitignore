@@ -32,3 +32,4 @@ yarn-error.log*
 .vercel
 venv
 public/images/uni_images/uni_images_tracker.csv
+*.log
