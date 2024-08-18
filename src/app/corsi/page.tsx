@@ -1,39 +1,16 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import Head from 'next/head';
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import { db } from 'firebaseConfig';
-import { collection, query, getDocs, limit } from 'firebase/firestore';
-import CourseCard from "@/components/CourseCard/CourseCard";  // Import the CourseCard component
+import CourseCard from "@/components/CourseCard/CourseCard";
+import CourseSearch from "@/components/CourseSearch/CourseSearch";
 
 const TrovaCorsi = () => {
-  const [courses, setCourses] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState('');
+  const [filteredCourses, setFilteredCourses] = useState([]);
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const coursesCollection = collection(db, 'courses');
-        const q = query(coursesCollection, limit(10));
-        const querySnapshot = await getDocs(q);
-        const fetchedCourses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setCourses(fetchedCourses);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
-      }
-    };
-
-    fetchCourses();
+  const handleSearchResults = useCallback((results) => {
+    setFilteredCourses(results);
   }, []);
-
-  useEffect(() => {
-    const filteredCourses = courses.filter(course =>
-      course.nomeCorso.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (filter ? course.category === filter : true)
-    );
-    setCourses(filteredCourses);
-  }, [searchTerm, filter]);
 
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -43,19 +20,16 @@ const TrovaCorsi = () => {
       </Head>
       <Breadcrumb pageName="Trova Corsi" description="Search university courses based on your interests and needs." />
       <div className="container mx-auto px-4 py-8">
-        <input
-          type="text"
-          placeholder="Search for courses..."
-          className="p-2 border border-gray-300 rounded-md w-full focus:border-blue-500 focus:outline-none"
-          onChange={e => setSearchTerm(e.target.value)}
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-12 mt-4">
-          {courses.map(course => (
-            <CourseCard key={course.id} course={course} />  // Use CourseCard here
+        <div className="flex justify-center mb-8">
+          <CourseSearch onResults={handleSearchResults} />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filteredCourses.map(course => (
+            <CourseCard key={course.id} course={course} />
           ))}
         </div>
       </div>
-    </section >
+    </section>
   );
 };
 
