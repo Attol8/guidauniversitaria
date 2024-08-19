@@ -13,7 +13,7 @@ from google.cloud.firestore_v1.services.firestore.transports import (
 # Determine the environment and load the appropriate .env file
 env = "development"
 if env == "development":
-    cred = credentials.Certificate("pipelines/dev_firebase_config.json")
+    cred = credentials.Certificate("dev_firebase_config.json")
     firebase_app = firebase_admin.initialize_app(
         cred, {"storageBucket": "guidauniversitaria.appspot.com"}
     )
