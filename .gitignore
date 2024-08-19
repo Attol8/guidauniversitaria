@@ -37,4 +37,4 @@ functions/*.log
 
 pipelines/dev_firebase_config.json
 pipelines/courses_EDA.ipynb
-pipelines/data/
+pipelines/data
