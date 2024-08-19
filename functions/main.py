@@ -1,7 +1,15 @@
 from fuzzywuzzy import process
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
-from firebase_functions import firestore_fn, https_fn
+from firebase_functions import https_fn
+from firebase_functions.firestore_fn import (
+    on_document_created,
+    on_document_updated,
+    on_document_deleted,
+    Event,
+    Change,
+    DocumentSnapshot,
+)
 from google.cloud.firestore_v1.services.firestore import FirestoreClient
 from google.cloud.firestore_v1.services.firestore.transports import (
     FirestoreGrpcTransport,
@@ -44,12 +52,10 @@ def load_courses_from_storage():
     return all_courses
 
 
-all_courses = load_courses_from_storage()
-
-
 @https_fn.on_request()
 @cross_origin(origins=["http://localhost:3000"], methods=["GET", "OPTIONS"])
 def search_courses(request: https_fn.Request) -> https_fn.Response:
+    all_courses = load_courses_from_storage()
     term = request.args.get("term", "").lower()
     print(term)
 
@@ -92,4 +98,56 @@ def search_courses(request: https_fn.Request) -> https_fn.Response:
 
     return https_fn.Response(
         json.dumps(results), status=200, content_type="application/json"
+    )
+
+
+@on_document_created(document="courses/{courseId}")
+def increment_course_disciplines_counter_on_create(
+    event: Event[DocumentSnapshot],
+) -> None:
+    course = event.data.to_dict()
+    discipline = course["discipline"]
+
+    discipline_ref = db.collection("disciplines").document(discipline)
+
+    try:
+        discipline_ref.get().exists
+        discipline_ref.update({"coursesCounter": firestore.Increment(1)})
+    except NotFound:
+        print(f"Discipline document '{discipline}' not found, creating it.")
+        discipline_ref.set({"coursesCounter": 1})
+
+
+@on_document_updated(document="courses/{courseId}")
+def update_course_disciplines_counter_on_update(
+    event: Event[Change[DocumentSnapshot]],
+) -> None:
+
+    before_discipline = event.data.before.get("discipline")
+    after_discipline = event.data.after.get("discipline")
+
+    # Only update the counters if the discipline has changed
+    if before_discipline != after_discipline:
+        # Decrement counter of the old discipline
+        if before_discipline:
+            db.collection("disciplines").document(before_discipline).update(
+                {"coursesCounter": firestore.Increment(-1)}
+            )
+        # Increment counter of the new discipline
+        if after_discipline:
+            db.collection("disciplines").document(after_discipline).update(
+                {"coursesCounter": firestore.Increment(1)}
+            )
+
+
+@on_document_deleted(document="courses/{courseId}")
+def decrease_course_disciplines_counter_on_delete(
+    event: Event[DocumentSnapshot],
+) -> None:
+    course = event.data.to_dict()
+    discipline = course["discipline"]
+    print(discipline)
+
+    db.collection("disciplines").document(discipline).update(
+        {"coursesCounter": firestore.Increment(-1)}
     )
