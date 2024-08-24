@@ -3,7 +3,7 @@ import CourseGrid from "@/components/CourseGrid/CourseGrid";
 import Head from "next/head";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 
-export default function CorsiPage() {
+export default function DisciplinePage() {
   return (
     <section className="bg-white dark:bg-gray-900">
       <Head>
@@ -17,6 +17,3 @@ export default function CorsiPage() {
     </section>
   );
 }
-
-
-

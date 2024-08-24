@@ -106,16 +106,16 @@ def increment_course_disciplines_counter_on_create(
     event: Event[DocumentSnapshot],
 ) -> None:
     course = event.data.to_dict()
-    discipline = course["discipline"]
+    discipline = dict(course["discipline"])
 
-    discipline_ref = db.collection("disciplines").document(discipline)
+    discipline_ref = db.collection("disciplines").document(discipline["id"])
 
     try:
         discipline_ref.get().exists
         discipline_ref.update({"coursesCounter": firestore.Increment(1)})
     except NotFound:
-        print(f"Discipline document '{discipline}' not found, creating it.")
-        discipline_ref.set({"coursesCounter": 1})
+        print(f"Discipline document '{discipline['name']}' not found, creating it.")
+        discipline_ref.set({"name": discipline["name"], "coursesCounter": 1})
 
 
 @on_document_updated(document="courses/{courseId}")
@@ -130,12 +130,12 @@ def update_course_disciplines_counter_on_update(
     if before_discipline != after_discipline:
         # Decrement counter of the old discipline
         if before_discipline:
-            db.collection("disciplines").document(before_discipline).update(
+            db.collection("disciplines").document(before_discipline["id"]).update(
                 {"coursesCounter": firestore.Increment(-1)}
             )
         # Increment counter of the new discipline
         if after_discipline:
-            db.collection("disciplines").document(after_discipline).update(
+            db.collection("disciplines").document(after_discipline["id"]).update(
                 {"coursesCounter": firestore.Increment(1)}
             )
 
@@ -145,9 +145,8 @@ def decrease_course_disciplines_counter_on_delete(
     event: Event[DocumentSnapshot],
 ) -> None:
     course = event.data.to_dict()
-    discipline = course["discipline"]
-    print(discipline)
+    discipline = dict(course["discipline"])
 
-    db.collection("disciplines").document(discipline).update(
+    db.collection("disciplines").document(discipline["id"]).update(
         {"coursesCounter": firestore.Increment(-1)}
     )
