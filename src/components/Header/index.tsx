@@ -12,18 +12,17 @@ import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 const getTopDisciplines = async (limitCount = 10) => {
   try {
     const disciplinesRef = collection(db, 'disciplines');
-    const q = query(disciplinesRef, orderBy('count', 'desc'), limit(limitCount));
+    const q = query(disciplinesRef, orderBy('coursesCounter', 'desc'), limit(limitCount));
     const snapshot = await getDocs(q);
 
-    console.log("Top disciplines:");
-    snapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-    });
+    console.log(`Fetched ${snapshot.docs.length} disciplines`);
 
     return snapshot.docs.map((doc, index) => {
+      const data = doc.data();
+      console.log(`Discipline ${index + 1}:`, data);
       return {
-        id: index + 1, // Assigning a numeric ID
-        title: doc.data().name, // Assuming you want the name of the discipline
+        id: index + 1,
+        title: doc.id,
         path: `/disciplines/${doc.id}`,
         newTab: false
       };
@@ -72,17 +71,12 @@ const Header = () => {
   useEffect(() => {
     const fetchDisciplines = async () => {
       const topDisciplines = await getTopDisciplines();
-      console.log("Fetched top disciplines:", topDisciplines); // Debugging info
       setMenu((prevMenu) => {
-        const updatedMenu = [...prevMenu];
-        const coursesByDisciplineIndex = updatedMenu.findIndex(
-          (item) => item.title === "Courses by Discipline"
+        return prevMenu.map(item =>
+          item.title === "Courses by Discipline"
+            ? { ...item, submenu: topDisciplines }
+            : item
         );
-        if (coursesByDisciplineIndex !== -1) {
-          updatedMenu[coursesByDisciplineIndex].submenu = topDisciplines;
-        }
-        console.log("Updated menu:", updatedMenu); // Debugging info
-        return updatedMenu;
       });
     };
 
@@ -155,15 +149,21 @@ const Header = () => {
                           className={`submenu relative left-0 top-full rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${openIndex === index ? "block" : "hidden"
                             }`}
                         >
-                          {menuItem.submenu?.map((submenuItem, subIndex) => (
-                            <Link
-                              href={submenuItem.path}
-                              key={subIndex}
-                              className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
-                            >
-                              {submenuItem.title}
-                            </Link>
-                          ))}
+                          {menuItem.submenu && menuItem.submenu.length > 0 ? (
+                            menuItem.submenu.map((submenuItem, subIndex) => (
+                              <Link
+                                href={submenuItem.path}
+                                key={subIndex}
+                                className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
+                              >
+                                {submenuItem.title}
+                              </Link>
+                            ))
+                          ) : (
+                            <p className="block rounded py-2.5 text-sm text-dark dark:text-white/70 lg:px-3">
+                              Loading disciplines...
+                            </p>
+                          )}
                         </div>
                       </>
                     )}
