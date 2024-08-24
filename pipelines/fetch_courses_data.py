@@ -5,6 +5,8 @@ import time
 import json
 from tqdm import tqdm
 from pipelines.gpt_classify_courses import classify_course_discipline
+from unidecode import unidecode
+import re
 
 ENV = "development"
 FETCH_DATA = False
@@ -75,15 +77,30 @@ def capitalize_name(name):
     return " ".join(capitalized_words)
 
 
+def create_discipline_id(discipline_name: str) -> str:
+    discipline_name = discipline_name.lower()
+    discipline_name = unidecode(discipline_name)
+    discipline_name = re.sub(r"\s+", "_", discipline_name)
+    discipline_name = re.sub(r"[^a-z0-9_]", "", discipline_name)
+    return discipline_name
+
+
 def process_courses(courses):
     print("Processing courses...")
     for course in tqdm(courses):
         course["nomeCorso"] = capitalize_name(course["nomeCorso"])
         course["nomeStruttura"] = capitalize_name(course["nomeStruttura"])
-        course["discipline"] = classify_course_discipline(
+
+        discipline_name = classify_course_discipline(
             course_name=course["nomeCorso"],
             course_materia=course["classe"]["descrizione"],
         )
+        discipline_id = create_discipline_id(discipline_name)
+
+        course["discipline"] = {
+            "id": discipline_id,
+            "name": discipline_name,
+        }
     return courses
 
 

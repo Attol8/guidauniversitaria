@@ -9,6 +9,7 @@ import menuData from "./menuData";
 import { db } from "../../../firebaseConfig";
 import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
 
+
 const getTopDisciplines = async (limitCount = 10) => {
   try {
     const disciplinesRef = collection(db, 'disciplines');
@@ -22,8 +23,8 @@ const getTopDisciplines = async (limitCount = 10) => {
       console.log(`Discipline ${index + 1}:`, data);
       return {
         id: index + 1,
-        title: doc.id,
-        path: `/disciplines/${doc.id}`,
+        title: data.name,
+        path: `/corsi/${doc.id}`,
         newTab: false
       };
     });
