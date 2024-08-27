@@ -1,20 +1,48 @@
-"use client";
+"use client"
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
 
+import { db } from "../../../firebaseConfig";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
+
+
+const getTopDisciplines = async (limitCount = 10) => {
+  try {
+    const disciplinesRef = collection(db, 'disciplines');
+    const q = query(disciplinesRef, orderBy('coursesCounter', 'desc'), limit(limitCount));
+    const snapshot = await getDocs(q);
+
+    console.log(`Fetched ${snapshot.docs.length} disciplines`);
+
+    return snapshot.docs.map((doc, index) => {
+      const data = doc.data();
+      console.log(`Discipline ${index + 1}:`, data);
+      return {
+        id: index + 1,
+        title: data.name,
+        path: `/corsi/${doc.id}`,
+        newTab: false
+      };
+    });
+  } catch (error) {
+    console.error("Error fetching top disciplines:", error);
+    return [];
+  }
+};
+
 const Header = () => {
-  // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [sticky, setSticky] = useState(false);
+  const [menu, setMenu] = useState(menuData);
+
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
   };
 
-  // Sticky Navbar
-  const [sticky, setSticky] = useState(false);
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
       setSticky(true);
@@ -22,6 +50,7 @@ const Header = () => {
       setSticky(false);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar);
     return () => {
@@ -29,7 +58,6 @@ const Header = () => {
     };
   }, []);
 
-  // submenu handler
   const [openIndex, setOpenIndex] = useState(-1);
   const handleSubmenu = (index) => {
     if (openIndex === index) {
@@ -40,6 +68,21 @@ const Header = () => {
   };
 
   const usePathName = usePathname();
+
+  useEffect(() => {
+    const fetchDisciplines = async () => {
+      const topDisciplines = await getTopDisciplines();
+      setMenu((prevMenu) => {
+        return prevMenu.map(item =>
+          item.title === "Courses by Discipline"
+            ? { ...item, submenu: topDisciplines }
+            : item
+        );
+      });
+    };
+
+    fetchDisciplines();
+  }, []);
 
   return (
     <>
@@ -73,7 +116,7 @@ const Header = () => {
                 }`}
             >
               <ul className="flex flex-col lg:flex-row lg:space-x-12">
-                {menuData.map((menuItem, index) => (
+                {menu.map((menuItem, index) => (
                   <li key={index} className="group relative">
                     {menuItem.path ? (
                       <Link
@@ -107,15 +150,21 @@ const Header = () => {
                           className={`submenu relative left-0 top-full rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${openIndex === index ? "block" : "hidden"
                             }`}
                         >
-                          {menuItem.submenu.map((submenuItem, index) => (
-                            <Link
-                              href={submenuItem.path}
-                              key={index}
-                              className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
-                            >
-                              {submenuItem.title}
-                            </Link>
-                          ))}
+                          {menuItem.submenu && menuItem.submenu.length > 0 ? (
+                            menuItem.submenu.map((submenuItem, subIndex) => (
+                              <Link
+                                href={submenuItem.path}
+                                key={subIndex}
+                                className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
+                              >
+                                {submenuItem.title}
+                              </Link>
+                            ))
+                          ) : (
+                            <p className="block rounded py-2.5 text-sm text-dark dark:text-white/70 lg:px-3">
+                              Loading disciplines...
+                            </p>
+                          )}
                         </div>
                       </>
                     )}
@@ -161,7 +210,7 @@ const Header = () => {
             </button>
           </div>
         </div>
-      </header >
+      </header>
     </>
   );
 };

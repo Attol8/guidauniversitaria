@@ -32,3 +32,9 @@ yarn-error.log*
 .vercel
 venv
 public/images/uni_images/uni_images_tracker.csv
+*.log
+functions/*.log
+
+dev_firebase_config.json
+pipelines/courses_EDA.ipynb
+pipelines/data

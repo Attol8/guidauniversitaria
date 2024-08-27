@@ -25,8 +25,9 @@ const menuData: Menu[] = [
     path: "/contact",
     newTab: false,
   },
+  { id: 4, title: "Courses by Discipline", newTab: false, submenu: [] },
   {
-    id: 4,
+    id: 5,
     title: "Pages",
     newTab: false,
     submenu: [
