@@ -42,6 +42,19 @@ const Header = () => {
     setOpenIndex(openIndex === index ? -1 : index);
   };
 
+  const handleClickOutside = (e) => {
+    if (!e.target.closest('.relative.group')) {
+      setOpenIndex(-1);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
     <header
       className={`fixed left-0 top-0 z-40 w-full bg-white ${sticky ? "shadow-md" : ""
