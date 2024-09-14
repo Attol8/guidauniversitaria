@@ -107,19 +107,38 @@ const MenuItem = ({ item, openIndex, handleSubmenu, index, pathname, isMobile, o
       );
     }
   }
+  const isCercaCorsi = item.title === "Cerca Corsi" && isMobile;
+  const linkClasses = isCercaCorsi
+    ? "flex items-center justify-between px-4 py-2 btn-lg text-lg font-medium text-white bg-primary rounded-xl hover:bg-opacity-90"
+    : `text-lg font-medium ${pathname === item.path ? "text-primary" : "text-dark hover:text-primary"}`;
 
   return (
     <Link
       href={item.path}
       key={item.id}
-      className={`text-lg font-medium ${pathname === item.path ? "text-primary" : "text-dark hover:text-primary"}`}
-      onClick={(e) => handleClick(e, item.path)} // Handle link clicks here as well
+      className={linkClasses}
+      onClick={(e) => handleClick(e, item.path)}
     >
       {item.title}
+      {isCercaCorsi && (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-4.35-4.35m1.66-3.65a7 7 0
+            11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      )}
     </Link>
   );
 };
-
 
 // Main Header component
 const Header = ({ mobileMenuOpen, toggleMobileMenu }) => {

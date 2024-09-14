@@ -34,11 +34,11 @@
   .course-title {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     overflow: hidden;
     max-height: 4.5em; /* Adjust based on line-height and font-size */
     line-height: 1.5em;
-    height: 3; /* Ensuring it always takes exactly three lines */
+    height: 4.5em; /* Ensuring it always takes exactly three lines */
   }
   
   
