@@ -93,8 +93,8 @@ const CourseCard = ({ course }) => {
           <span>{getLanguageEmoji(course.lingua)}</span><strong> Lingua:</strong> {course.lingua || 'N/A'}
         </p>
       </div>
-      <Link href={`/courses/${course.id}`} className="learn-more btn btn-primary btn-outline btn-sm mt-auto mb-4 mx-8">
-        Learn more
+      <Link href={`/courses/${course.id}`} className="learn-more btn btn-primary btn-outline mt-auto mb-4 mx-8">
+        Scopri di più
       </Link>
     </div>
   );
