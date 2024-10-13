@@ -4,7 +4,7 @@ import requests
 import time
 import json
 from tqdm import tqdm
-from pipelines.gpt_classify_courses import classify_course_discipline
+from gpt_classify_courses import classify_course_discipline
 from unidecode import unidecode
 import re
 
@@ -90,6 +90,9 @@ def process_courses(courses):
     for course in tqdm(courses):
         course["nomeCorso"] = capitalize_name(course["nomeCorso"])
         course["nomeStruttura"] = capitalize_name(course["nomeStruttura"])
+        course["lingua"] = {"IT": "Italiano", "EN": "Inglese", "mu": "Multilingua"}.get(
+            course["lingua"], course["lingua"]
+        )
 
         discipline_name = classify_course_discipline(
             course_name=course["nomeCorso"],
