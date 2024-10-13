@@ -77,33 +77,104 @@ def capitalize_name(name):
     return " ".join(capitalized_words)
 
 
-def create_discipline_id(discipline_name: str) -> str:
-    discipline_name = discipline_name.lower()
-    discipline_name = unidecode(discipline_name)
-    discipline_name = re.sub(r"\s+", "_", discipline_name)
-    discipline_name = re.sub(r"[^a-z0-9_]", "", discipline_name)
-    return discipline_name
+def create_id_from_name(name: str) -> str:
+    name = name.lower()
+    name = unidecode(name)
+    name = re.sub(r"\s+", "_", name)
+    name = re.sub(r"[^a-z0-9_]", "", name)
+    return name
 
 
 def process_courses(courses):
     print("Processing courses...")
     for course in tqdm(courses):
+        # Capitalize names
         course["nomeCorso"] = capitalize_name(course["nomeCorso"])
         course["nomeStruttura"] = capitalize_name(course["nomeStruttura"])
+
+        # Map language codes to full names
         course["lingua"] = {"IT": "Italiano", "EN": "Inglese", "mu": "Multilingua"}.get(
             course["lingua"], course["lingua"]
         )
 
+        # Process Discipline
         discipline_name = classify_course_discipline(
             course_name=course["nomeCorso"],
             course_materia=course["classe"]["descrizione"],
         )
-        discipline_id = create_discipline_id(discipline_name)
-
+        discipline_id = create_id_from_name(discipline_name)
         course["discipline"] = {
             "id": discipline_id,
             "name": discipline_name,
         }
+
+        # Process University
+        university_name = course["nomeStruttura"]
+        university_id = create_id_from_name(university_name)
+        course["university"] = {
+            "id": university_id,
+            "name": university_name,
+        }
+
+        # Process Location
+        location_name = (
+            course.get("sede", {}).get("comuneDescrizione").lower().capitalize()
+        )
+        if location_name:
+            location_id = create_id_from_name(location_name)
+            course["location"] = {
+                "id": location_id,
+                "name": location_name,
+            }
+        else:
+            course["location"] = {
+                "id": None,
+                "name": "N/A",
+            }
+
+        # Process Degree Type
+        degree_type_name = course.get("tipoLaurea", {}).get("descrizione")
+        if degree_type_name:
+            degree_type_id = create_id_from_name(degree_type_name)
+            course["degree_type"] = {
+                "id": degree_type_id,
+                "name": degree_type_name,
+            }
+        else:
+            course["degree_type"] = {
+                "id": None,
+                "name": "N/A",
+            }
+
+        # Process Program Type (Entrance)
+        program_type_name = course.get("programmazione", {}).get("descrizione")
+        if program_type_name:
+            program_type_id = create_id_from_name(program_type_name)
+            course["program_type"] = {
+                "id": program_type_id,
+                "name": program_type_name,
+            }
+        else:
+            course["program_type"] = {
+                "id": None,
+                "name": "N/A",
+            }
+
+        # Process Language
+        language_name = course["lingua"]
+        language_id = create_id_from_name(language_name)
+        course["language"] = {
+            "id": language_id,
+            "name": language_name,
+        }
+
+        # Optionally remove old keys if they are no longer needed
+        # del course["nomeStruttura"]
+        # del course["sede"]
+        # del course["tipoLaurea"]
+        # del course["programmazione"]
+        # del course["lingua"]
+
     return courses
 
 

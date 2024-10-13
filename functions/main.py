@@ -102,51 +102,98 @@ def search_courses(request: https_fn.Request) -> https_fn.Response:
 
 
 @on_document_created(document="courses/{courseId}")
-def increment_course_disciplines_counter_on_create(
-    event: Event[DocumentSnapshot],
-) -> None:
+def increment_course_counters_on_create(event: Event[DocumentSnapshot]) -> None:
     course = event.data.to_dict()
-    discipline = dict(course["discipline"])
 
-    discipline_ref = db.collection("disciplines").document(discipline["id"])
+    # List of fields to update counters for
+    fields = [
+        "discipline",
+        "university",
+        "location",
+        "degree_type",
+        "program_type",
+        "language",
+    ]
 
-    try:
-        discipline_ref.get().exists
-        discipline_ref.update({"coursesCounter": firestore.Increment(1)})
-    except NotFound:
-        print(f"Discipline document '{discipline['name']}' not found, creating it.")
-        discipline_ref.set({"name": discipline["name"], "coursesCounter": 1})
+    for field in fields:
+        field_data = course.get(field)
+        if field_data:
+            collection_name = field + "s"  # e.g., 'disciplines', 'universities', etc.
+            field_ref = db.collection(collection_name).document(field_data["id"])
+            try:
+                if field_ref.get().exists:
+                    field_ref.update({"coursesCounter": firestore.Increment(1)})
+                else:
+                    # Document does not exist, create it
+                    field_ref.set({"name": field_data["name"], "coursesCounter": 1})
+            except NotFound:
+                print(
+                    f"{field.capitalize()} document '{field_data['name']}' not found, creating it."
+                )
+                field_ref.set({"name": field_data["name"], "coursesCounter": 1})
 
 
 @on_document_updated(document="courses/{courseId}")
-def update_course_disciplines_counter_on_update(
-    event: Event[Change[DocumentSnapshot]],
-) -> None:
+def update_course_counters_on_update(event: Event[Change[DocumentSnapshot]]) -> None:
+    before_course = event.data.before.to_dict()
+    after_course = event.data.after.to_dict()
 
-    before_discipline = event.data.before.get("discipline")
-    after_discipline = event.data.after.get("discipline")
+    fields = [
+        "discipline",
+        "university",
+        "location",
+        "degree_type",
+        "program_type",
+        "language",
+    ]
 
-    # Only update the counters if the discipline has changed
-    if before_discipline != after_discipline:
-        # Decrement counter of the old discipline
-        if before_discipline:
-            db.collection("disciplines").document(before_discipline["id"]).update(
-                {"coursesCounter": firestore.Increment(-1)}
-            )
-        # Increment counter of the new discipline
-        if after_discipline:
-            db.collection("disciplines").document(after_discipline["id"]).update(
-                {"coursesCounter": firestore.Increment(1)}
-            )
+    for field in fields:
+        before_field = before_course.get(field)
+        after_field = after_course.get(field)
+
+        # Only update the counters if the field has changed
+        if before_field != after_field:
+            collection_name = field + "s"
+
+            # Decrement counter for the old field
+            if before_field:
+                field_ref = db.collection(collection_name).document(before_field["id"])
+                field_ref.update({"coursesCounter": firestore.Increment(-1)})
+
+            # Increment counter for the new field
+            if after_field:
+                field_ref = db.collection(collection_name).document(after_field["id"])
+                try:
+                    if field_ref.get().exists:
+                        field_ref.update({"coursesCounter": firestore.Increment(1)})
+                    else:
+                        # Document does not exist, create it
+                        field_ref.set(
+                            {"name": after_field["name"], "coursesCounter": 1}
+                        )
+                except NotFound:
+                    print(
+                        f"{field.capitalize()} document '{after_field['name']}' not found, creating it."
+                    )
+                    field_ref.set({"name": after_field["name"], "coursesCounter": 1})
 
 
 @on_document_deleted(document="courses/{courseId}")
-def decrease_course_disciplines_counter_on_delete(
-    event: Event[DocumentSnapshot],
-) -> None:
+def decrement_course_counters_on_delete(event: Event[DocumentSnapshot]) -> None:
     course = event.data.to_dict()
-    discipline = dict(course["discipline"])
 
-    db.collection("disciplines").document(discipline["id"]).update(
-        {"coursesCounter": firestore.Increment(-1)}
-    )
+    fields = [
+        "discipline",
+        "university",
+        "location",
+        "degree_type",
+        "program_type",
+        "language",
+    ]
+
+    for field in fields:
+        field_data = course.get(field)
+        if field_data:
+            collection_name = field + "s"
+            field_ref = db.collection(collection_name).document(field_data["id"])
+            field_ref.update({"coursesCounter": firestore.Increment(-1)})

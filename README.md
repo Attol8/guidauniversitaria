@@ -7,5 +7,6 @@
 * [] Add useful categories to the course cards (Luogo, Universita', Corso) (see courses_eda.ipynb)
 * [] restyle navbar to add the above categories 
 * [] Add filter functionality to the courses pages
+* [] Pagination
 * [] Users can save courses to a list
 * [] Authentication

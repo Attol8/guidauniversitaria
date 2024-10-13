@@ -13,12 +13,6 @@ function truncateMiddle(text, startChars, endChars, maxLength) {
   return `${start}...${end}`;
 }
 
-function capitalizeFirstLetter(string) {
-  if (!string) return ''; // Handle null or undefined inputs
-  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
-
-
 async function getLogoPath(codeUn) {
   const logoPath = `/images/uni_images/uni_logos/${codeUn}_logo.png`;
   const exists = await fetch(logoPath, { method: 'HEAD' })
@@ -75,22 +69,22 @@ const CourseCard = ({ course }) => {
       <div className="info-section flex flex-col p-8 pt-12 space-y-2 flex-grow">
         <h3 className="course-title font-bold text-xl" title={course.nomeCorso}>{courseTitle}</h3>
         <p className="course-university text-lg text-gray-800 font-semibold">
-        {course.nomeStruttura || 'N/A'}
+        {course.university?.name || 'N/A'}
         </p>
         <p className="course-discipline text-md text-gray-800 pt-6">
           <span role="img" aria-label="discipline">📚</span> <strong>Corso:</strong> {course.discipline?.name || 'N/A'}
         </p>
         <p className="course-location text-md text-gray-800">
-          <span role="img" aria-label="location">📍</span> <strong>Luogo:</strong> {capitalizeFirstLetter(course.sede?.comuneDescrizione) || 'N/A'}
+          <span role="img" aria-label="location">📍</span> <strong>Luogo:</strong> {course.location?.name || 'N/A'}
         </p>
         <p className="course-location text-md text-gray-800">
-          <span role="img" aria-label="location">🕒</span> <strong>Durata:</strong> {course.tipoLaurea?.descrizione || 'N/A'}
+          <span role="img" aria-label="location">🕒</span> <strong>Durata:</strong> {course.degree_type?.name || 'N/A'}
         </p>
         <p className="course-location text-md text-gray-800">
-          <span role="img" aria-label="location">🚪</span> <strong>Ingresso:</strong> {course.programmazione?.descrizione || 'N/A'}
+          <span role="img" aria-label="location">🚪</span> <strong>Ingresso:</strong> {course.program_type?.name || 'N/A'}
         </p>
         <p className="course-language text-md text-gray-800">
-          <span>{getLanguageEmoji(course.lingua)}</span><strong> Lingua:</strong> {course.lingua || 'N/A'}
+          <span>{getLanguageEmoji(course.language?.name)}</span><strong> Lingua:</strong> {course.language?.name || 'N/A'}
         </p>
       </div>
       <Link href={`/courses/${course.id}`} className="learn-more btn btn-primary btn-outline mt-auto mb-4 mx-8">

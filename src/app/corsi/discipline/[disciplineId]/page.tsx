@@ -4,12 +4,12 @@ import Head from "next/head";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { db } from "../../../../firebaseConfig";
+import { db } from "../../../../../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 
 export default function CorsiPage() {
   const params = useParams();
-  const disciplineId = params.discipline as string;
+  const disciplineId = params.disciplineId as string;
   const [disciplineName, setDisciplineName] = useState<string>("");
   const [courseCount, setCourseCount] = useState<number>(0);
 
@@ -44,7 +44,7 @@ export default function CorsiPage() {
         description={`${courseCount} risultati trovati`}
       />
       <div className="container mx-auto px-4 py-8">
-        <CourseGrid />
+        <CourseGrid filter={{ type: "discipline", id: disciplineId }} />
       </div>
     </section>
   );

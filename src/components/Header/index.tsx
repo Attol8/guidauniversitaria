@@ -5,6 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import menuData from "./menuData";
 import { getTopDisciplines } from "../getTopDisciplines";
+import { getTopLocations } from "../getTopLocations";
+import { getTopUniversities } from "../getTopUniversities";
+
 
 // Custom hook to handle sticky navbar logic
 const useStickyNavbar = () => {
@@ -158,18 +161,29 @@ const Header = ({ mobileMenuOpen, toggleMobileMenu }) => {
   }, []);
 
   useEffect(() => {
-    const fetchDisciplines = async () => {
-      const topDisciplines = await getTopDisciplines();
+    const fetchMenuData = async () => {
+      const [topDisciplines, topLocations, topUniversities] = await Promise.all([
+        getTopDisciplines(),
+        getTopLocations(),
+        getTopUniversities(),
+      ]);
+
       setMenu((prevMenu) => {
-        return prevMenu.map((item) =>
-          item.title === "Courses by Discipline"
-            ? { ...item, submenu: topDisciplines }
-            : item
-        );
+        return prevMenu.map((item) => {
+          if (item.title === "Discipline") {
+            return { ...item, submenu: topDisciplines };
+          } else if (item.title === "Città") {
+            return { ...item, submenu: topLocations };
+          } else if (item.title === "Università") {
+            return { ...item, submenu: topUniversities };
+          } else {
+            return item;
+          }
+        });
       });
     };
 
-    fetchDisciplines();
+    fetchMenuData();
   }, []);
 
   // Handle clicks outside of the dropdown to close the submenu

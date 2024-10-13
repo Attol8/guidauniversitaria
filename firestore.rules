@@ -6,5 +6,11 @@ service cloud.firestore {
     match /disciplines/{document=**} {
       allow read, write: if true;
     }
+    match /locations/{document=**} {
+      allow read, write: if true;
+    }
+    match /universitys/{document=**} {
+      allow read, write: if true;
+    }
   }
 }

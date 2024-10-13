@@ -12,7 +12,7 @@ export default function CorsiPage() {
       </Head>
       <Breadcrumb pageName="Trova Corsi" description="Trova corsi universitari basati sui tuoi interessi e bisogni." />
       <div className="container mx-auto px-4 py-8">
-        <CourseGrid />
+        <CourseGrid filter={null} />
       </div>
     </section>
   );
