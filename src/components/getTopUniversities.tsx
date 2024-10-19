@@ -8,10 +8,9 @@ const getTopUniversities = async (limitCount = 10) => {
     const universitiesRef = collection(db, 'universitys');
     const q = query(universitiesRef, orderBy('coursesCounter', 'desc'), limit(limitCount));
     const snapshot = await getDocs(q);
-
+    console.log("Top unis fetched successfully");
     return snapshot.docs.map((doc, index) => {
       const data = doc.data();
-      console.log(`University ${index + 1}:`, data);
       return {
         id: index + 1,
         title: data.name,
@@ -19,6 +18,7 @@ const getTopUniversities = async (limitCount = 10) => {
         newTab: false,
       };
     });
+
   } catch (error) {
     console.error("Error fetching top universities:", error);
     return [];

@@ -6,10 +6,10 @@ const getTopDisciplines = async (limitCount = 10) => {
     const disciplinesRef = collection(db, 'disciplines');
     const q = query(disciplinesRef, orderBy('coursesCounter', 'desc'), limit(limitCount));
     const snapshot = await getDocs(q);
+    console.log("Top disciplines fetched successfully");
 
     return snapshot.docs.map((doc, index) => {
       const data = doc.data();
-      console.log(`Discipline ${index + 1}:`, data);
       return {
         id: index + 1,
         title: data.name,
@@ -17,6 +17,7 @@ const getTopDisciplines = async (limitCount = 10) => {
         newTab: false
       };
     });
+
   } catch (error) {
     console.error("Error fetching top disciplines:", error);
     return [];

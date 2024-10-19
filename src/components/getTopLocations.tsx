@@ -6,10 +6,10 @@ const getTopLocations = async (limitCount = 10) => {
     const locationsRef = collection(db, 'locations');
     const q = query(locationsRef, orderBy('coursesCounter', 'desc'), limit(limitCount));
     const snapshot = await getDocs(q);
+    console.log("Top locations fetched successfully");
 
     return snapshot.docs.map((doc, index) => {
       const data = doc.data();
-      console.log(`Location ${index + 1}:`, data);
       return {
         id: index + 1,
         title: data.name,
@@ -17,6 +17,7 @@ const getTopLocations = async (limitCount = 10) => {
         newTab: false,
       };
     });
+
   } catch (error) {
     console.error("Error fetching top locations:", error);
     return [];
