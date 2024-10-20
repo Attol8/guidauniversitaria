@@ -1,3 +1,5 @@
+// pages/corsi/index.jsx
+
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -38,22 +40,24 @@ export default function CorsiPage() {
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <>
       <Head>
-        <title>Trova il corso universitario perfetto per te</title>
+        <title>Find the Perfect University Course for You</title>
         <meta
           name="description"
-          content="Trova corsi universitari basati sui tuoi interessi e bisogni."
+          content="Discover university courses based on your interests and needs."
         />
       </Head>
-      <Breadcrumb
-        pageName="Trova Corsi"
-        description="Trova corsi universitari basati sui tuoi interessi e bisogni."
-      />
-      <div className="container mx-auto px-4 py-8">
-        <FilterBar onFilterChange={handleFilterChange} initialFilters={filters} />
-        <CourseGrid filters={filters} />
-      </div>
-    </section>
+      <section className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <Breadcrumb
+          pageName="Find Courses"
+          description="Discover university courses based on your interests and needs."
+        />
+        <div className="container mx-auto px-4 py-8">
+          <FilterBar onFilterChange={handleFilterChange} initialFilters={filters} />
+          <CourseGrid filters={filters} />
+        </div>
+      </section>
+    </>
   );
 }
