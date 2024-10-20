@@ -13,8 +13,9 @@ const getTopUniversities = async (limitCount = 10) => {
       const data = doc.data();
       return {
         id: index + 1,
+        docId: doc.id,
         title: data.name,
-        path: `/corsi/university/${doc.id}`,
+        path: `/corsi?university=${doc.id}`,
         newTab: false,
       };
     });

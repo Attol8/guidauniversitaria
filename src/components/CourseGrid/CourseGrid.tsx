@@ -4,28 +4,42 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import CourseCard from "../CourseCard/CourseCard";
 
-const CourseGrid = ({ filter }) => {
+const CourseGrid = ({ filters }) => {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     async function fetchCourses() {
-      let q;
-      if (filter && filter.type && filter.id) {
-        q = query(
-          collection(db, "courses"),
-          where(`${filter.type}.id`, "==", filter.id)
-        );
-      } else {
-        q = collection(db, "courses");
+      let q = collection(db, "courses");
+      const constraints = [];
+
+      if (filters.discipline) {
+        constraints.push(where("discipline.id", "==", filters.discipline));
+      }
+      if (filters.location) {
+        constraints.push(where("location.id", "==", filters.location));
+      }
+      if (filters.university) {
+        constraints.push(where("university.id", "==", filters.university));
       }
 
-      const querySnapshot = await getDocs(q);
-      const coursesData = querySnapshot.docs.map((doc) => doc.data());
-      setCourses(coursesData);
+      if (constraints.length > 0) {
+        q = query(q, ...constraints);
+      }
+
+      try {
+        const querySnapshot = await getDocs(q);
+        const coursesData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCourses(coursesData);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
     }
 
     fetchCourses();
-  }, [filter]);
+  }, [filters]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

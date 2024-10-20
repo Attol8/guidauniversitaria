@@ -12,8 +12,9 @@ const getTopDisciplines = async (limitCount = 10) => {
       const data = doc.data();
       return {
         id: index + 1,
+        docId: doc.id,
         title: data.name,
-        path: `/corsi/discipline/${doc.id}`,
+        path: `/corsi?discipline=${doc.id}`,
         newTab: false
       };
     });

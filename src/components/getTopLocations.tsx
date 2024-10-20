@@ -12,8 +12,9 @@ const getTopLocations = async (limitCount = 10) => {
       const data = doc.data();
       return {
         id: index + 1,
+        docId: doc.id,
         title: data.name,
-        path: `/corsi/location/${doc.id}`,
+        path: `/corsi?location=${doc.id}`,
         newTab: false,
       };
     });
