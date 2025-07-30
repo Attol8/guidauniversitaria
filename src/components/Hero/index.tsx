@@ -1,19 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import useSWR from 'swr';
 import Image from "next/image";
 import Link from "next/link";
 import { getTopDisciplines } from "../getTopDisciplines";
 
 const Hero = () => {
-  const [disciplines, setDisciplines] = useState([]);
-
-  useEffect(() => {
-    const fetchDisciplines = async () => {
-      const topDisciplines = await getTopDisciplines(10);
-      setDisciplines(topDisciplines);
-    };
-    fetchDisciplines();
-  }, []);
+  // Use SWR to fetch and cache the data directly with a fetcher
+  const { data: disciplines, error, isLoading } = useSWR('top-disciplines', () => getTopDisciplines(10), {
+    revalidateOnFocus: false,
+    dedupingInterval: 60000,
+  });
 
   return (
     <section
@@ -33,15 +30,15 @@ const Hero = () => {
             href="/corsi"
             className="text-white btn-wide bg-primary items-center cursor-pointer flex-wrap font-semibold justify-center px-6 py-3 text-center capitalize inline-flex rounded-lg mb-12 transition transform hover:scale-105"
           >
-            Cerca Corso 🔎
+            Esplora Corsi 🔎
           </Link>
 
           {/* Top Disciplines Section */}
           <div className="w-full flex flex-wrap justify-center md:justify-start gap-4">
-            {disciplines.map((discipline) => (
+            {(disciplines || []).map((discipline) => (
               <Link
                 key={discipline.id}
-                href={discipline.path}
+                href={`/corsi?discipline=${discipline.docId}`}
                 className="btn btn-outline btn-primary capitalize px-6 py-2 rounded-lg hover:bg-primary hover:text-white transition"
               >
                 {discipline.title}
@@ -51,7 +48,7 @@ const Hero = () => {
         </div>
         <div className="w-full md:w-2/5 mt-12 md:mt-0">
           <Image
-            src="/images/hero/hero_section_illustration.svg"  // Ensure the path to the illustration is correct
+            src="/images/hero/hero_section_illustration.svg"
             alt="Educational Illustration"
             width={500}
             height={500}

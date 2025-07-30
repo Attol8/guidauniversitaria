@@ -26,6 +26,17 @@ async function getLogoPath(codeUn) {
   }
 }
 
+function getLanguageEmoji(language) {
+  switch (language) {
+    case 'IT':
+      return '🇮🇹';
+    case 'EN':
+      return '🇬🇧';
+    default:
+      return '🌐'; // For multiple or other languages
+  }
+}
+
 const CourseCard = ({ course }) => {
   const [logoPath, setLogoPath] = useState("https://via.placeholder.com/80?text=Logo");
   const [heroImage, setHeroImage] = useState("");
@@ -55,17 +66,29 @@ const CourseCard = ({ course }) => {
           <FontAwesomeIcon icon={farHeart} size="lg" />
         </button>
       </div>
-      <div className="info-section flex flex-col p-8 pt-12 space-y-4 flex-grow">
+      <div className="info-section flex flex-col p-8 pt-12 space-y-2 flex-grow">
         <h3 className="course-title font-bold text-xl" title={course.nomeCorso}>{courseTitle}</h3>
-        <p className="course-university text-lg text-gray-800 font-semibold">{course.nomeStruttura || 'N/A'}</p>
-        <p className="course-description text-md text-gray-800 font-semibold">{course.sede?.comuneDescrizione || 'N/A'}</p>
-        <div className="additional-info flex justify-between items-center">
-          <span className="starting-year text-sm font-semibold">Starting Year: {course.anno?.descrizione || 'N/A'}</span>
-          <span className="language text-sm font-semibold">Language: {course.lingua || 'N/A'}</span>
-        </div>
+        <p className="course-university text-lg text-gray-800 font-semibold">
+        {course.university?.name || 'N/A'}
+        </p>
+        <p className="course-discipline text-md text-gray-800 pt-6">
+          <span role="img" aria-label="discipline">📚</span> <strong>Corso:</strong> {course.discipline?.name || 'N/A'}
+        </p>
+        <p className="course-location text-md text-gray-800">
+          <span role="img" aria-label="location">📍</span> <strong>Luogo:</strong> {course.location?.name || 'N/A'}
+        </p>
+        <p className="course-location text-md text-gray-800">
+          <span role="img" aria-label="location">🕒</span> <strong>Durata:</strong> {course.degree_type?.name || 'N/A'}
+        </p>
+        <p className="course-location text-md text-gray-800">
+          <span role="img" aria-label="location">🚪</span> <strong>Ingresso:</strong> {course.program_type?.name || 'N/A'}
+        </p>
+        <p className="course-language text-md text-gray-800">
+          <span>{getLanguageEmoji(course.language?.name)}</span><strong> Lingua:</strong> {course.language?.name || 'N/A'}
+        </p>
       </div>
-      <Link href={`/courses/${course.id}`} className="learn-more btn btn-primary btn-outline btn-sm mt-auto mb-4 mx-8">
-        Learn more
+      <Link href={`/courses/${course.id}`} className="learn-more btn btn-primary btn-outline mt-auto mb-4 mx-8">
+        Scopri di più
       </Link>
     </div>
   );
