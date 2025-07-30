@@ -42,16 +42,16 @@ export default function CorsiPage() {
   return (
     <>
       <Head>
-        <title>Find the Perfect University Course for You</title>
+        <title>Trova il corso perfetto per te!</title>
         <meta
           name="description"
-          content="Discover university courses based on your interests and needs."
+          content="Trova corsi universitari in base ai tuoi interessi e alle tue esigenze."
         />
       </Head>
       <section className="bg-gray-50 dark:bg-gray-900 min-h-screen">
         <Breadcrumb
-          pageName="Find Courses"
-          description="Discover university courses based on your interests and needs."
+          pageName="Trova Corsi"
+          description="Trova corsi universitari in base ai tuoi interessi e alle tue esigenze."
         />
         <div className="container mx-auto px-4 py-8">
           <FilterBar onFilterChange={handleFilterChange} initialFilters={filters} />
