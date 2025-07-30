@@ -1,72 +1,68 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import CourseCard from "@/components/CourseCard/CourseCard";
+import { collection, query, where, getDocs, CollectionReference, Query, DocumentData } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
-import { collection, query, where, getDocs, limit } from "firebase/firestore";
+import CourseCard from "../CourseCard/CourseCard";
 
 interface Course {
   id: string;
-  discipline?: string;
-  // Add any other fields that your courses have
+  [key: string]: any;
 }
 
-async function fetchCourses(disciplineId?: string): Promise<Course[]> {
-  const coursesRef = collection(db, "courses");
-  let q;
-
-  // if (disciplineId && provincia) {
-  //   q = query(
-  //     coursesRef,
-  //     where("discipline.id", "==", disciplineId),
-  //     where("provincia", "==", provincia),
-  //     limit(20)
-  //   );
-  // } else if (disciplineId) {
-  //   q = query(coursesRef, where("discipline.id", "==", disciplineId), limit(20));
-  // } else if (provincia) {
-  //   q = query(coursesRef, where("provincia", "==", provincia), limit(20));
-  // } else {
-  //   q = query(coursesRef, limit(20)); // Fetch random 20 courses if no filters
-  // }
-
-  if (disciplineId) {
-    q = query(coursesRef, where("discipline.id", "==", disciplineId), limit(20));
-  }
-  else {
-    q = query(coursesRef, limit(20)); // Fetch random 20 courses if no filters
-  }
-
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => {
-    const data = doc.data() as Course;
-    return { id: doc.id, ...data };
-  });
+interface FilterProps {
+  discipline: string;
+  location: string;
+  university: string;
 }
 
-export default function CourseGrid() {
-  const params = useParams()
-  const disciplineId = params.discipline as string;
-  console.log("disciplineId", disciplineId);
+interface CourseGridProps {
+  filters: FilterProps;
+}
 
+const CourseGrid = ({ filters }: CourseGridProps) => {
   const [courses, setCourses] = useState<Course[]>([]);
 
   useEffect(() => {
-    async function getCourses() {
-      const courses = await fetchCourses(disciplineId);
-      setCourses(courses);
+    async function fetchCourses() {
+      const coursesRef = collection(db, "courses");
+      const constraints = [];
+
+      if (filters.discipline) {
+        constraints.push(where("discipline.id", "==", filters.discipline));
+      }
+      if (filters.location) {
+        constraints.push(where("location.id", "==", filters.location));
+      }
+      if (filters.university) {
+        constraints.push(where("university.id", "==", filters.university));
+      }
+
+      const q: Query<DocumentData> | CollectionReference<DocumentData> = constraints.length > 0 
+        ? query(coursesRef, ...constraints)
+        : coursesRef;
+
+      try {
+        const querySnapshot = await getDocs(q);
+        const coursesData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCourses(coursesData);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
     }
 
-    getCourses();
-  }, [disciplineId]);
+    fetchCourses();
+  }, [filters]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-      {courses.length > 0 ? (
-        courses.map((course) => <CourseCard key={course.id} course={course} />)
-      ) : (
-        <p>No courses found</p>
-      )}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {courses.map((course) => (
+        <CourseCard key={course.id} course={course} />
+      ))}
     </div>
   );
-}
+};
+
+export default CourseGrid;
