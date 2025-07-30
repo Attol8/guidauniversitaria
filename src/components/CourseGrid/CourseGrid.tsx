@@ -1,15 +1,30 @@
 "use client";
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, CollectionReference, Query, DocumentData } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 import CourseCard from "../CourseCard/CourseCard";
 
-const CourseGrid = ({ filters }) => {
-  const [courses, setCourses] = useState([]);
+interface Course {
+  id: string;
+  [key: string]: any;
+}
+
+interface FilterProps {
+  discipline: string;
+  location: string;
+  university: string;
+}
+
+interface CourseGridProps {
+  filters: FilterProps;
+}
+
+const CourseGrid = ({ filters }: CourseGridProps) => {
+  const [courses, setCourses] = useState<Course[]>([]);
 
   useEffect(() => {
     async function fetchCourses() {
-      let q = collection(db, "courses");
+      const coursesRef = collection(db, "courses");
       const constraints = [];
 
       if (filters.discipline) {
@@ -22,9 +37,9 @@ const CourseGrid = ({ filters }) => {
         constraints.push(where("university.id", "==", filters.university));
       }
 
-      if (constraints.length > 0) {
-        q = query(q, ...constraints);
-      }
+      const q: Query<DocumentData> | CollectionReference<DocumentData> = constraints.length > 0 
+        ? query(coursesRef, ...constraints)
+        : coursesRef;
 
       try {
         const querySnapshot = await getDocs(q);

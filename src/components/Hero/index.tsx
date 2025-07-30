@@ -38,10 +38,7 @@ const Hero = () => {
             {(disciplines || []).map((discipline) => (
               <Link
                 key={discipline.id}
-                href={{
-                  pathname: '/corsi',
-                  query: { discipline: discipline.docId },
-                }}
+                href={`/corsi?discipline=${discipline.docId}`}
                 className="btn btn-outline btn-primary capitalize px-6 py-2 rounded-lg hover:bg-primary hover:text-white transition"
               >
                 {discipline.title}

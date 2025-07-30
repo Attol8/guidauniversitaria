@@ -104,6 +104,9 @@ def search_courses(request: https_fn.Request) -> https_fn.Response:
 @on_document_created(document="courses/{courseId}")
 def increment_course_counters_on_create(event: Event[DocumentSnapshot]) -> None:
     course = event.data.to_dict()
+    if not course:
+        print("Warning: Empty course document created")
+        return
 
     # List of fields to update counters for
     fields = [
@@ -117,26 +120,32 @@ def increment_course_counters_on_create(event: Event[DocumentSnapshot]) -> None:
 
     for field in fields:
         field_data = course.get(field)
-        if field_data:
+        if field_data and isinstance(field_data, dict) and field_data.get("id") and field_data.get("name"):
             collection_name = field + "s"  # e.g., 'disciplines', 'universities', etc.
             field_ref = db.collection(collection_name).document(field_data["id"])
-            try:
-                if field_ref.get().exists:
-                    field_ref.update({"coursesCounter": firestore.Increment(1)})
+            
+            @firestore.transactional
+            def update_counter_transaction(transaction):
+                doc_snapshot = field_ref.get(transaction=transaction)
+                if doc_snapshot.exists:
+                    current_count = doc_snapshot.get("coursesCounter") or 0
+                    transaction.update(field_ref, {"coursesCounter": current_count + 1})
                 else:
                     # Document does not exist, create it
-                    field_ref.set({"name": field_data["name"], "coursesCounter": 1})
-            except NotFound:
-                print(
-                    f"{field.capitalize()} document '{field_data['name']}' not found, creating it."
-                )
-                field_ref.set({"name": field_data["name"], "coursesCounter": 1})
+                    transaction.set(field_ref, {"name": field_data["name"], "coursesCounter": 1})
+            
+            try:
+                db.run_transaction(update_counter_transaction)
+            except Exception as e:
+                print(f"Error updating {field} counter for {field_data['name']}: {e}")
+        elif field_data:
+            print(f"Warning: Invalid {field} data structure in course document: {field_data}")
 
 
 @on_document_updated(document="courses/{courseId}")
 def update_course_counters_on_update(event: Event[Change[DocumentSnapshot]]) -> None:
-    before_course = event.data.before.to_dict()
-    after_course = event.data.after.to_dict()
+    before_course = event.data.before.to_dict() if event.data.before else {}
+    after_course = event.data.after.to_dict() if event.data.after else {}
 
     fields = [
         "discipline",
@@ -155,32 +164,76 @@ def update_course_counters_on_update(event: Event[Change[DocumentSnapshot]]) -> 
         if before_field != after_field:
             collection_name = field + "s"
 
-            # Decrement counter for the old field
-            if before_field:
-                field_ref = db.collection(collection_name).document(before_field["id"])
-                field_ref.update({"coursesCounter": firestore.Increment(-1)})
-
-            # Increment counter for the new field
-            if after_field:
-                field_ref = db.collection(collection_name).document(after_field["id"])
-                try:
-                    if field_ref.get().exists:
-                        field_ref.update({"coursesCounter": firestore.Increment(1)})
+            # Handle counter updates in a single transaction when possible
+            if (before_field and isinstance(before_field, dict) and before_field.get("id") and 
+                after_field and isinstance(after_field, dict) and after_field.get("id")):
+                
+                # Both fields exist - update both in transaction
+                before_ref = db.collection(collection_name).document(before_field["id"])
+                after_ref = db.collection(collection_name).document(after_field["id"])
+                
+                @firestore.transactional
+                def update_both_counters_transaction(transaction):
+                    # Decrement old counter
+                    before_doc = before_ref.get(transaction=transaction)
+                    if before_doc.exists:
+                        before_count = before_doc.get("coursesCounter") or 0
+                        new_count = max(0, before_count - 1)  # Prevent negative counts
+                        transaction.update(before_ref, {"coursesCounter": new_count})
+                    
+                    # Increment new counter
+                    after_doc = after_ref.get(transaction=transaction)
+                    if after_doc.exists:
+                        after_count = after_doc.get("coursesCounter") or 0
+                        transaction.update(after_ref, {"coursesCounter": after_count + 1})
                     else:
-                        # Document does not exist, create it
-                        field_ref.set(
-                            {"name": after_field["name"], "coursesCounter": 1}
-                        )
-                except NotFound:
-                    print(
-                        f"{field.capitalize()} document '{after_field['name']}' not found, creating it."
-                    )
-                    field_ref.set({"name": after_field["name"], "coursesCounter": 1})
+                        transaction.set(after_ref, {"name": after_field["name"], "coursesCounter": 1})
+                
+                try:
+                    db.run_transaction(update_both_counters_transaction)
+                except Exception as e:
+                    print(f"Error updating {field} counters in transaction: {e}")
+            
+            else:
+                # Handle single field updates
+                if before_field and isinstance(before_field, dict) and before_field.get("id"):
+                    field_ref = db.collection(collection_name).document(before_field["id"])
+                    try:
+                        @firestore.transactional
+                        def decrement_transaction(transaction):
+                            doc = field_ref.get(transaction=transaction)
+                            if doc.exists:
+                                current_count = doc.get("coursesCounter") or 0
+                                new_count = max(0, current_count - 1)
+                                transaction.update(field_ref, {"coursesCounter": new_count})
+                        
+                        db.run_transaction(decrement_transaction)
+                    except Exception as e:
+                        print(f"Error decrementing {field} counter: {e}")
+
+                if after_field and isinstance(after_field, dict) and after_field.get("id") and after_field.get("name"):
+                    field_ref = db.collection(collection_name).document(after_field["id"])
+                    try:
+                        @firestore.transactional
+                        def increment_transaction(transaction):
+                            doc = field_ref.get(transaction=transaction)
+                            if doc.exists:
+                                current_count = doc.get("coursesCounter") or 0
+                                transaction.update(field_ref, {"coursesCounter": current_count + 1})
+                            else:
+                                transaction.set(field_ref, {"name": after_field["name"], "coursesCounter": 1})
+                        
+                        db.run_transaction(increment_transaction)
+                    except Exception as e:
+                        print(f"Error incrementing {field} counter: {e}")
 
 
 @on_document_deleted(document="courses/{courseId}")
 def decrement_course_counters_on_delete(event: Event[DocumentSnapshot]) -> None:
     course = event.data.to_dict()
+    if not course:
+        print("Warning: Empty course document deleted")
+        return
 
     fields = [
         "discipline",
@@ -193,7 +246,23 @@ def decrement_course_counters_on_delete(event: Event[DocumentSnapshot]) -> None:
 
     for field in fields:
         field_data = course.get(field)
-        if field_data:
+        if field_data and isinstance(field_data, dict) and field_data.get("id"):
             collection_name = field + "s"
             field_ref = db.collection(collection_name).document(field_data["id"])
-            field_ref.update({"coursesCounter": firestore.Increment(-1)})
+            
+            @firestore.transactional
+            def decrement_counter_transaction(transaction):
+                doc_snapshot = field_ref.get(transaction=transaction)
+                if doc_snapshot.exists:
+                    current_count = doc_snapshot.get("coursesCounter") or 0
+                    new_count = max(0, current_count - 1)  # Prevent negative counts
+                    transaction.update(field_ref, {"coursesCounter": new_count})
+                else:
+                    print(f"Warning: {field} document {field_data['id']} not found during delete")
+            
+            try:
+                db.run_transaction(decrement_counter_transaction)
+            except Exception as e:
+                print(f"Error decrementing {field} counter for {field_data.get('name', 'unknown')}: {e}")
+        elif field_data:
+            print(f"Warning: Invalid {field} data structure in deleted course document: {field_data}")
