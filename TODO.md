@@ -18,7 +18,6 @@ This list merges the original README todos with new conversion-focused recommend
    - [ ] Fetch course document from Firestore and render hero, details.
    - [ ] Build reusable `LeadForm` component with 2-step UX and validation.
    - [ ] Persist leads to Firestore `leads` collection.
-   - [ ] Fire GA4 / Firebase Analytics event `generate_lead` on submit.
    - [ ] Add sticky CTA ("Richiedi informazioni") visible at every scroll depth.
 
 2. **Favourites & Authentication**

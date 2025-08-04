@@ -4,10 +4,6 @@ echo "🚀 Starting development services for Guida Universitaria..."
 
 # Check prerequisites
 echo "🔍 Checking prerequisites..."
-if [ ! -f "pipelines/requirements.txt" ]; then
-    echo "❌ pipelines/requirements.txt not found"
-    exit 1
-fi
 
 if [ ! -f "dev_firebase_config.json" ]; then
     echo "❌ dev_firebase_config.json not found - required for Firebase emulators"
@@ -46,12 +42,14 @@ fi
 
 # Step 1: Process course data
 echo "📊 Step 1: Processing course data..."
-cd pipelines
-if ! python fetch_courses_data.py; then
+
+# Load environment variables
+export $(grep -v '^#' .env.production | xargs)
+
+if ! python pipelines/fetch_courses_data.py; then
     echo "❌ Failed to process course data"
     exit 1
 fi
-cd ..
 
 # Step 2: Start Firebase emulators in background
 echo "🔥 Step 2: Starting Firebase emulators..."
