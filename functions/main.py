@@ -21,6 +21,15 @@ import grpc
 import json
 import os
 
+PLURALS = {
+    "discipline": "disciplines",
+    "university": "universities",
+    "location": "locations",
+    "degree_type": "degree_types",
+    "program_type": "program_types",
+    "language": "languages",
+}
+
 env = "development"
 if env == "development":
     cred = credentials.Certificate("../dev_firebase_config.json")
@@ -53,7 +62,10 @@ def load_courses_from_storage():
 
 
 @https_fn.on_request()
-@cross_origin(origins=["http://localhost:3000"], methods=["GET", "OPTIONS"])
+@cross_origin(
+    origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    methods=["GET", "OPTIONS"]
+)
 def search_courses(request: https_fn.Request) -> https_fn.Response:
     all_courses = load_courses_from_storage()
     term = request.args.get("term", "").lower()
@@ -121,7 +133,7 @@ def increment_course_counters_on_create(event: Event[DocumentSnapshot]) -> None:
     for field in fields:
         field_data = course.get(field)
         if field_data and isinstance(field_data, dict) and field_data.get("id") and field_data.get("name"):
-            collection_name = field + "s"  # e.g., 'disciplines', 'universities', etc.
+            collection_name = PLURALS.get(field, f"{field}s")
             field_ref = db.collection(collection_name).document(field_data["id"])
             
             try:
@@ -158,7 +170,7 @@ def update_course_counters_on_update(event: Event[Change[DocumentSnapshot]]) -> 
 
         # Only update the counters if the field has changed
         if before_field != after_field:
-            collection_name = field + "s"
+            collection_name = PLURALS.get(field, f"{field}s")
 
             # Handle counter updates in a single transaction when possible
             if (before_field and isinstance(before_field, dict) and before_field.get("id") and 
@@ -231,7 +243,7 @@ def decrement_course_counters_on_delete(event: Event[DocumentSnapshot]) -> None:
     for field in fields:
         field_data = course.get(field)
         if field_data and isinstance(field_data, dict) and field_data.get("id"):
-            collection_name = field + "s"
+            collection_name = PLURALS.get(field, f"{field}s")
             field_ref = db.collection(collection_name).document(field_data["id"])
             
             try:

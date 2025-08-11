@@ -13,7 +13,7 @@ interface UniversityData {
 
 const getTopUniversities = async (limitCount: number = 10): Promise<UniversityData[]> => {
   try {
-    const universitiesRef = collection(db, 'universitys');
+    const universitiesRef = collection(db, 'universities');
     const q = query(universitiesRef, orderBy('coursesCounter', 'desc'), limit(limitCount));
     const snapshot = await getDocs(q);
     

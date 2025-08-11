@@ -5,6 +5,14 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --header-h: 64px; /* fallback */
+  }
+
+  html {
+    scroll-padding-top: calc(var(--header-h) + 12px);
+  }
+
   body {
     font-family: "Inter", sans-serif;
   }
