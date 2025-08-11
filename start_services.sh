@@ -44,7 +44,9 @@ fi
 echo "📊 Step 1: Processing course data..."
 
 # Load environment variables
-export $(grep -v '^#' .env.production | xargs)
+set -o allexport
+[ -f .env.production ] && source .env.production
+set +o allexport
 
 if ! python pipelines/fetch_courses_data.py; then
     echo "❌ Failed to process course data"

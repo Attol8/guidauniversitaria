@@ -9,7 +9,19 @@ service cloud.firestore {
     match /locations/{document=**} {
       allow read, write: if true;
     }
-    match /universitys/{document=**} {
+    match /universities/{document=**} {
+      allow read, write: if true;
+    }
+    match /degree_types/{document=**} {
+      allow read, write: if true;
+    }
+    match /program_types/{document=**} {
+      allow read, write: if true;
+    }
+    match /languages/{document=**} {
+      allow read, write: if true;
+    }
+    match /leads/{document=**} {
       allow read, write: if true;
     }
   }

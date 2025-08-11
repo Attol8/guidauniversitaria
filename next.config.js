@@ -9,19 +9,12 @@ module.exports = (phase, { defaultConfig }) => {
     require('dotenv').config({ path: '.env.production' });
   }
 
-  // Define custom Next.js configuration
   const nextConfig = {
+    ...defaultConfig,          // <-- spread FIRST
     images: {
-      domains: ["localhost", 'picsum.photos', 'via.placeholder.com'],
-      remotePatterns: [
-        {
-          protocol: "https",
-          hostname: "cdn.sanity.io",
-          port: "",
-        },
-      ],
+      domains: ["localhost", "picsum.photos", "via.placeholder.com"],
+      remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io", port: "" }],
     },
-    ...defaultConfig, // Spread the default configuration
   };
 
   return nextConfig; // Return the combined configuration

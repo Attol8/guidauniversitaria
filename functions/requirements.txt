@@ -1,2 +1,8 @@
 firebase_functions
+firebase_admin
+google-cloud-firestore
+google-cloud-storage
+flask-cors
 fuzzywuzzy
+# optional (speed up fuzzywuzzy)
+python-Levenshtein

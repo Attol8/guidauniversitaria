@@ -88,7 +88,7 @@ const CourseCard = ({ course }) => {
         </p>
       </div>
       <Link href={`/courses/${course.id}`} className="learn-more btn btn-primary btn-outline mt-auto mb-4 mx-8">
-        Scopri di più
+        Richiedi info
       </Link>
     </div>
   );
