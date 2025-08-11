@@ -1,24 +1,13 @@
-import AboutSectionOne from "@/components/About/AboutSectionOne";
-import AboutSectionTwo from "@/components/About/AboutSectionTwo";
-import ScrollUp from "@/components/Common/ScrollUp";
-import Features from "@/components/Features";
-import Hero from "@/components/Hero";
+// src/app/page.tsx
 import { Metadata } from "next";
+import StudentLanding from "@/components/Home/StudentLanding";
 
 export const metadata: Metadata = {
-  title: "Guida ai corsi universitari",
-  description: "Guida ai corsi universitari",
-  // other metadata
+  title: "Guida Universitaria — Trova il corso giusto",
+  description:
+    "Filtra per disciplina, città o ateneo. Dati ufficiali, UX veloce, pensata per studenti.",
 };
 
 export default function Home() {
-  return (
-    <>
-      <ScrollUp />
-      <Hero />
-      <Features />
-      <AboutSectionOne />
-      <AboutSectionTwo />
-    </>
-  );
+  return <StudentLanding />;
 }
