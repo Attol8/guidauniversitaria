@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -145,11 +145,30 @@ const MenuItem = ({ item, openIndex, handleSubmenu, index, pathname, isMobile, o
 
 // Main Header component
 const Header = ({ mobileMenuOpen, toggleMobileMenu }) => {
+  const headerRef = useRef<HTMLElement | null>(null);
   const sticky = useStickyNavbar();
   const pathname = usePathname();
   const [menu, setMenu] = useState(menuData);
   const [openIndex, setOpenIndex] = useState(-1);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Set --header-h CSS variable with ResizeObserver
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    const setHeaderHeight = () => {
+      const h = el.offsetHeight || 64;
+      document.documentElement.style.setProperty("--header-h", `${h}px`);
+    };
+    
+    setHeaderHeight();
+
+    const resizeObserver = new ResizeObserver(setHeaderHeight);
+    resizeObserver.observe(el);
+    
+    return () => resizeObserver.disconnect();
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -215,7 +234,10 @@ const Header = ({ mobileMenuOpen, toggleMobileMenu }) => {
   };
 
   return (
-    <header className={`w-full bg-white ${sticky ? "shadow-md" : ""} ${mobileMenuOpen ? "" : "fixed top-0 left-0 z-40"}`}>
+    <header 
+      ref={headerRef}
+      className="sticky top-0 z-50 w-full bg-white/80 dark:bg-dark/80 backdrop-blur border-b"
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
