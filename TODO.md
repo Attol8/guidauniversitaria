@@ -14,11 +14,11 @@ This list merges the original README todos with new conversion-focused recommend
 ## 🏃 Sprint 1 – Conversion Foundation
 
 1. **Course detail & lead capture**
-   - [ ] Create dynamic route `src/app/courses/[id]/page.tsx`.
-   - [ ] Fetch course document from Firestore and render hero, details.
-   - [ ] Build reusable `LeadForm` component with 2-step UX and validation.
-   - [ ] Persist leads to Firestore `leads` collection.
-   - [ ] Add sticky CTA ("Richiedi informazioni") visible at every scroll depth.
+   - [x] Create dynamic route `src/app/courses/[id]/page.tsx`.
+   - [x] Fetch course document from Firestore and render hero, details.
+   - [x] Build reusable `LeadForm` component with 2-step UX and validation.
+   - [x] Persist leads to Firestore `leads` collection.
+   - [x] Add sticky CTA ("Richiedi informazioni") visible at every scroll depth.
 
 2. **Favourites & Authentication**
    - [ ] Integrate Firebase Auth (email/password + Google, GitHub).
@@ -34,22 +34,16 @@ This list merges the original README todos with new conversion-focused recommend
 4. **Landing page CRO tweaks**
    - [ ] Embed `CourseSearch` directly under hero subtitle.
    - [ ] Add accreditation badge strip using existing brand logos.
-   - [ ] Change card CTA copy from "Scopri di più" to "Richiedi info".
+   - [x] Change card CTA copy from "Scopri di più" to "Richiedi info".
+
+5. **Header & Navigation Fixes**
+   - [x] Convert header from fixed to sticky positioning to prevent hero cutoff.
+   - [x] Add backdrop blur effect with semi-transparent background.
+   - [x] Implement dynamic header height tracking with ResizeObserver.
+   - [x] Add global scroll-padding for proper anchor scrolling.
 
 ---
-## 🧩 Sprint 2 – Personalisation & Retention
-
-5. **Filter persistence & smart banner**
-   - [ ] Persist last-used filters to `localStorage` and re-hydrate on load.
-   - [ ] After ≥3 filter interactions show banner: "Ricevi una shortlist personalizzata" ➜ opens `LeadForm`.
-
-6. **Analytics & experimentation**
-   - [ ] Install Firebase Analytics / GA4 via Next.js `<Script>`.
-   - [ ] Track events: `select_item`, `view_item`, `begin_checkout`, `sign_up`.
-   - [ ] Integrate A/B test framework (`next-experiment` or similar) for CTA colour/text.
-
----
-## 🎨 Sprint 3 – Polish & Trust
+## 🎨 Sprint 2 – Polish & Trust
 
 7. **UI/UX Enhancements**
    - [ ] Testimonials carousel near lead form on course detail page.
