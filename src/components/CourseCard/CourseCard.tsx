@@ -29,56 +29,88 @@ function buildLogoCandidates(uniId?: string, uniName?: string, numeric?: string)
   const slug = slugify(uniName);
   const id = (uniId || "").trim();
 
-  const v = new Set<string>();
-  // alias numerico (es. 31_logo.png)
+  const candidates = [];
+  
+  // PRIORITY 1: ONLY use numeric alias if available - these are the files that actually exist
   if (numeric) {
-    v.add(`${base}/${numeric}_logo.png`);
-    v.add(`${base}/${numeric}.png`);
-    v.add(`${base}/${numeric}_logo.jpg`);
-    v.add(`${base}/${numeric}.jpg`);
+    candidates.push(`${base}/${numeric}_logo.png`);  // THIS should be FIRST and PRIMARY
+    candidates.push(`${base}/${numeric}_logo.jpg`);
+    candidates.push(`${base}/${numeric}.png`);
+    candidates.push(`${base}/${numeric}.jpg`);
+  } else {
+    // PRIORITY 2: id come arriva dal corso (slug) - only if no numeric mapping
+    if (id) {
+      candidates.push(`${base}/${id}_logo.png`);
+      candidates.push(`${base}/${id}_logo.jpg`);
+      candidates.push(`${base}/${id}.png`);
+      candidates.push(`${base}/${id}.jpg`);
+    }
+    
+    // PRIORITY 3: ridondanza sullo slug del nome - only if no numeric mapping and different from id
+    if (slug && slug !== id) {
+      candidates.push(`${base}/${slug}_logo.png`);
+      candidates.push(`${base}/${slug}_logo.jpg`);
+      candidates.push(`${base}/${slug}.png`);
+      candidates.push(`${base}/${slug}.jpg`);
+    }
   }
-  // id come arriva dal corso (slug)
-  if (id) {
-    v.add(`${base}/${id}_logo.png`);
-    v.add(`${base}/${id}.png`);
-    v.add(`${base}/${id}_logo.jpg`);
-    v.add(`${base}/${id}.jpg`);
-  }
-  // ridondanza sullo slug del nome
-  if (slug && slug !== id) {
-    v.add(`${base}/${slug}_logo.png`);
-    v.add(`${base}/${slug}.png`);
-    v.add(`${base}/${slug}_logo.jpg`);
-    v.add(`${base}/${slug}.jpg`);
-  }
-  // fallback finale
-  v.add("/images/logo/online-learning.png");
-  return Array.from(v);
+  
+  // PRIORITY 4: fallback finale
+  candidates.push("/images/logo/logo.svg");
+  
+  console.log(`🛠️  buildLogoCandidates(${uniId}, ${uniName}, ${numeric}) = [${candidates.join(', ')}]`);
+  return candidates;
 }
 
 function useImageFallback(candidates: string[]) {
   const i = useRef(0);
   const [src, setSrc] = useState(candidates[0]);
+  
+  // Reset when candidates array changes
+  useEffect(() => {
+    console.log(`🔄 Candidates changed, resetting to first: ${candidates[0]}`);
+    i.current = 0;
+    setSrc(candidates[0]);
+  }, [candidates[0]]);
+  
   const onError = () => {
+    console.log(`❌ Image failed to load: ${src} (attempt ${i.current + 1}/${candidates.length})`);
     i.current += 1;
-    if (i.current < candidates.length) setSrc(candidates[i.current]);
+    if (i.current < candidates.length) {
+      console.log(`🔄 Trying next candidate: ${candidates[i.current]}`);
+      setSrc(candidates[i.current]);
+    } else {
+      console.log("🚫 All image candidates exhausted");
+    }
   };
   return { src, onError };
 }
 
 function UniLogo({ uniId, uniName, size = 56 }: { uniId?: string; uniName?: string; size?: number }) {
-  const [aliases, setAliases] = useState<Record<string, string>>({});
+  // HARDCODED ALIASES FOR TESTING - these should work
+  const aliases = {
+    "libera_universita_di_bolzano": "C3",
+    "universita_degli_studi_suor_orsola_benincasa__napoli": "59", 
+    "link_campus_university": "A6",
+    "universita_telematica_ecampus": "D9",
+    "universita_degli_studi_di_perugia": "23"
+  };
+  const aliasesLoaded = true;
   const slug = useMemo(() => slugify(uniName), [uniName]);
 
-  useEffect(() => {
-    fetch("/images/uni_images/uni_logos/aliases.json")
-      .then(r => (r.ok ? r.json() : {}))
-      .then((j) => setAliases(j || {}))
-      .catch(() => {});
-  }, []);
-
-  const numeric = aliases[uniId || ""] || (slug ? aliases[slug] : undefined);
-  const guesses = useMemo(() => buildLogoCandidates(uniId, uniName, numeric), [uniId, uniName, numeric]);
+  const numeric = aliases[uniId || ""] || aliases[slug] || undefined;
+  const guesses = useMemo(() => {
+    console.log(`🏫 HARDCODED TEST - UniLogo for "${uniName}" (id="${uniId}", slug="${slug}"):`, {
+      aliasesLoaded,
+      lookupKey: uniId,
+      numeric,
+      directTest: aliases["universita_degli_studi_di_perugia"]
+    });
+    
+    const candidates = buildLogoCandidates(uniId, uniName, numeric);
+    return candidates;
+  }, [uniId, uniName, numeric, slug]);
+  
   const { src, onError } = useImageFallback(guesses);
 
   return (
