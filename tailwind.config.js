@@ -40,7 +40,7 @@ module.exports = {
         white: "#FFFFFF",
         black: "#121723",
         dark: "#1D2430",
-        primary: "#3e763d",
+        primary: "#2563eb",
         yellow: "#FBB040",
         "bg-color-dark": "#171C28",
         "body-color": {
@@ -83,24 +83,15 @@ module.exports = {
     themes: [
       {
         mytheme: {
-          
-        "primary": "#3e763d",
-                  
-        "secondary": "#2d572c",
-                  
-        "accent": "#00ffff",
-                  
-        "neutral": "#572c57",
-                  
-        "base-100": "#ffffff",
-                  
-        "info": "#572c57",
-                  
-        "success": "#00ff00",
-                  
-        "warning": "#ff0000",
-                  
-        "error": "#ff0000",
+          "primary": "#2563eb",
+          "secondary": "#4f46e5",
+          "accent": "#22d3ee",
+          "neutral": "#0f172a",
+          "base-100": "#ffffff",
+          "info": "#2563eb",
+          "success": "#16a34a",
+          "warning": "#f59e0b",
+          "error": "#dc2626",
           },
         },
       ],

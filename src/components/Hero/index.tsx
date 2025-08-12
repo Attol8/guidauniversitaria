@@ -19,7 +19,7 @@ const Hero = () => {
     >
       <div className="container mx-auto px-4 h-full flex flex-col md:flex-row items-center justify-between">
         <div className="w-full md:w-3/5 text-center md:text-left">
-          <h1 className="text-5xl font-extrabold leading-tight text-[#1a3d1f] dark:text-white mb-5">
+          <h1 className="text-5xl font-extrabold leading-tight text-slate-900 dark:text-white mb-5">
             Trova il corso universitario <br />
             perfetto per te.
           </h1>

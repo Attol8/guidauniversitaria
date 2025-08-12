@@ -6,7 +6,7 @@ import Select, { SingleValue } from "react-select";
 import { getTopDisciplines } from "@/components/getTopDisciplines";
 import { getTopLocations } from "@/components/getTopLocations";
 import { getTopUniversities } from "@/components/getTopUniversities";
-import { encodeFilters, hasActiveFilters, type SortKey, type FiltersState } from "./filterUtils";
+import { hasActiveFilters, type SortKey, type FiltersState } from "./filterUtils";
 
 export type { SortKey, FiltersState };
 
@@ -19,7 +19,7 @@ export default function SearchFiltersBar({
   initial: FiltersState;
   onChange: (next: FiltersState) => void;
 }) {
-  const [q, setQ] = useState(initial.q || "");
+  // removed free-text search
   const [discipline, setDiscipline] = useState<Opt | null>(null);
   const [location, setLocation] = useState<Opt | null>(null);
   const [university, setUniversity] = useState<Opt | null>(null);
@@ -72,15 +72,13 @@ export default function SearchFiltersBar({
       mounted.current = true;
       return;
     }
-    setQ(initial.q || "");
     setSort(initial.sort || "name_asc");
     // discipline/location/university are hydrated by options effect; leave as-is here
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initial.q, initial.sort]);
+  }, [initial.sort]);
 
   const emit = useCallback((immediate = false) => {
     const next = {
-      q: q.trim(),
       discipline: discipline?.value || "",
       location: location?.value || "",
       university: university?.value || "",
@@ -93,13 +91,12 @@ export default function SearchFiltersBar({
     }
     if (debTimer.current) clearTimeout(debTimer.current);
     debTimer.current = setTimeout(() => onChange(next), 250);
-  }, [q, discipline, location, university, sort, onChange]);
+  }, [discipline, location, university, sort, onChange]);
 
   // Wire value changes
-  useEffect(() => { emit(false); }, [q, discipline, location, university, sort, emit]);
+  useEffect(() => { emit(false); }, [discipline, location, university, sort, emit]);
 
   const clearAll = () => {
-    setQ("");
     setDiscipline(null);
     setLocation(null);
     setUniversity(null);
@@ -109,12 +106,11 @@ export default function SearchFiltersBar({
 
   const active = useMemo(
     () => ({
-      q: q.trim(),
       discipline: discipline?.label || "",
       location: location?.label || "",
       university: university?.label || "",
     }),
-    [q, discipline, location, university],
+    [discipline, location, university],
   );
 
   const sortOptions: { value: SortKey; label: string }[] = [
@@ -126,20 +122,9 @@ export default function SearchFiltersBar({
 
   return (
     <div className="rounded-xl bg-white/95 dark:bg-dark/95 shadow-md p-3">
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-12">
-        {/* Search */}
-        <div className="md:col-span-4">
-          <label className="block text-xs font-medium mb-1 text-gray-600 dark:text-white">Ricerca</label>
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Cerca per nome corso…"
-            className="w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-black px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
-          />
-        </div>
-
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-10">
         {/* Discipline */}
-        <div className="md:col-span-2">
+        <div className="md:col-span-3">
           <label className="block text-xs font-medium mb-1 text-gray-600 dark:text-white">Disciplina</label>
           <Select
             isLoading={loading}
@@ -153,7 +138,7 @@ export default function SearchFiltersBar({
         </div>
 
         {/* Location */}
-        <div className="md:col-span-2">
+        <div className="md:col-span-3">
           <label className="block text-xs font-medium mb-1 text-gray-600 dark:text-white">Città</label>
           <Select
             isLoading={loading}
@@ -167,7 +152,7 @@ export default function SearchFiltersBar({
         </div>
 
         {/* University */}
-        <div className="md:col-span-2">
+        <div className="md:col-span-3">
           <label className="block text-xs font-medium mb-1 text-gray-600 dark:text-white">Ateneo</label>
           <Select
             isLoading={loading}
@@ -181,7 +166,7 @@ export default function SearchFiltersBar({
         </div>
 
         {/* Sort + Clear */}
-        <div className="md:col-span-2 flex gap-2 items-end">
+        <div className="md:col-span-1 flex gap-2 items-end">
           <div className="flex-1">
             <label className="block text-xs font-medium mb-1 text-gray-600 dark:text-white">Ordina</label>
             <select
@@ -204,9 +189,8 @@ export default function SearchFiltersBar({
       </div>
 
       {/* Active chips */}
-      {hasActiveFilters({ q: active.q, discipline: !!active.discipline, location: !!active.location, university: !!active.university }) && (
+      {hasActiveFilters({ discipline: !!active.discipline, location: !!active.location, university: !!active.university }) && (
         <div className="mt-3 flex flex-wrap gap-2 text-sm">
-          {active.q && <Chip label={`Testo: "${active.q}"`} onClear={() => setQ("")} />}
           {active.discipline && <Chip label={`Disciplina: ${active.discipline}`} onClear={() => setDiscipline(null)} />}
           {active.location && <Chip label={`Città: ${active.location}`} onClear={() => setLocation(null)} />}
           {active.university && <Chip label={`Ateneo: ${active.university}`} onClear={() => setUniversity(null)} />}

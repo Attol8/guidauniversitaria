@@ -28,12 +28,10 @@ const OBSERVER_ROOT_MARGIN = "1200px"; // prefetch distance
 
 export default function ResultsGrid({
   filters,
-  query,
   sort = "name_asc",
   pageSize = PAGE_SIZE_DEFAULT,
 }: {
   filters: FilterProps;
-  query?: string;
   sort?: SortKey;
   pageSize?: number;
 }) {
@@ -48,7 +46,7 @@ export default function ResultsGrid({
   const autoLoadsRef = useRef(0);
   const pageIndexRef = useRef(0);
 
-  const isSearchMode = !!(query && query.trim().length >= 2);
+  const isSearchMode = false;
 
   const buildOrder = useCallback(() => {
     if (sort === "name_desc") return { field: "nomeCorso", dir: "desc" as const };
@@ -80,33 +78,7 @@ export default function ResultsGrid({
 
     (async () => {
       try {
-        if (isSearchMode) {
-          const url = `/api/search?term=${encodeURIComponent(query!.trim())}`;
-          const res = await fetch(url, { cache: "no-store" });
-          const all: Course[] = await res.json();
-
-          const filtered = all.filter((c) => {
-            if (filters.discipline && c?.discipline?.id !== filters.discipline) return false;
-            if (filters.location && c?.location?.id !== filters.location) return false;
-            if (filters.university && c?.university?.id !== filters.university) return false;
-            return true;
-          });
-
-          const sorted = (() => {
-            if (sort === "name_desc") return [...filtered].sort((a, b) => (b?.nomeCorso || "").localeCompare(a?.nomeCorso || ""));
-            if (sort === "uni_asc") return [...filtered].sort((a, b) => (a?.university?.name || "").localeCompare(b?.university?.name || ""));
-            if (sort === "city_asc") return [...filtered].sort((a, b) => (a?.location?.name || "").localeCompare(b?.location?.name || ""));
-            return [...filtered].sort((a, b) => (a?.nomeCorso || "").localeCompare(b?.nomeCorso || ""));
-          })();
-
-          if (!alive) return;
-          setItems(sorted.slice(0, pageSize));
-          setTotal(sorted.length);
-          setDone(true); // search uses fixed window
-          setLoading(false);
-          emitViewList(sorted.slice(0, pageSize), 0);
-          return;
-        }
+        
 
         const constraints: QueryConstraint[] = [];
         if (filters.discipline) constraints.push(where("discipline.id", "==", filters.discipline));
@@ -158,7 +130,7 @@ export default function ResultsGrid({
     })();
 
     return () => { alive = false; };
-  }, [filters.discipline, filters.location, filters.university, query, sort, pageSize, buildOrder, isSearchMode, resetState]);
+  }, [filters.discipline, filters.location, filters.university, sort, pageSize, buildOrder, isSearchMode, resetState]);
 
   const loadMore = useCallback(async () => {
     if (loadingMore || done || isSearchMode) return;
@@ -222,15 +194,10 @@ export default function ResultsGrid({
   const summary = useMemo(() => {
     if (loading && items.length === 0) return "Caricamento risultati…";
     const parts: string[] = [];
-    if (isSearchMode) {
-      parts.push(`Risultati per "${query?.trim()}"`);
-      if (total !== null) parts.push(`• ${total} trovati`);
-    } else {
-      if (total !== null) parts.push(`${total} corsi`);
-      if (activeFiltersCount > 0) parts.push(`• ${activeFiltersCount} filtri attivi`);
-    }
+    if (total !== null) parts.push(`${total} corsi`);
+    if (activeFiltersCount > 0) parts.push(`• ${activeFiltersCount} filtri attivi`);
     return parts.join(" ");
-  }, [loading, items.length, isSearchMode, query, total, activeFiltersCount]);
+  }, [loading, items.length, total, activeFiltersCount]);
 
   return (
     <div className="w-full">
