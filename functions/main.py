@@ -113,6 +113,103 @@ def search_courses(request: https_fn.Request) -> https_fn.Response:
     )
 
 
+@https_fn.on_request()
+@cross_origin(
+    origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    methods=["GET", "OPTIONS"],
+)
+def search_universities(request: https_fn.Request) -> https_fn.Response:
+    term = (request.args.get("term", "") or "").lower()
+    if not term:
+        return https_fn.Response(json.dumps([]), status=200, content_type="application/json")
+
+    try:
+        # Prefer ordering by coursesCounter if index exists; fallback to full scan
+        try:
+            docs = list(
+                db.collection("universities")
+                .order_by("coursesCounter", direction=firestore.Query.DESCENDING)
+                .limit(500)
+                .stream()
+            )
+        except Exception:
+            docs = list(db.collection("universities").stream())
+
+        items = []
+        names = []
+        for d in docs:
+            data = d.to_dict() or {}
+            name = (data.get("name") or "").strip()
+            if not name:
+                continue
+            items.append({"docId": d.id, "name": name, "coursesCounter": data.get("coursesCounter", 0)})
+            names.append(name)
+
+        matches = process.extract(term, names, limit=20)
+        seen = set()
+        results = []
+        for nm, score in matches:
+            if score < 50:
+                continue
+            # find first item with this name
+            for it in items:
+                if it["name"] == nm and it["docId"] not in seen:
+                    results.append(it)
+                    seen.add(it["docId"])
+                    break
+
+        return https_fn.Response(json.dumps(results), status=200, content_type="application/json")
+    except Exception as e:
+        return https_fn.Response(json.dumps([]), status=200, content_type="application/json")
+
+
+@https_fn.on_request()
+@cross_origin(
+    origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    methods=["GET", "OPTIONS"],
+)
+def search_locations(request: https_fn.Request) -> https_fn.Response:
+    term = (request.args.get("term", "") or "").lower()
+    if not term:
+        return https_fn.Response(json.dumps([]), status=200, content_type="application/json")
+
+    try:
+        try:
+            docs = list(
+                db.collection("locations")
+                .order_by("coursesCounter", direction=firestore.Query.DESCENDING)
+                .limit(500)
+                .stream()
+            )
+        except Exception:
+            docs = list(db.collection("locations").stream())
+
+        items = []
+        names = []
+        for d in docs:
+            data = d.to_dict() or {}
+            name = (data.get("name") or "").strip()
+            if not name:
+                continue
+            items.append({"docId": d.id, "name": name, "coursesCounter": data.get("coursesCounter", 0)})
+            names.append(name)
+
+        matches = process.extract(term, names, limit=20)
+        seen = set()
+        results = []
+        for nm, score in matches:
+            if score < 50:
+                continue
+            for it in items:
+                if it["name"] == nm and it["docId"] not in seen:
+                    results.append(it)
+                    seen.add(it["docId"])
+                    break
+
+        return https_fn.Response(json.dumps(results), status=200, content_type="application/json")
+    except Exception:
+        return https_fn.Response(json.dumps([]), status=200, content_type="application/json")
+
 @on_document_created(document="courses/{courseId}")
 def increment_course_counters_on_create(event: Event[DocumentSnapshot]) -> None:
     course = event.data.to_dict()
