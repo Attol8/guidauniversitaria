@@ -4,6 +4,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useAuth } from "@/app/providers";
+import { db } from "@/../firebaseConfig";
+import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import AuthModal from "@/components/Auth/AuthModal";
 
 type Course = {
   id: string | number;
@@ -130,14 +135,59 @@ function UniLogo({ uniId, uniName, size = 56 }: { uniId?: string; uniName?: stri
 }
 
 export default function CourseCard({ course }: Props) {
+  const { user } = useAuth();
   const title = course.nomeCorso || "Corso";
   const uni = course.university?.name || "Ateneo";
   const city = course.location?.name || "Città";
   const disc = course.discipline?.name || "Disciplina";
+  const [isFav, setIsFav] = useState<boolean>(false);
+  const [checkingFav, setCheckingFav] = useState<boolean>(!!user);
+  const [showAuth, setShowAuth] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      if (!user) {
+        setIsFav(false);
+        setCheckingFav(false);
+        return;
+      }
+      setCheckingFav(true);
+      try {
+        const favRef = doc(db, "users", user.uid, "favourites", String(course.id));
+        const snap = await getDoc(favRef);
+        if (alive) setIsFav(snap.exists());
+      } finally {
+        if (alive) setCheckingFav(false);
+      }
+    })();
+    return () => { alive = false; };
+  }, [user, course.id]);
+
+  const toggleFavourite = async () => {
+    if (!user) { setShowAuth(true); return; }
+    const favRef = doc(db, "users", user.uid, "favourites", String(course.id));
+    const next = !isFav;
+    setIsFav(next);
+    try {
+      if (next) {
+        await setDoc(favRef, {
+          courseId: String(course.id),
+          nomeCorso: course.nomeCorso ?? null,
+          createdAt: new Date().toISOString(),
+        }, { merge: true });
+      } else {
+        await deleteDoc(favRef);
+      }
+    } catch {
+      setIsFav(!next);
+    }
+  };
 
   return (
     <article className="group rounded-lg border border-gray-200 bg-white shadow transition hover:shadow-md dark:border-gray-800 dark:bg-dark">
       <div className="p-4">
+        <AuthModal open={showAuth} onClose={() => setShowAuth(false)} prompt="Per salvare un corso devi accedere o registrarti." />
         {/* Logo + Title */}
         <div className="flex items-center gap-3">
           <UniLogo uniId={course.university?.id} uniName={course.university?.name} />
@@ -171,6 +221,15 @@ export default function CourseCard({ course }: Props) {
           <Link href={`/courses/${course.id}`} className="btn btn-ghost btn-sm">
             Dettagli
           </Link>
+          <button
+            aria-label={isFav ? "Rimuovi dai preferiti" : "Salva tra i preferiti"}
+            className={`btn btn-ghost btn-sm ${isFav ? "text-red-600" : ""}`}
+            onClick={toggleFavourite}
+            disabled={checkingFav}
+            title={isFav ? "Rimuovi dai preferiti" : "Salva tra i preferiti"}
+          >
+            {isFav ? <FaHeart /> : <FaRegHeart />}
+          </button>
         </div>
       </div>
     </article>

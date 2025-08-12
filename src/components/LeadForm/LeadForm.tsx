@@ -6,6 +6,8 @@ import { db } from "../../../firebaseConfig";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { validateStep1, validateStep2 } from "./validation";
 import { FaArrowLeft, FaPaperPlane, FaUser } from "react-icons/fa";
+import { useAuth } from "@/app/providers";
+import AuthModal from "@/components/Auth/AuthModal";
 
 type LeadFormProps = {
   courseId: string;
@@ -16,10 +18,12 @@ type LeadFormProps = {
 type Step = 1 | 2;
 
 export default function LeadForm({ courseId, courseName, onSubmitted }: LeadFormProps) {
+  const { user } = useAuth();
   const [step, setStep] = useState<Step>(1);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showAuth, setShowAuth] = useState(false);
 
   const [form, setForm] = useState({
     fullName: "",
@@ -41,6 +45,10 @@ export default function LeadForm({ courseId, courseName, onSubmitted }: LeadForm
   );
 
   const next = () => {
+    if (!user) {
+      setShowAuth(true);
+      return;
+    }
     if (Object.keys(step1Errors).length === 0) setStep(2);
   };
 
@@ -48,6 +56,7 @@ export default function LeadForm({ courseId, courseName, onSubmitted }: LeadForm
 
   const submit = useCallback(async () => {
     setError(null);
+    if (!user) { setShowAuth(true); return; }
     if (Object.keys(step2Errors).length > 0) return;
     setSubmitting(true);
     try {
@@ -87,6 +96,7 @@ export default function LeadForm({ courseId, courseName, onSubmitted }: LeadForm
 
   return (
     <div className="space-y-4">
+      <AuthModal open={showAuth} onClose={() => setShowAuth(false)} prompt="Per inviare la richiesta devi accedere o registrarti." />
       {/* Stepper */}
       <div className="flex items-center gap-2 text-xs">
         <span className={`px-2 py-1 rounded ${step === 1 ? "bg-primary text-white" : "bg-gray-200 dark:bg-gray-700"}`}>

@@ -5,6 +5,7 @@ import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "rea
 import { useRouter, useSearchParams } from "next/navigation";
 import ResultsGrid from "@/components/CourseGrid/CourseGrid";
 import SearchFiltersBar from "@/components/Courses/SearchFiltersBar";
+export const dynamic = "force-dynamic";
 import { hasActiveFilters, type FiltersState, type SortKey } from "@/components/Courses/filterUtils";
 
 function PageInner() {
