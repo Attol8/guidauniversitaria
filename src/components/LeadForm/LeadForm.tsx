@@ -204,7 +204,7 @@ export default function LeadForm({ courseId, courseName, onSubmitted }: LeadForm
           </div>
 
           <p className="text-[11px] text-gray-500">
-            Inviando dichiari di aver letto l'informativa privacy. Potremmo contattarti via email o telefono per questa
+            Inviando dichiari di aver letto l&apos;informativa privacy. Potremmo contattarti via email o telefono per questa
             richiesta.
           </p>
         </div>

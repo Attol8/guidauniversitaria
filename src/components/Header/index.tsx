@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import menuData from "./menuData";
 import { getTopDisciplines } from "../getTopDisciplines";
@@ -241,16 +241,23 @@ const Header = ({ mobileMenuOpen, toggleMobileMenu }) => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center">
-              <Image
-                src="/images/logo/online-learning.png"
-                alt="Logo"
-                width={40}
-                height={40}
-                className="mr-2"
-              />
+            <Link href="/" className="flex items-center gap-2">
+              <svg
+                aria-hidden
+                className="h-8 w-8 text-blue-600"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M22 10L12 2 2 10" />
+                <path d="M6 11v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-7" />
+                <path d="M10 12h4" />
+              </svg>
               <span className="font-extrabold text-xl">
-                <span className="text-[#3e763d]">guida</span> <span className="text-[#1a3d1f]">universitaria</span>
+                <span className="text-blue-700">guida</span> <span className="text-slate-900">universitaria</span>
               </span>
             </Link>
           </div>

@@ -167,7 +167,7 @@ export default function CourseDetailPage() {
                 <FaInfoCircle className="mr-2" />
                 <span>
                   I contenuti sono generici e derivati dai metadati ufficiali. Per requisiti, scadenze e
-                  piano dettagliato, fare riferimento al sito dell'ateneo.
+                  piano dettagliato, fare riferimento al sito dell&apos;ateneo.
                 </span>
               </div>
             </div>
