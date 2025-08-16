@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "guidauniversitaria",
+    "dev": "guidauniversitaria",
+    "prod": "guidauniversitaria-prod"
+  }
+}

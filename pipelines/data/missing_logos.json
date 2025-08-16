@@ -1,0 +1,18 @@
+{
+  "generated_at": "1755358021.4492269",
+  "total_missing": 1,
+  "high_priority": 0,
+  "medium_priority": 0,
+  "low_priority": 1,
+  "missing_logos": [
+    {
+      "id": "universita_degli_studi_di_trieste",
+      "name": "Università degli Studi di Trieste",
+      "courses_count": 4,
+      "expected_filename": "universita_degli_studi_di_trieste_logo.png",
+      "guessed_domain": "unitrieste.it",
+      "course_examples": "Discipline Storiche e Filosofiche | Scienze e Tecnologie Biologiche | Fisica",
+      "priority": "low"
+    }
+  ]
+}

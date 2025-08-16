@@ -1,0 +1,8 @@
+id,name,courses_count,has_logo,course_examples
+universita_degli_studi_di_torino,Università degli Studi di Torino,15,True,Scienze e Tecniche Psicologiche | Economia e Statistica per Le Organizzazioni | Psicologia del Lavoro e Dell'organizzazione
+universita_degli_studi_di_trieste,Università degli Studi di Trieste,4,False,Discipline Storiche e Filosofiche | Scienze e Tecnologie Biologiche | Fisica
+politecnico_di_milano,Politecnico di Milano,1,True,Ingegneria Informatica
+sapienza_universita_di_roma,Sapienza Università di Roma,1,False,Lettere
+universita_commerciale_luigi_bocconi,Università Commerciale Luigi Bocconi,1,False,Finance
+universita_degli_studi_di_udine,Università degli Studi di Udine,1,True,"Viticoltura, Enologia e Mercati Vitivinicoli"
+universita_di_bologna,Università di Bologna,1,False,Economia e Management

@@ -1,0 +1,2018 @@
+{
+  "courses": [
+    {
+      "id": 2000001,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 100,
+      "codeUn": "01",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Finance",
+      "nomeCorsoEn": "Finance",
+      "url": "https://www.unibocconi.it/wps/wcm/connect/bocconi/sitopubblico_it/albero+di+navigazione/home/corsi+di+studio/lauree+magistrali/finance",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 2,
+        "descrizione": "Test d'ingresso",
+        "descrizioneEn": "EN Test d'ingresso"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Inglese",
+      "dataInserimento": "2025-08-16T16:00:00+00:00",
+      "nomeStruttura": "Università Commerciale Luigi Bocconi",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "13",
+      "classe": {
+        "id": 3357,
+        "tipoClasse": "M",
+        "descrizione": "Scienze dell'economia",
+        "codice": "LM-56",
+        "oldClasse": 3057,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 4,
+        "area": 3,
+        "areaCun": 13
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_delleconomia",
+        "name": "Scienze dell'economia"
+      },
+      "university": {
+        "id": "universita_commerciale_luigi_bocconi",
+        "name": "Università Commerciale Luigi Bocconi"
+      },
+      "location": {
+        "id": "milano",
+        "name": "Milano"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "test_dingresso",
+        "name": "Test d'ingresso"
+      },
+      "language": {
+        "id": "inglese",
+        "name": "Inglese"
+      }
+    },
+    {
+      "id": 2000002,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 101,
+      "codeUn": "08",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Ingegneria Informatica",
+      "nomeCorsoEn": "Computer Engineering",
+      "url": "https://www.polimi.it/corsi/corsi-di-laurea/ingegneria-informatica",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 2,
+        "descrizione": "Test d'ingresso",
+        "descrizioneEn": "EN Test d'ingresso"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-16T16:00:00+00:00",
+      "nomeStruttura": "Politecnico di Milano",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "01",
+      "classe": {
+        "id": 3208,
+        "tipoClasse": "T",
+        "descrizione": "Ingegneria dell'informazione",
+        "codice": "L-8",
+        "oldClasse": 2008,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 5,
+        "area": 2,
+        "areaCun": 1
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "ingegneria_dellinformazione",
+        "name": "Ingegneria dell'informazione"
+      },
+      "university": {
+        "id": "politecnico_di_milano",
+        "name": "Politecnico di Milano"
+      },
+      "location": {
+        "id": "milano",
+        "name": "Milano"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "test_dingresso",
+        "name": "Test d'ingresso"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 2000003,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 102,
+      "codeUn": "19",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Lettere",
+      "nomeCorsoEn": "Classical Studies",
+      "url": "https://www.uniroma1.it/it/pagina/lettere-l-10",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-16T16:00:00+00:00",
+      "nomeStruttura": "Sapienza Università di Roma",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "10",
+      "classe": {
+        "id": 3210,
+        "tipoClasse": "T",
+        "descrizione": "Lettere",
+        "codice": "L-10",
+        "oldClasse": 2010,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 3,
+        "area": 4,
+        "areaCun": 10
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "lettere",
+        "name": "Lettere"
+      },
+      "university": {
+        "id": "sapienza_universita_di_roma",
+        "name": "Sapienza Università di Roma"
+      },
+      "location": {
+        "id": "roma",
+        "name": "Roma"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 2000004,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 103,
+      "codeUn": "37",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Economia e Management",
+      "nomeCorsoEn": "Economics and Management",
+      "url": "https://corsi.unibo.it/magistrale/EconomiaManagement",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-16T16:00:00+00:00",
+      "nomeStruttura": "Università di Bologna",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "13",
+      "classe": {
+        "id": 3357,
+        "tipoClasse": "M",
+        "descrizione": "Scienze dell'economia",
+        "codice": "LM-56",
+        "oldClasse": 3057,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 4,
+        "area": 3,
+        "areaCun": 13
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_delleconomia",
+        "name": "Scienze dell'economia"
+      },
+      "university": {
+        "id": "universita_di_bologna",
+        "name": "Università di Bologna"
+      },
+      "location": {
+        "id": "bologna",
+        "name": "Bologna"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1601956,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 29,
+      "codeUn": "34",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Viticoltura, Enologia e Mercati Vitivinicoli",
+      "nomeCorsoEn": "Viticulture, enology and wine marketing",
+      "url": "https://www.uniud.it/it/didattica/corsi/area-scientifica/agraria/laurea-magistrale/viticoltura-enologie-e-mercati-vitivinicoli/corso/viticoltura-enologia-e-mercati-vitivinicoli",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": 1,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Udine",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "07",
+      "classe": {
+        "id": 3070,
+        "tipoClasse": "M",
+        "descrizione": "Scienze e tecnologie agrarie",
+        "codice": "LM-69",
+        "oldClasse": 1077,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 6,
+        "area": 2,
+        "areaCun": 7
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_e_tecnologie_agrarie",
+        "name": "Scienze e tecnologie agrarie"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_udine",
+        "name": "Università degli Studi di Udine"
+      },
+      "location": {
+        "id": "udine",
+        "name": "Udine"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609043,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Scienze e Tecniche Psicologiche",
+      "nomeCorsoEn": "Psychological Sciences and Techniques",
+      "url": "http://www.triennalepsicologia.unito.it/do/home.pl",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 2,
+        "descrizione": "Test d'ingresso",
+        "descrizioneEn": "EN Test d'ingresso"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "11",
+      "classe": {
+        "id": 3224,
+        "tipoClasse": "T",
+        "descrizione": "Scienze e tecniche psicologiche",
+        "codice": "L-24 R",
+        "oldClasse": 2024,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 4,
+        "area": 3,
+        "areaCun": 11
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_e_tecniche_psicologiche",
+        "name": "Scienze e tecniche psicologiche"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "test_dingresso",
+        "name": "Test d'ingresso"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609040,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Economia e Statistica per Le Organizzazioni",
+      "nomeCorsoEn": "Economics and Statistics for Organizations",
+      "url": "http://www.didattica-est.unito.it/do/home.pl/View?doc=/corsi_di_laurea_triennale/economia_statistica_l33.html",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "13",
+      "classe": {
+        "id": 3233,
+        "tipoClasse": "T",
+        "descrizione": "Scienze economiche",
+        "codice": "L-33 R",
+        "oldClasse": 2033,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 4,
+        "area": 3,
+        "areaCun": 13
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_economiche",
+        "name": "Scienze economiche"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609045,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Psicologia del Lavoro e Dell'organizzazione",
+      "nomeCorsoEn": "Work and organizational psychology",
+      "url": "https://www.psicologialavoro.unito.it/",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "11",
+      "classe": {
+        "id": 3352,
+        "tipoClasse": "M",
+        "descrizione": "Psicologia",
+        "codice": "LM-51 R",
+        "oldClasse": 3052,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 4,
+        "area": 3,
+        "areaCun": 11
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "psicologia",
+        "name": "Psicologia"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609044,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Psicologia Clinica",
+      "nomeCorsoEn": "Clinical Psychology",
+      "url": "https://www.clinicacomunita.unito.it/do/home.pl",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 2,
+        "descrizione": "Test d'ingresso",
+        "descrizioneEn": "EN Test d'ingresso"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "11",
+      "classe": {
+        "id": 3352,
+        "tipoClasse": "M",
+        "descrizione": "Psicologia",
+        "codice": "LM-51 R",
+        "oldClasse": 3052,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 4,
+        "area": 3,
+        "areaCun": 11
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "psicologia",
+        "name": "Psicologia"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "test_dingresso",
+        "name": "Test d'ingresso"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609046,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Psicologia Criminologica e Forense",
+      "nomeCorsoEn": "Criminological and forensic psychology",
+      "url": "https://www.psicologiaforense.unito.it/",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 2,
+        "descrizione": "Test d'ingresso",
+        "descrizioneEn": "EN Test d'ingresso"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "11",
+      "classe": {
+        "id": 3352,
+        "tipoClasse": "M",
+        "descrizione": "Psicologia",
+        "codice": "LM-51 R",
+        "oldClasse": 3052,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 4,
+        "area": 3,
+        "areaCun": 11
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "psicologia",
+        "name": "Psicologia"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "test_dingresso",
+        "name": "Test d'ingresso"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609041,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Economia Dell'ambiente, della Cultura e del Territorio",
+      "nomeCorsoEn": "ECONOMICS OF THE ENVIRONMENT, CULTURE AND TERRITORY",
+      "url": "https://www.eact.unito.it/do/home.pl/View?doc=/il_corso/perche_studiare_con_noi.html",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": 1,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "13",
+      "classe": {
+        "id": 3357,
+        "tipoClasse": "M",
+        "descrizione": "Scienze dell'economia",
+        "codice": "LM-56 R",
+        "oldClasse": 3057,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 4,
+        "area": 3,
+        "areaCun": 13
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_delleconomia",
+        "name": "Scienze dell'economia"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609048,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Comunicazione Pubblica e Politica",
+      "nomeCorsoEn": "Public and political communication",
+      "url": "http://www.didattica-cps.unito.it/do/home.pl/View?doc=corsi_di_studio/CPP_comunicazione_pubblica/presentazione.html",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "14",
+      "classe": {
+        "id": 3360,
+        "tipoClasse": "M",
+        "descrizione": "Scienze della comunicazione pubblica, d'impresa e pubblicità",
+        "codice": "LM-59 R",
+        "oldClasse": 3060,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 2,
+        "area": 3,
+        "areaCun": 14
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_della_comunicazione_pubblica_dimpresa_e_pubblicita",
+        "name": "Scienze della comunicazione pubblica, d'impresa e pubblicità"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609049,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Scienze Amministrative e Giuridiche Delle Organizzazioni Pubbliche e Private",
+      "nomeCorsoEn": "Administrative and Juridical Science of public and private organizations",
+      "url": "https://www.giurisprudenza.unito.it/do/home.pl/View?doc=/Corsi_di_laurea/presentazione/sagopp.html",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "13",
+      "classe": {
+        "id": 3364,
+        "tipoClasse": "M",
+        "descrizione": "Scienze delle pubbliche amministrazioni",
+        "codice": "LM-63 R",
+        "oldClasse": 3064,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 4,
+        "area": 3,
+        "areaCun": 13
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 2,
+        "codice": "B",
+        "descrizione": "Corso di studio in modalità mista",
+        "descrizioneEn": "Mixed mode study course"
+      },
+      "discipline": {
+        "id": "scienze_delle_pubbliche_amministrazioni",
+        "name": "Scienze delle pubbliche amministrazioni"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609042,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Metodi Statistici Ed Economici per Le Decisioni",
+      "nomeCorsoEn": "Statistical and Economic Methods for Decisions",
+      "url": "https://seed.campusnet.unito.it/do/home.pl/View?doc=/il_corso/perche_studiare_con_noi.html",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "13",
+      "classe": {
+        "id": 3383,
+        "tipoClasse": "M",
+        "descrizione": "Scienze statistiche",
+        "codice": "LM-82 R",
+        "oldClasse": 3083,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 3,
+        "area": 3,
+        "areaCun": 13
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_statistiche",
+        "name": "Scienze statistiche"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609061,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 42,
+      "codeUn": "33",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Discipline Storiche e Filosofiche",
+      "nomeCorsoEn": "Historical and philosophical disciplines",
+      "url": "https://lauree.units.it/1-storia-filosofia",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Trieste",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "11",
+      "classe": {
+        "id": 3205,
+        "tipoClasse": "T",
+        "descrizione": "Filosofia",
+        "codice": "L-5 R",
+        "oldClasse": 2005,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 2,
+        "area": 4,
+        "areaCun": 11
+      },
+      "classeInterclasse": {
+        "id": 3242,
+        "tipoClasse": "T",
+        "descrizione": "Storia",
+        "codice": "L-42 R",
+        "oldClasse": 2042,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 4,
+        "area": 4,
+        "areaCun": 11
+      },
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "filosofia",
+        "name": "Filosofia"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_trieste",
+        "name": "Università degli Studi di Trieste"
+      },
+      "location": {
+        "id": "trieste",
+        "name": "Trieste"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609062,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 42,
+      "codeUn": "33",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Scienze e Tecnologie Biologiche",
+      "nomeCorsoEn": "Biological sciences and technologies",
+      "url": "https://lauree.units.it/1-biologia-biotecnologie",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 2,
+        "descrizione": "Test d'ingresso",
+        "descrizioneEn": "EN Test d'ingresso"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Trieste",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "05",
+      "classe": {
+        "id": 3213,
+        "tipoClasse": "T",
+        "descrizione": "Scienze biologiche",
+        "codice": "L-13 R",
+        "oldClasse": 2013,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 3,
+        "area": 2,
+        "areaCun": 5
+      },
+      "classeInterclasse": {
+        "id": 3202,
+        "tipoClasse": "T",
+        "descrizione": "Biotecnologie",
+        "codice": "L-2 R",
+        "oldClasse": 2002,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 7,
+        "area": 2,
+        "areaCun": 5
+      },
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_biologiche",
+        "name": "Scienze biologiche"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_trieste",
+        "name": "Università degli Studi di Trieste"
+      },
+      "location": {
+        "id": "trieste",
+        "name": "Trieste"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "test_dingresso",
+        "name": "Test d'ingresso"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609052,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Innovazione Sociale, Comunicazione, Nuove Tecnologie",
+      "nomeCorsoEn": "SOCIAL INNOVATION, COMMUNICATION, NEW TECHNOLOGIES",
+      "url": "http://www.didattica-cps.unito.it/do/home.pl/View?doc=/corsi_di_studio/ICT_innovazione_sociale/presentazione.html",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "14",
+      "classe": {
+        "id": 3220,
+        "tipoClasse": "T",
+        "descrizione": "Scienze della comunicazione",
+        "codice": "L-20 R",
+        "oldClasse": 2020,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 3,
+        "area": 3,
+        "areaCun": 14
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_della_comunicazione",
+        "name": "Scienze della comunicazione"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609064,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 42,
+      "codeUn": "33",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Fisica",
+      "nomeCorsoEn": "Physics",
+      "url": "http://lauree.units.it/1-fisica",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Trieste",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "02",
+      "classe": {
+        "id": 3230,
+        "tipoClasse": "T",
+        "descrizione": "Scienze e tecnologie fisiche",
+        "codice": "L-30 R",
+        "oldClasse": 2030,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 4,
+        "area": 2,
+        "areaCun": 2
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_e_tecnologie_fisiche",
+        "name": "Scienze e tecnologie fisiche"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_trieste",
+        "name": "Università degli Studi di Trieste"
+      },
+      "location": {
+        "id": "trieste",
+        "name": "Trieste"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609053,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Scienze Internazionali, Dello Sviluppo e della Cooperazione",
+      "nomeCorsoEn": "International Science, Development and Cooperation",
+      "url": "http://www.didattica-cps.unito.it/do/home.pl/View?doc=corsi_di_studio/SISCO_scienze_intern_sviluppo_coop/presentazione.html",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "14",
+      "classe": {
+        "id": 3236,
+        "tipoClasse": "T",
+        "descrizione": "Scienze politiche e delle relazioni internazionali",
+        "codice": "L-36 R",
+        "oldClasse": 2036,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 5,
+        "area": 3,
+        "areaCun": 14
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_politiche_e_delle_relazioni_internazionali",
+        "name": "Scienze politiche e delle relazioni internazionali"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609054,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Scienze Politiche e Sociali",
+      "nomeCorsoEn": "Political & Social Sciences",
+      "url": "http://www.didattica-cps.unito.it/do/home.pl/View?doc=corsi_di_studio/SPS_scienze_politiche_sociali/presentazione.html",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 3,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 1,
+        "descrizione": "Triennale",
+        "descrizioneEn": "EN Triennale"
+      },
+      "area": "14",
+      "classe": {
+        "id": 3236,
+        "tipoClasse": "T",
+        "descrizione": "Scienze politiche e delle relazioni internazionali",
+        "codice": "L-36 R",
+        "oldClasse": 2036,
+        "totaleCfu": 180,
+        "categoria": 1,
+        "ambitiCaratterizzanti": 5,
+        "area": 3,
+        "areaCun": 14
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "scienze_politiche_e_delle_relazioni_internazionali",
+        "name": "Scienze politiche e delle relazioni internazionali"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "triennale",
+        "name": "Triennale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609066,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 42,
+      "codeUn": "33",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Giurisprudenza",
+      "nomeCorsoEn": "Law",
+      "url": "https://lauree.units.it/1-giurisprudenza",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 5,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Trieste",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 3,
+        "descrizione": "Ciclo unico",
+        "descrizioneEn": "EN Ciclo unico"
+      },
+      "area": "12",
+      "classe": {
+        "id": 3301,
+        "tipoClasse": "M",
+        "descrizione": "Classe delle lauree magistrali in giurisprudenza",
+        "codice": "LMG/01 R",
+        "oldClasse": 3001,
+        "totaleCfu": 300,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 10,
+        "area": 3,
+        "areaCun": 12
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "classe_delle_lauree_magistrali_in_giurisprudenza",
+        "name": "Classe delle lauree magistrali in giurisprudenza"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_trieste",
+        "name": "Università degli Studi di Trieste"
+      },
+      "location": {
+        "id": "trieste",
+        "name": "Trieste"
+      },
+      "degree_type": {
+        "id": "ciclo_unico",
+        "name": "Ciclo unico"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609056,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 1,
+        "descrizione": "Accesso con diploma",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "nomeCorso": "Medicina e Chirurgia",
+      "nomeCorsoEn": "Medicine and Surgery",
+      "url": "http://medchirurgia.campusnet.unito.it/do/home.pl",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 3,
+        "descrizione": "Numero programmato",
+        "descrizioneEn": "EN numero programmato"
+      },
+      "interateneo": null,
+      "durataAnni": 6,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 3,
+        "descrizione": "Ciclo unico",
+        "descrizioneEn": "EN Ciclo unico"
+      },
+      "area": "06",
+      "classe": {
+        "id": 3342,
+        "tipoClasse": "M",
+        "descrizione": "Medicina e chirurgia",
+        "codice": "LM-41 R",
+        "oldClasse": 3042,
+        "totaleCfu": 360,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 20,
+        "area": 1,
+        "areaCun": 6
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "medicina_e_chirurgia",
+        "name": "Medicina e chirurgia"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "ciclo_unico",
+        "name": "Ciclo unico"
+      },
+      "program_type": {
+        "id": "numero_programmato",
+        "name": "Numero programmato"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609050,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "Sociologia",
+      "nomeCorsoEn": "Sociology",
+      "url": "http://www.didattica-cps.unito.it/do/home.pl/View?doc=corsi_di_studio/sociologia/presentazione.html",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Italiano",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "14",
+      "classe": {
+        "id": 3389,
+        "tipoClasse": "M",
+        "descrizione": "Sociologia e ricerca sociale",
+        "codice": "LM-88 R",
+        "oldClasse": 3089,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 5,
+        "area": 3,
+        "areaCun": 14
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "sociologia_e_ricerca_sociale",
+        "name": "Sociologia e ricerca sociale"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "italiano",
+        "name": "Italiano"
+      }
+    },
+    {
+      "id": 1609055,
+      "anno": {
+        "id": 2025,
+        "descrizione": "2025/2026",
+        "attivo": 1
+      },
+      "idStrutture": 71,
+      "codeUn": "31",
+      "modalitaAccesso": {
+        "id": 2,
+        "descrizione": "Accesso con laurea",
+        "descrizioneEn": "EN Accesso con laurea"
+      },
+      "nomeCorso": "European Legal Studies",
+      "nomeCorsoEn": "European Legal Studies ",
+      "url": "http://www.europeanlegalstudies.unito.it/do/home.pl",
+      "modalitaDidattica": {
+        "id": 1,
+        "descrizione": "In presenza",
+        "descrizioneEn": "EN in presenza"
+      },
+      "programmazione": {
+        "id": 1,
+        "descrizione": "Libero",
+        "descrizioneEn": "EN accesso con diploma"
+      },
+      "interateneo": null,
+      "durataAnni": 2,
+      "lingua": "Inglese",
+      "dataInserimento": "2025-08-15T22:38:38+00:00",
+      "nomeStruttura": "Università degli Studi di Torino",
+      "sede": null,
+      "tipoLaurea": {
+        "id": 2,
+        "descrizione": "Magistrale",
+        "descrizioneEn": "EN Magistrale"
+      },
+      "area": "14",
+      "classe": {
+        "id": 3391,
+        "tipoClasse": "M",
+        "descrizione": "Studi europei",
+        "codice": "LM-90 R",
+        "oldClasse": 3091,
+        "totaleCfu": 120,
+        "categoria": 2,
+        "ambitiCaratterizzanti": 5,
+        "area": 3,
+        "areaCun": 14
+      },
+      "classeInterclasse": null,
+      "modalitaErogazione": {
+        "id": 1,
+        "codice": "C",
+        "descrizione": "Corso di studio convenzionale",
+        "descrizioneEn": "Conventional course of study"
+      },
+      "discipline": {
+        "id": "studi_europei",
+        "name": "Studi europei"
+      },
+      "university": {
+        "id": "universita_degli_studi_di_torino",
+        "name": "Università degli Studi di Torino"
+      },
+      "location": {
+        "id": "torino",
+        "name": "Torino"
+      },
+      "degree_type": {
+        "id": "magistrale",
+        "name": "Magistrale"
+      },
+      "program_type": {
+        "id": "libero",
+        "name": "Libero"
+      },
+      "language": {
+        "id": "inglese",
+        "name": "Inglese"
+      }
+    }
+  ]
+}

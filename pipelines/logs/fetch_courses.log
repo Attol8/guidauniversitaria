@@ -1,0 +1,55 @@
+2025-08-16 16:35:36,341 - INFO - Fetching fresh data in development mode...
+2025-08-16 16:35:36,341 - INFO - Fetching initial data from page 1
+2025-08-16 16:35:36,802 - INFO - Development mode: limiting to 2 pages
+2025-08-16 16:35:39,548 - INFO - Successfully fetched 20 courses from 2 pages
+2025-08-16 16:35:39,553 - INFO - Saved 20 raw courses to pipelines/data/raw_test_courses_data.json
+2025-08-16 16:35:39,553 - INFO - Starting course processing...
+2025-08-16 16:35:39,553 - INFO - Processing 20 courses...
+2025-08-16 16:35:39,555 - WARNING - Error processing course Viticoltura, Enologia e Mercati Vitivinicoli: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,555 - WARNING - Error processing course Scienze e Tecniche Psicologiche: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,555 - WARNING - Error processing course Economia e Statistica per Le Organizzazioni: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,555 - WARNING - Error processing course Psicologia del Lavoro e Dell'organizzazione: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,555 - WARNING - Error processing course Psicologia Clinica: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Psicologia Criminologica e Forense: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Economia Dell'ambiente, della Cultura e del Territorio: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Comunicazione Pubblica e Politica: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Scienze Amministrative e Giuridiche Delle Organizzazioni Pubbliche e Private: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Metodi Statistici Ed Economici per Le Decisioni: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Discipline Storiche e Filosofiche: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Scienze e Tecnologie Biologiche: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Innovazione Sociale, Comunicazione, Nuove Tecnologie: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Fisica: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Scienze Internazionali, Dello Sviluppo e della Cooperazione: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Scienze Politiche e Sociali: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,556 - WARNING - Error processing course Giurisprudenza: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,557 - WARNING - Error processing course Medicina e Chirurgia: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,557 - WARNING - Error processing course Sociologia: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,557 - WARNING - Error processing course European Legal Studies: 'NoneType' object has no attribute 'get'
+2025-08-16 16:35:39,557 - INFO - Successfully processed 0/20 courses
+2025-08-16 16:35:39,557 - ERROR - No courses processed successfully, aborting
+2025-08-16 16:36:56,705 - INFO - Fetching fresh data in development mode...
+2025-08-16 16:36:56,705 - INFO - Fetching initial data from page 1
+2025-08-16 16:36:57,176 - INFO - Development mode: limiting to 2 pages
+2025-08-16 16:37:00,199 - INFO - Successfully fetched 20 courses from 2 pages
+2025-08-16 16:37:00,203 - INFO - Saved 20 raw courses to pipelines/data/raw_test_courses_data.json
+2025-08-16 16:37:00,203 - INFO - Starting course processing...
+2025-08-16 16:37:00,204 - INFO - Processing 20 courses...
+2025-08-16 16:37:00,206 - INFO - Successfully processed 20/20 courses
+2025-08-16 16:37:00,209 - INFO - Saved 20 processed courses to pipelines/data/test_courses_data.json
+2025-08-16 16:37:00,210 - INFO - ==================================================
+2025-08-16 16:37:00,210 - INFO - PROCESSING COMPLETE
+2025-08-16 16:37:00,210 - INFO - Environment: development
+2025-08-16 16:37:00,210 - INFO - Total courses: 20
+2025-08-16 16:37:00,210 - INFO - AI Classification: Disabled
+2025-08-16 16:37:00,210 - INFO - Output file: pipelines/data/test_courses_data.json
+2025-08-16 16:37:00,210 - INFO - ==================================================
+2025-08-16 16:42:54,033 - INFO - Fetching fresh data in development mode...
+2025-08-16 16:42:54,033 - INFO - Fetching initial data from page 10
+2025-08-16 16:42:55,205 - INFO - Development mode: limiting to 2 pages
+2025-08-16 16:42:55,219 - INFO - Successfully fetched 0 courses from 2 pages
+2025-08-16 16:42:55,219 - ERROR - No courses fetched, aborting
+2025-08-16 16:42:59,195 - INFO - Fetching fresh data in development mode...
+2025-08-16 16:42:59,195 - INFO - Fetching initial data from page 3
+2025-08-16 16:42:59,977 - INFO - Development mode: limiting to 2 pages
+2025-08-16 16:43:00,001 - INFO - Successfully fetched 0 courses from 2 pages
+2025-08-16 16:43:00,002 - ERROR - No courses fetched, aborting

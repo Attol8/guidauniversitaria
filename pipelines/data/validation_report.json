@@ -1,0 +1,9 @@
+{
+  "total_universities": 0,
+  "universities_with_logos": 0,
+  "universities_without_logos": 0,
+  "invalid_logos": 0,
+  "missing_details": [],
+  "invalid_details": [],
+  "valid_logos": []
+}
