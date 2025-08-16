@@ -73,9 +73,30 @@ export default function SearchFiltersBar({
       return;
     }
     setSort(initial.sort || "name_asc");
-    // discipline/location/university are hydrated by options effect; leave as-is here
+    
+    // Update discipline/location/university from URL changes
+    if (initial.discipline && discOpts.length > 0) {
+      const match = discOpts.find(opt => opt.value === initial.discipline);
+      setDiscipline(match || null);
+    } else if (!initial.discipline) {
+      setDiscipline(null);
+    }
+    
+    if (initial.location && locOpts.length > 0) {
+      const match = locOpts.find(opt => opt.value === initial.location);
+      setLocation(match || null);
+    } else if (!initial.location) {
+      setLocation(null);
+    }
+    
+    if (initial.university && uniOpts.length > 0) {
+      const match = uniOpts.find(opt => opt.value === initial.university);
+      setUniversity(match || null);
+    } else if (!initial.university) {
+      setUniversity(null);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initial.sort]);
+  }, [initial.sort, initial.discipline, initial.location, initial.university, discOpts.length, locOpts.length, uniOpts.length]);
 
   const emit = useCallback((immediate = false) => {
     const next = {

@@ -9,6 +9,8 @@ import { db } from "@/../firebaseConfig";
 import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import AuthModal from "@/components/Auth/AuthModal";
+import { useUniversityAliases, buildLogoCandidates } from "@/lib/universityLogo";
+import { useSearchParams } from "next/navigation";
 
 type Course = {
   id: string | number;
@@ -20,52 +22,6 @@ type Course = {
 
 type Props = { course: Course };
 
-function slugify(input?: string) {
-  if (!input) return "";
-  return input.toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "")
-    .replace(/\s+/g, "_")
-    .replace(/[^a-z0-9_]/g, "");
-}
-
-function buildLogoCandidates(uniId?: string, uniName?: string, numeric?: string) {
-  const base = "/images/uni_images/uni_logos";
-  const slug = slugify(uniName);
-  const id = (uniId || "").trim();
-
-  const candidates = [];
-  
-  // PRIORITY 1: ONLY use numeric alias if available - these are the files that actually exist
-  if (numeric) {
-    candidates.push(`${base}/${numeric}_logo.png`);  // THIS should be FIRST and PRIMARY
-    candidates.push(`${base}/${numeric}_logo.jpg`);
-    candidates.push(`${base}/${numeric}.png`);
-    candidates.push(`${base}/${numeric}.jpg`);
-  } else {
-    // PRIORITY 2: id come arriva dal corso (slug) - only if no numeric mapping
-    if (id) {
-      candidates.push(`${base}/${id}_logo.png`);
-      candidates.push(`${base}/${id}_logo.jpg`);
-      candidates.push(`${base}/${id}.png`);
-      candidates.push(`${base}/${id}.jpg`);
-    }
-    
-    // PRIORITY 3: ridondanza sullo slug del nome - only if no numeric mapping and different from id
-    if (slug && slug !== id) {
-      candidates.push(`${base}/${slug}_logo.png`);
-      candidates.push(`${base}/${slug}_logo.jpg`);
-      candidates.push(`${base}/${slug}.png`);
-      candidates.push(`${base}/${slug}.jpg`);
-    }
-  }
-  
-  // PRIORITY 4: fallback finale
-  candidates.push("/images/logo/logo.svg");
-  
-  console.log(`🛠️  buildLogoCandidates(${uniId}, ${uniName}, ${numeric}) = [${candidates.join(', ')}]`);
-  return candidates;
-}
 
 function useImageFallback(candidates: string[]) {
   const i = useRef(0);
@@ -92,29 +48,17 @@ function useImageFallback(candidates: string[]) {
 }
 
 function UniLogo({ uniId, uniName, size = 56 }: { uniId?: string; uniName?: string; size?: number }) {
-  // HARDCODED ALIASES FOR TESTING - these should work
-  const aliases = {
-    "libera_universita_di_bolzano": "C3",
-    "universita_degli_studi_suor_orsola_benincasa__napoli": "59", 
-    "link_campus_university": "A6",
-    "universita_telematica_ecampus": "D9",
-    "universita_degli_studi_di_perugia": "23"
-  };
-  const aliasesLoaded = true;
-  const slug = useMemo(() => slugify(uniName), [uniName]);
+  const { aliases, loading } = useUniversityAliases();
 
-  const numeric = aliases[uniId || ""] || aliases[slug] || undefined;
   const guesses = useMemo(() => {
-    console.log(`🏫 HARDCODED TEST - UniLogo for "${uniName}" (id="${uniId}", slug="${slug}"):`, {
-      aliasesLoaded,
-      lookupKey: uniId,
-      numeric,
-      directTest: aliases["universita_degli_studi_di_perugia"]
-    });
+    if (!aliases) {
+      // Return fallback while loading
+      return ["/images/logo/logo.svg"];
+    }
     
-    const candidates = buildLogoCandidates(uniId, uniName, numeric);
+    const candidates = buildLogoCandidates(uniId, uniName, aliases);
     return candidates;
-  }, [uniId, uniName, numeric, slug]);
+  }, [uniId, uniName, aliases]);
   
   const { src, onError } = useImageFallback(guesses);
 
@@ -136,6 +80,7 @@ function UniLogo({ uniId, uniName, size = 56 }: { uniId?: string; uniName?: stri
 
 export default function CourseCard({ course }: Props) {
   const { user } = useAuth();
+  const searchParams = useSearchParams();
   const title = course.nomeCorso || "Corso";
   const uni = course.university?.name || "Ateneo";
   const city = course.location?.name || "Città";
@@ -143,6 +88,13 @@ export default function CourseCard({ course }: Props) {
   const [isFav, setIsFav] = useState<boolean>(false);
   const [checkingFav, setCheckingFav] = useState<boolean>(!!user);
   const [showAuth, setShowAuth] = useState(false);
+
+  // Helper to build URLs that preserve existing filters
+  const buildFilterUrl = (newFilter: string, newValue: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(newFilter, newValue);
+    return `/corsi?${params.toString()}`;
+  };
 
   useEffect(() => {
     let alive = true;
@@ -199,20 +151,30 @@ export default function CourseCard({ course }: Props) {
             >
               {title}
             </Link>
-            <p className="mt-1 text-sm font-medium text-gray-600 dark:text-gray-400 line-clamp-1" title={uni}>
+            <Link
+              href={course.university?.id ? buildFilterUrl('university', course.university.id) : '#'}
+              className="mt-1 text-sm font-medium text-gray-600 dark:text-gray-400 line-clamp-1 hover:text-primary transition-colors"
+              title={uni}
+            >
               {uni}
-            </p>
+            </Link>
           </div>
         </div>
 
         {/* Meta */}
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-          <span className="rounded-full border px-2 py-1 text-gray-700 dark:text-gray-300 dark:border-gray-700">
+          <Link
+            href={course.location?.id ? buildFilterUrl('location', course.location.id) : '#'}
+            className="rounded-full border px-2 py-1 text-gray-700 dark:text-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
             {city}
-          </span>
-          <span className="rounded-full border px-2 py-1 text-gray-700 dark:text-gray-300 dark:border-gray-700">
+          </Link>
+          <Link
+            href={course.discipline?.id ? buildFilterUrl('discipline', course.discipline.id) : '#'}
+            className="rounded-full border px-2 py-1 text-gray-700 dark:text-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
             {disc}
-          </span>
+          </Link>
         </div>
 
         {/* Actions */}

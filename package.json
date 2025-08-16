@@ -6,7 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "data:fetch": "make fetch-data",
+    "data:fetch-dev": "make fetch-dev",
+    "data:upload": "make upload",
+    "logos:check": "make check-missing",
+    "logos:download": "make download-logos-high",
+    "logos:validate": "make validate",
+    "pipeline": "make pipeline",
+    "pipeline:dev": "make pipeline-dev",
+    "pipeline:status": "make status"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
