@@ -24,7 +24,7 @@ const storage = getStorage(app);
 const functions = getFunctions(app);
 
 // Connect to emulators in development environment
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_NODE_ENV === 'development') {
   // Connect to Firestore emulator
   try {
     connectFirestoreEmulator(db, '127.0.0.1', 8080);

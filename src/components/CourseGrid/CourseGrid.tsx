@@ -17,9 +17,11 @@ import {
 } from "firebase/firestore";
 import { db } from "@/../firebaseConfig";
 import CourseCard from "@/components/CourseCard/CourseCard";
+import LoadMore from "@/components/Common/LoadMore";
+import { trackViewItemList, buildListName } from "@/lib/analytics";
 import type { SortKey } from "@/components/Courses/SearchFiltersBar";
 
-type Course = { id: string; [k: string]: any };
+type Course = { id: string; nomeCorso: string; discipline: { id: string; name: string }; location: { id: string; name: string }; university: { id: string; name: string }; [k: string]: any };
 type FilterProps = { discipline: string; location: string; university: string };
 
 const PAGE_SIZE_DEFAULT = 24;
@@ -40,11 +42,13 @@ export default function ResultsGrid({
   const [loadingMore, setLoadingMore] = useState(false);
   const [done, setDone] = useState(false);
   const [total, setTotal] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [seenIds] = useState(() => new Set<string>());
 
   const lastDocRef = useRef<QueryDocumentSnapshot<DocumentData> | null>(null);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const autoLoadsRef = useRef(0);
-  const pageIndexRef = useRef(0);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const isSearchMode = false;
 
@@ -66,15 +70,21 @@ export default function ResultsGrid({
     setLoadingMore(false);
     setDone(false);
     setTotal(null);
+    setCurrentPage(1);
+    seenIds.clear();
     lastDocRef.current = null;
     autoLoadsRef.current = 0;
-    pageIndexRef.current = 0;
-  }, []);
+    // Abort any ongoing request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+  }, [seenIds]);
 
   // Initial load whenever inputs change
   useEffect(() => {
     resetState();
-    let alive = true;
+    abortControllerRef.current = new AbortController();
+    const signal = abortControllerRef.current.signal;
 
     (async () => {
       try {
@@ -99,16 +109,22 @@ export default function ResultsGrid({
         } catch { /* optional */ }
 
         const snap = await getDocs(fsQuery(baseRef, ...constraints));
-        if (!alive) return;
+        if (signal.aborted) return;
 
         const next = snap.docs.map(d => ({ id: d.id, ...d.data() })) as Course[];
+        
+        // Add to seen IDs to prevent duplicates
+        next.forEach(course => seenIds.add(course.id));
+        
         setItems(next);
         lastDocRef.current = snap.docs[snap.docs.length - 1] || null;
         setDone(snap.empty || snap.docs.length < pageSize);
         setLoading(false);
-        emitViewList(next, 0);
+        
+        // Emit analytics event for first page
+        emitAnalyticsEvent(next, 1);
       } catch (err) {
-        if (!alive) return;
+        if (signal.aborted) return;
         try {
           const baseRef = collection(db, "courses");
           const constraints: QueryConstraint[] = [];
@@ -119,17 +135,27 @@ export default function ResultsGrid({
           constraints.push(fsLimit(pageSize));
           const snap = await getDocs(fsQuery(baseRef, ...constraints));
           const next = snap.docs.map(d => ({ id: d.id, ...d.data() })) as Course[];
+          
+          // Add to seen IDs to prevent duplicates
+          next.forEach(course => seenIds.add(course.id));
+          
           setItems(next);
           lastDocRef.current = snap.docs[snap.docs.length - 1] || null;
           setDone(snap.empty || snap.docs.length < pageSize);
-          emitViewList(next, 0);
+          
+          // Emit analytics event for first page
+          emitAnalyticsEvent(next, 1);
         } finally {
           setLoading(false);
         }
       }
     })();
 
-    return () => { alive = false; };
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
   }, [filters.discipline, filters.location, filters.university, sort, pageSize, buildOrder, isSearchMode, resetState]);
 
   const loadMore = useCallback(async () => {
@@ -147,14 +173,23 @@ export default function ResultsGrid({
       constraints.push(fsLimit(pageSize));
 
       const snap = await getDocs(fsQuery(collection(db, "courses"), ...constraints));
-      const next = snap.docs.map(d => ({ id: d.id, ...d.data() })) as Course[];
+      const rawNext = snap.docs.map(d => ({ id: d.id, ...d.data() })) as Course[];
+      
+      // Filter out duplicates using seenIds
+      const next = rawNext.filter(course => !seenIds.has(course.id));
+      next.forEach(course => seenIds.add(course.id));
 
       setItems(prev => {
         const merged = [...prev, ...next];
-        const pageIdx = Math.floor(prev.length / pageSize) + (next.length > 0 ? 1 : 0) - 1;
-        if (next.length > 0 && pageIdx >= 0) emitViewList(next, pageIdx);
         return merged;
       });
+      
+      // Emit analytics for the new page
+      if (next.length > 0) {
+        const nextPage = currentPage + 1;
+        setCurrentPage(nextPage);
+        emitAnalyticsEvent(next, nextPage);
+      }
 
       lastDocRef.current = snap.docs[snap.docs.length - 1] || null;
       setDone(snap.empty || snap.docs.length < pageSize);
@@ -163,7 +198,7 @@ export default function ResultsGrid({
     } finally {
       setLoadingMore(false);
     }
-  }, [filters, pageSize, loadingMore, done, buildOrder, isSearchMode]);
+  }, [filters, pageSize, loadingMore, done, buildOrder, isSearchMode, currentPage, seenIds]);
 
   // Auto-load via IntersectionObserver (thresholded)
   useEffect(() => {
@@ -185,11 +220,30 @@ export default function ResultsGrid({
     return () => io.disconnect();
   }, [done, loadingMore, isSearchMode, loadMore]);
 
-  // Emit view_item_list per virtual page
-  useEffect(() => {
-    const pages = Math.ceil(items.length / pageSize);
-    if (pages > pageIndexRef.current) pageIndexRef.current = pages;
-  }, [items, pageSize]);
+  // Analytics event emitter
+  const emitAnalyticsEvent = useCallback((courses: Course[], page: number) => {
+    try {
+      const listName = buildListName({
+        discipline: filters.discipline,
+        location: filters.location,
+        university: filters.university,
+      });
+      
+      trackViewItemList({
+        list_id: "course_search_results",
+        list_name: listName,
+        page,
+        items: courses.map((course, index) => ({
+          item_id: course.id,
+          item_name: course.nomeCorso || "Course",
+          item_category: course.discipline?.name || "Corso",
+          index: (page - 1) * pageSize + index,
+        })),
+      });
+    } catch (error) {
+      console.debug("Analytics event failed:", error);
+    }
+  }, [filters.discipline, filters.location, filters.university, pageSize]);
 
   const summary = useMemo(() => {
     if (loading && items.length === 0) return "Caricamento risultati…";
@@ -228,12 +282,14 @@ export default function ResultsGrid({
             <div ref={sentinelRef} className="h-4 w-full" aria-hidden />
           )}
 
-          {/* Fallback button and state */}
-          {!isSearchMode && !done && (
-            <div className="mt-6 flex justify-center">
-              <button className="btn btn-primary" onClick={loadMore} disabled={loadingMore}>
-                {loadingMore ? "Caricamento…" : "Carica altri"}
-              </button>
+          {/* Load More Button */}
+          {!isSearchMode && (
+            <div className="mt-6">
+              <LoadMore
+                onLoadMore={loadMore}
+                isLoading={loadingMore}
+                hasMore={!done}
+              />
             </div>
           )}
         </>
@@ -242,20 +298,3 @@ export default function ResultsGrid({
   );
 }
 
-/* -------- analytics hook -------- */
-function emitViewList(chunk: Course[], pageIndex: number) {
-  if (typeof window === "undefined") return;
-  try {
-    window.dispatchEvent(
-      new CustomEvent("view_item_list", {
-        detail: {
-          page_index: pageIndex,
-          item_ids: chunk.map((c) => c.id),
-          item_count: chunk.length,
-        },
-      }),
-    );
-  } catch {
-    /* noop */
-  }
-}

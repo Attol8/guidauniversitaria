@@ -20,6 +20,19 @@ Guida Universitaria is a Next.js application for discovering and filtering Itali
 - `/setup-dev` - Complete development setup (pipelines + Firebase emulators)
 - `/stop-dev` - Stop all development services (including Next.js)
 
+## Testing
+
+### Manual Testing
+- `npm run dev` - Start dev server (usually on localhost:3001 if 3000 is occupied)
+- Navigate to `/corsi` to test course pagination and filtering
+- Test pagination by applying filters to see results reset
+- Check browser console for analytics events (`view_item_list`)
+
+### Playwright Testing
+- Use `tests/pagination.spec.ts` for automated pagination testing
+- Covers: initial load, filtering, load more functionality, analytics events
+- Run against localhost:3001 (or current dev server port)
+
 ## Project Architecture
 
 ### Tech Stack

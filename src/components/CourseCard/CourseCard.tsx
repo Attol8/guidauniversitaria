@@ -189,22 +189,24 @@ export default function CourseCard({ course }: Props) {
       <div className="p-4">
         <AuthModal open={showAuth} onClose={() => setShowAuth(false)} prompt="Per salvare un corso devi accedere o registrarti." />
         {/* Logo + Title */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-start gap-3">
           <UniLogo uniId={course.university?.id} uniName={course.university?.name} />
-          <Link
-            href={`/courses/${course.id}`}
-            className="text-base font-semibold leading-snug line-clamp-2 hover:text-primary"
-            title={title}
-          >
-            {title}
-          </Link>
+          <div className="flex-1 min-w-0">
+            <Link
+              href={`/courses/${course.id}`}
+              className="text-base font-semibold leading-snug line-clamp-2 hover:text-primary block"
+              title={title}
+            >
+              {title}
+            </Link>
+            <p className="mt-1 text-sm font-medium text-gray-600 dark:text-gray-400 line-clamp-1" title={uni}>
+              {uni}
+            </p>
+          </div>
         </div>
 
         {/* Meta */}
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-          <span className="rounded-full border px-2 py-1 text-gray-700 dark:text-gray-300 dark:border-gray-700">
-            {uni}
-          </span>
           <span className="rounded-full border px-2 py-1 text-gray-700 dark:text-gray-300 dark:border-gray-700">
             {city}
           </span>
