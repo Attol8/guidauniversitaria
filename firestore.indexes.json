@@ -1,4 +1,82 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "discipline.id", "order": "ASCENDING" },
+        { "fieldPath": "nomeCorso", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION", 
+      "fields": [
+        { "fieldPath": "location.id", "order": "ASCENDING" },
+        { "fieldPath": "nomeCorso", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "university.id", "order": "ASCENDING" },
+        { "fieldPath": "nomeCorso", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "discipline.id", "order": "ASCENDING" },
+        { "fieldPath": "location.id", "order": "ASCENDING" },
+        { "fieldPath": "nomeCorso", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "discipline.id", "order": "ASCENDING" },
+        { "fieldPath": "university.id", "order": "ASCENDING" },
+        { "fieldPath": "nomeCorso", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "location.id", "order": "ASCENDING" },
+        { "fieldPath": "university.id", "order": "ASCENDING" },
+        { "fieldPath": "nomeCorso", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses", 
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "discipline.id", "order": "ASCENDING" },
+        { "fieldPath": "location.id", "order": "ASCENDING" },
+        { "fieldPath": "university.id", "order": "ASCENDING" },
+        { "fieldPath": "nomeCorso", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "discipline.id", "order": "ASCENDING" },
+        { "fieldPath": "university.name", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "courses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "location.id", "order": "ASCENDING" },
+        { "fieldPath": "location.name", "order": "ASCENDING" }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }
