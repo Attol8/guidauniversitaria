@@ -30,9 +30,9 @@ This list merges the original README todos with new conversion-focused recommend
    - [x] Show sign-up modal when unauthenticated users click heart or lead form.
 
 3. **Pagination & performance**
-   - [ ] Add cursor-based pagination to `CourseGrid` (e.g. 24 courses per page).
-   - [ ] UI pager component or infinite scroll with "Load more".
-   - [ ] Emit `view_item_list` event for each page of results.
+   - [x] Add cursor-based pagination to `CourseGrid` (e.g. 24 courses per page).
+   - [x] UI pager component or infinite scroll with "Load more".
+   - [x] Emit `view_item_list` event for each page of results.
 
 
 5. **Header & Navigation Fixes**
