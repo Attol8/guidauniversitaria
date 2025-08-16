@@ -1,0 +1,40 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /courses/{document=**} {
+      allow read, write: if true;
+    }
+    match /disciplines/{document=**} {
+      allow read, write: if true;
+    }
+    match /locations/{document=**} {
+      allow read, write: if true;
+    }
+    match /universities/{document=**} {
+      allow read, write: if true;
+    }
+    match /degree_types/{document=**} {
+      allow read, write: if true;
+    }
+    match /program_types/{document=**} {
+      allow read, write: if true;
+    }
+    match /languages/{document=**} {
+      allow read, write: if true;
+    }
+    match /leads/{document=**} {
+      allow read, write: if true;
+    }
+    
+    // User documents and favourites
+    match /users/{userId} {
+      // Users can read and write their own profile
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Favourites subcollection
+      match /favourites/{courseId} {
+        // Users can manage their own favourites
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+}

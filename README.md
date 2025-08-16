@@ -1,61 +1,67 @@
-# Startup - Free Next.js Startup Website Template
+# Guida Universitaria
 
-Startup free, open-source, and premium-quality startup website template for Next.js comes with everything you need to launch a startup, business, or SaaS website, including all essential sections, components, and pages.
+## Development Setup
 
-If you're looking for a high-quality and visually appealing, feature-rich Next.js Template for your next startup, SaaS, or business website, this is the perfect choice and starting point for you!
+### Prerequisites
+- Node.js and npm
+- Python 3.x with pip
+- Firebase CLI
 
-### ✨ Key Features
-- Crafted for Startup and SaaS Business
-- Next.js and Tailwind CSS
-- All Essential Business Sections and Pages
-- High-quality and Clean Design
-- Dark and Light Version
-- TypeScript Support
-and Much More ...
+### Data Pipeline Setup
 
-### 🙌 Detailed comparison between the Free and Pro versions of Startup
+The application requires running data pipelines to prepare course data before starting the development server.
 
-| Feature             | Free | Pro |
-|---------------------|------------|----------|
-| Next.js Landing Page             | ✅ Yes      | ✅ Yes      |
-| All The Integrations - Auth, DB, Payments, Blog and many more ...             | ❌ No      | ✅ Yes |
-| Homepage Variations             | 1      | 2 |
-| Additional SaaS Pages and Components             | ❌ No      | ✅ Yes |
-| Functional Blog with Sanity       | ❌ No      | ✅ Yes | ✅ Yes |
-| Use with Commercial Projects            | ✅ Yes      | ✅ Yes      |
-| Lifetime Free Updates             | ✅ Yes      | ✅ Yes |
-| Email Support       | ❌ No         | ✅ Yes       |
-| Community Support         | ✅ Yes         | ✅ Yes       |
+#### Pipeline Scripts Overview
 
+1. **`fetch_courses_data.py`** - Fetches course data from Italian university API
+   - Fetches raw course data from universitaly-backend.cineca.it
+   - Uses GPT-4 to classify courses into disciplines
+   - Processes and normalizes course data (names, locations, universities)
+   - Saves processed data to JSON files
 
-### [🔥 Get Startup Pro](https://nextjstemplates.com/templates/saas-starter-startup)
+2. **`gpt_classify_courses.py`** - GPT-powered course classification
+   - Classifies courses into predefined disciplines using OpenAI API
+   - Requires OPENAI_API_KEY in `.env.production`
 
-[![Startup Pro](https://raw.githubusercontent.com/NextJSTemplates/startup-nextjs/main/startup-pro.webp)](https://nextjstemplates.com/templates/saas-starter-startup)
+3. **`update_courses.py`** - Uploads data to Firebase
+   - Uploads processed course data to Firestore
+   - Connects to Firebase emulators in development
+   - Requires `dev_firebase_config.json` for development
 
-Startup Pro - Expertly crafted for fully-functional, high-performing SaaS startup websites. Comes with with Authentication, Database, Blog, and all the essential integrations necessary for SaaS business sites.
+4. **`resize_images.py`** - Image processing for university logos
+   - Resizes and converts university logos to consistent format
 
+#### Running Pipelines for Development
 
-### [🚀 View Free Demo](https://startup.nextjstemplates.com/)
+1. **Set up Python environment:**
+   ```bash
+   cd pipelines
+   pip install -r requirements.txt
+   ```
 
-### [🚀 View Pro Demo](https://startup-pro.nextjstemplates.com/)
+2. **Set up environment variables:**
+   - Create `.env.production` with `OPENAI_API_KEY=your_key_here`
+   - Ensure `dev_firebase_config.json` exists in project root
 
-### [📦 Download](https://nextjstemplates.com/templates/startup)
+3. **Run data pipeline:**
+   ```bash
+   # Process course data (uses existing test data by default)
+   python fetch_courses_data.py
+   
+   # Start Firebase emulators
+   ./start_emulator.sh
+   
+   # Upload data to Firestore emulator (run in separate terminal)
+   python update_courses.py
+   ```
 
-### [🔥 Get Pro](https://nextjstemplates.com/templates/saas-starter-startup)
+4. **Start development server:**
+   ```bash
+   npm run dev
+   ```
 
-### [🔌 Documentation](https://nextjstemplates.com/docs)
-
-### ⚡ Deploy Now
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNextJSTemplates%2Fstartup-nextjs)
-
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/NextJSTemplates/startup-nextjs)
-
-
-### 📄 License
-Startup is 100% free and open-source, feel free to use with your personal and commercial projects.
-
-### 💜 Support
-If you like the template, please star this repository to inspire the team to create more stuff like this and reach more users like you!
-
-### ✨ Explore and Download - Free [Next.js Templates](https://nextjstemplates.com)
+### Development Commands
+- `npm run dev` - Start Next.js development server
+- `npm run build` - Build production application
+- `npm run lint` - Run ESLint
+- `./start_emulator.sh` - Start Firebase emulators

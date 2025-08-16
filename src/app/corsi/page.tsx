@@ -1,94 +1,121 @@
+// src/app/corsi/page.tsx
 "use client";
-import { useState, useEffect } from 'react';
-import Breadcrumb from "@/components/Common/Breadcrumb";
-import Head from 'next/head';
-import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 
-const FAKE_COURSE_DATA = [
-  {
-    id: 1,
-    name: 'Intro to Python',
-    category: 'Technology',
-    image: 'https://picsum.photos/seed/python/500/300',
-    description: 'Learn the basics of Python.',
-    acceptanceRate: '85%',
-    avgNetPrice: '$2,000'
-  },
-  {
-    id: 2,
-    name: 'Advanced React',
-    category: 'Technology',
-    image: 'https://picsum.photos/seed/react/500/300',
-    description: 'Deep dive into React and Next.js.',
-    acceptanceRate: '60%',
-    avgNetPrice: '$2,500'
-  },
-  {
-    id: 3,
-    name: 'Business Analytics',
-    category: 'Business',
-    image: 'https://picsum.photos/seed/business/500/300',
-    description: 'Understand core concepts in business analytics.',
-    acceptanceRate: '75%',
-    avgNetPrice: '$3,000'
-  }
-];
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import ResultsGrid from "@/components/CourseGrid/CourseGrid";
+import SearchFiltersBar from "@/components/Courses/SearchFiltersBar";
+export const dynamic = "force-dynamic";
+import { hasActiveFilters, type FiltersState, type SortKey } from "@/components/Courses/filterUtils";
 
-const TrovaCorsi = () => {
-  const [courses, setCourses] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState('');
+function PageInner() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const syncGuard = useRef(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
+  const initial: FiltersState = useMemo(
+    () => ({
+      discipline: searchParams.get("discipline") || "",
+      location: searchParams.get("location") || "",
+      university: searchParams.get("university") || "",
+      sort: ((searchParams.get("sort") as SortKey) || "name_asc"),
+    }),
+    [searchParams],
+  );
+
+  const [filters, setFilters] = useState<FiltersState>(initial);
+
+  // Sync URL -> state (avoid feedback loop)
   useEffect(() => {
-    const filteredCourses = FAKE_COURSE_DATA.filter(course =>
-      course.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (filter ? course.category === filter : true)
-    );
-    setCourses(filteredCourses);
-  }, [searchTerm, filter]);
+    if (syncGuard.current) {
+      syncGuard.current = false;
+      return;
+    }
+    setFilters({
+      discipline: searchParams.get("discipline") || "",
+      location: searchParams.get("location") || "",
+      university: searchParams.get("university") || "",
+      sort: ((searchParams.get("sort") as SortKey) || "name_asc"),
+    });
+  }, [searchParams]);
+
+  const apply = useCallback((next: FiltersState) => {
+    syncGuard.current = true;
+    setFilters(next);
+    const params = new URLSearchParams();
+    if (next.discipline) params.set("discipline", next.discipline);
+    if (next.location) params.set("location", next.location);
+    if (next.university) params.set("university", next.university);
+    if (next.sort && next.sort !== "name_asc") params.set("sort", next.sort);
+    router.replace(`/corsi${params.toString() ? `?${params.toString()}` : ""}`, { scroll: false });
+  }, [router]);
 
   return (
-    <section className="bg-white dark:bg-gray-900">
-      <Head>
-        <title>Trova Corsi | Find perfect university courses for you</title>
-        <meta name="description" content="Search university courses based on your interests and needs." />
-      </Head>
-      <Breadcrumb pageName="Trova Corsi" description="Search university courses based on your interests and needs." />
-      <div className="container mx-auto px-4 py-8">
-        <input
-          type="text"
-          placeholder="Search for courses..."
-          className="p-2 border border-gray-300 rounded-md w-full focus:border-blue-500 focus:outline-none"
-          onChange={e => setSearchTerm(e.target.value)}
-        />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-          {courses.map(course => (
-            <div key={course.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-              <div className="relative">
-                <img src={course.image} alt={course.name} className="w-full h-auto object-cover" />
-                <button className="absolute top-2 right-2 text-gray-600 hover:text-red-500">
-                  <FontAwesomeIcon icon={farHeart} size="lg" />
-                </button>
-              </div>
-              <div className="p-4">
-                <h3 className="font-bold text-xl mb-2">{course.name}</h3>
-                <div className="text-sm text-gray-700">{course.description}</div>
-                <div className="mt-3 flex justify-between items-center">
-                  <span className="text-sm font-semibold">Acceptance Rate: {course.acceptanceRate}</span>
-                  <span className="text-sm font-semibold">Avg Net Price: {course.avgNetPrice}</span>
-                </div>
-                <Link href={`/courses/${course.id}`} className="text-indigo-600 hover:text-indigo-800 mt-4 block text-sm">
-                  Learn more
-                </Link>
-              </div>
-            </div>
-          ))}
+    <>
+      {/* Desktop sticky filters */}
+      <div className="hidden md:block sticky top-[calc(var(--header-h,64px))] z-30 bg-white/90 dark:bg-black/80 backdrop-blur border-b border-gray-100 dark:border-gray-800">
+        <div className="container py-3">
+          <SearchFiltersBar initial={filters} onChange={apply} />
         </div>
       </div>
-    </section>
-  );
-};
 
-export default TrovaCorsi;
+      {/* Mobile toolbar */}
+      <div className="md:hidden border-b border-gray-100 dark:border-gray-800 bg-white/95 dark:bg-dark/95">
+        <div className="container px-4 py-2 flex items-center justify-between gap-3">
+          <button
+            className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+            onClick={() => setMobileOpen(true)}
+          >
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+            Filtri
+          </button>
+          <div className="text-xs text-gray-600 dark:text-gray-300">
+            {hasActiveFilters({ discipline: !!filters.discipline, location: !!filters.location, university: !!filters.university })
+              ? "Filtri attivi"
+              : "Tocca per filtrare"}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile filters modal */}
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-0 z-40">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-x-0 bottom-0 max-h-[85vh] rounded-t-2xl bg-white dark:bg-dark shadow-lg p-3 overflow-y-auto">
+            <div className="flex items-center justify-between px-1 py-2">
+              <span className="text-sm font-medium">Filtri</span>
+              <button className="text-sm px-3 py-1 rounded-md border" onClick={() => setMobileOpen(false)}>Chiudi</button>
+            </div>
+            <div className="pt-1 pb-3">
+              <SearchFiltersBar initial={filters} onChange={apply} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Results */}
+      <section className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <div className="container px-4 py-6">
+          <ResultsGrid
+            filters={{
+              discipline: filters.discipline,
+              location: filters.location,
+              university: filters.university,
+            }}
+            sort={filters.sort}
+            pageSize={24}
+          />
+        </div>
+      </section>
+    </>
+  );
+}
+
+export default function CorsiPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading…</div>}>
+      <PageInner />
+    </Suspense>
+  );
+}

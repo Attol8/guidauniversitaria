@@ -1,168 +1,348 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
+import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import ThemeToggler from "./ThemeToggler";
+// import Image from "next/image";
+import Link from "next/link";
 import menuData from "./menuData";
+import { useAuth } from "@/app/providers";
+import { getTopDisciplines } from "../getTopDisciplines";
+import { getTopLocations } from "../getTopLocations";
+import { getTopUniversities } from "../getTopUniversities";
 
-const Header = () => {
-  // Navbar toggle
-  const [navbarOpen, setNavbarOpen] = useState(false);
-  const navbarToggleHandler = () => {
-    setNavbarOpen(!navbarOpen);
-  };
 
-  // Sticky Navbar
+// Custom hook to handle sticky navbar logic
+const useStickyNavbar = () => {
   const [sticky, setSticky] = useState(false);
-  const handleStickyNavbar = () => {
-    if (window.scrollY >= 80) {
-      setSticky(true);
-    } else {
-      setSticky(false);
-    }
-  };
+
   useEffect(() => {
+    const handleStickyNavbar = () => {
+      setSticky(window.scrollY >= 80);
+    };
+
     window.addEventListener("scroll", handleStickyNavbar);
     return () => {
       window.removeEventListener("scroll", handleStickyNavbar);
     };
   }, []);
 
-  // submenu handler
-  const [openIndex, setOpenIndex] = useState(-1);
-  const handleSubmenu = (index) => {
-    if (openIndex === index) {
-      setOpenIndex(-1);
+  return sticky;
+};
+
+// Reusable AuthLinks component
+const AuthLinks = () => {
+  const { user, signOut } = useAuth();
+  if (user) {
+    return (
+      <div className="flex items-center gap-3">
+        <Link href="/profilo/saved" className="text-lg font-medium text-dark hover:text-primary">Salvati</Link>
+        <button onClick={signOut} className="px-3 py-1.5 text-sm font-medium text-white bg-slate-700 rounded hover:bg-slate-800">Esci</button>
+      </div>
+    );
+  }
+  return (
+    <>
+      <Link href="/signin" className="text-lg font-medium text-dark hover:text-primary">
+        Accedi
+      </Link>
+      <Link href="/signup" className="px-4 py-2 text-lg font-medium text-white bg-primary rounded-md hover:bg-opacity-90">
+        Registrati
+      </Link>
+    </>
+  );
+};
+// Reusable MenuItem component
+const MenuItem = ({ item, openIndex, handleSubmenu, index, pathname, isMobile, onLinkClick }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleCollapse = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleClick = (e, path) => {
+    if (path === pathname) {
+      e.preventDefault(); // Prevent navigation if already on the page
+    }
+    onLinkClick(); // Close the mobile menu or submenu
+  };
+
+  if (item.submenu) {
+    if (isMobile) {
+      return (
+        <div key={item.id} className="collapse collapse-plus border-base-300 bg-base-200 border mb-2">
+          <input type="checkbox" checked={isOpen} onChange={toggleCollapse} className="peer" />
+          <div className="collapse-title text-lg font-medium text-dark peer-checked:bg-primary peer-checked:text-white">
+            {item.title}
+          </div>
+          <div className="collapse-content bg-white">
+            <ul>
+              {item.submenu.map((subItem) => (
+                <li key={subItem.id}>
+                  <Link href={subItem.path} className="block py-2 text-sm text-gray-700 hover:bg-gray-100" onClick={(e) => handleClick(e, subItem.path)}>
+                    {subItem.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div >
+      );
     } else {
-      setOpenIndex(index);
+      // Desktop dropdown behavior (keep existing code)
+      return (
+        <div key={item.id} className="relative group">
+          <button
+            onClick={() => handleSubmenu(index)}
+            className="flex items-center text-lg font-medium text-dark hover:text-primary"
+          >
+            {item.title}
+            <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+          <ul
+            className={`absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 ${openIndex === index ? "block" : "hidden"}`}
+          >
+            {item.submenu.map((subItem) => (
+              <li key={subItem.id}>
+                <Link
+                  href={subItem.path}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={(e) => handleClick(e, subItem.path)} // Ensure this function is called
+                >
+                  {subItem.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+  }
+  const isCercaCorsi = item.title === "Cerca Corsi" && isMobile;
+  const linkClasses = isCercaCorsi
+    ? "flex items-center justify-between px-4 py-2 btn-lg text-lg font-medium text-white bg-primary rounded-xl hover:bg-opacity-90"
+    : `text-lg font-medium ${pathname === item.path ? "text-primary" : "text-dark hover:text-primary"}`;
+
+  return (
+    <Link
+      href={item.path}
+      key={item.id}
+      className={linkClasses}
+      onClick={(e) => handleClick(e, item.path)}
+    >
+      {item.title}
+      {isCercaCorsi && (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-4.35-4.35m1.66-3.65a7 7 0
+            11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      )}
+    </Link>
+  );
+};
+
+// Main Header component
+const Header = ({ mobileMenuOpen, toggleMobileMenu }) => {
+  const headerRef = useRef<HTMLElement | null>(null);
+  const sticky = useStickyNavbar();
+  const pathname = usePathname();
+  const [menu, setMenu] = useState(menuData);
+  const [openIndex, setOpenIndex] = useState(-1);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Set --header-h CSS variable with ResizeObserver
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    const setHeaderHeight = () => {
+      const h = el.offsetHeight || 64;
+      document.documentElement.style.setProperty("--header-h", `${h}px`);
+    };
+    
+    setHeaderHeight();
+
+    const resizeObserver = new ResizeObserver(setHeaderHeight);
+    resizeObserver.observe(el);
+    
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // Adjust breakpoint as needed
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    const fetchMenuData = async () => {
+      const [topDisciplines, topLocations, topUniversities] = await Promise.all([
+        getTopDisciplines(),
+        getTopLocations(),
+        getTopUniversities(),
+      ]);
+
+      setMenu((prevMenu) => {
+        return prevMenu.map((item) => {
+          if (item.title === "Discipline") {
+            return { ...item, submenu: topDisciplines };
+          } else if (item.title === "Città") {
+            return { ...item, submenu: topLocations };
+          } else if (item.title === "Università") {
+            return { ...item, submenu: topUniversities };
+          } else {
+            return item;
+          }
+        });
+      });
+    };
+
+    fetchMenuData();
+  }, []);
+
+  // Handle clicks outside of the dropdown to close the submenu
+  const handleClickOutside = (e) => {
+    if (!e.target.closest('.relative.group')) {
+      setOpenIndex(-1);
     }
   };
 
-  const usePathName = usePathname();
+  const handleLinkClick = () => {
+    if (mobileMenuOpen) {
+      toggleMobileMenu(); // Close the mobile menu
+    }
+
+    setOpenIndex(-1);
+  }// Close the submenu
+    ;
+
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
+  const handleSubmenu = (index) => {
+    setOpenIndex(openIndex === index ? -1 : index);
+  };
 
   return (
-    <>
-      <header
-        className={`header left-0 top-0 z-40 flex w-full items-center mx-auto ${sticky
-          ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
-          : "absolute bg-transparent"
-          }`}
-      >
-        <div className="container mx-auto flex justify-between items-center px-4">
-          <div className="logo-container flex items-center flex-col py-4">
-            <Link href="/" className="flex items-center flex-col text-center">
-              <Image
-                src="/images/logo/online-learning.png"
-                alt="Logo"
-                width={50}
-                height={15}
-                className="relative"
-              />
-              <span style={{ fontFamily: '"Manrope", sans-serif', fontWeight: 800, fontSize: '20px' }}>
-                <span style={{ color: '#3e763d' }}>guida </span>
-                <span style={{ color: '#1a3d1f' }}>universitaria</span>
+    <header 
+      ref={headerRef}
+      className="sticky top-0 z-50 w-full bg-white/80 dark:bg-dark/80 backdrop-blur border-b"
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-20">
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center gap-2">
+              <svg
+                aria-hidden
+                className="h-8 w-8 text-blue-600"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M22 10L12 2 2 10" />
+                <path d="M6 11v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-7" />
+                <path d="M10 12h4" />
+              </svg>
+              <span className="font-extrabold text-xl">
+                <span className="text-blue-700">guida</span> <span className="text-slate-900">universitaria</span>
               </span>
             </Link>
           </div>
 
-          <div className="flex-grow flex justify-center px-4">
-            <nav
-              id="navbarCollapse"
-              className={`navbar w-full lg:w-auto lg:flex lg:items-center lg:justify-center lg:space-x-12 ${navbarOpen ? "block" : "hidden lg:block"
-                }`}
-            >
-              <ul className="flex flex-col lg:flex-row lg:space-x-12">
-                {menuData.map((menuItem, index) => (
-                  <li key={index} className="group relative">
-                    {menuItem.path ? (
-                      <Link
-                        href={menuItem.path}
-                        className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${usePathName === menuItem.path
-                          ? "text-primary dark:text-white"
-                          : "text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
-                          }`}
-                      >
-                        {menuItem.title}
-                      </Link>
-                    ) : (
-                      <>
-                        <p
-                          onClick={() => handleSubmenu(index)}
-                          className="flex cursor-pointer items-center justify-between py-2 text-base text-dark group-hover:text-primary dark:text-white/70 dark:group-hover:text-white lg:mr-0 lg:inline-flex lg:px-0 lg:py-6"
-                        >
-                          {menuItem.title}
-                          <span className="pl-3">
-                            <svg width="25" height="24" viewBox="0 0 25 24">
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M6.29289 8.8427C6.68342 8.45217 7.31658 8.45217 7.70711 8.8427L12 13.1356L16.2929 8.8427C16.6834 8.45217 17.3166 8.45217 17.7071 8.8427C18.0976 9.23322 18.0976 9.86639 17.7071 10.2569L12 15.964L6.29289 10.2569C5.90237 9.86639 5.90237 9.23322 6.29289 8.8427Z"
-                                fill="currentColor"
-                              />
-                            </svg>
-                          </span>
-                        </p>
-                        <div
-                          className={`submenu relative left-0 top-full rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${openIndex === index ? "block" : "hidden"
-                            }`}
-                        >
-                          {menuItem.submenu.map((submenuItem, index) => (
-                            <Link
-                              href={submenuItem.path}
-                              key={index}
-                              className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
-                            >
-                              {submenuItem.title}
-                            </Link>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-          <div className="w-auto pr-4 flex items-center justify-end">
-            <Link
-              href="/signin"
-              className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/signup"
-              className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
-            >
-              Sign Up
-            </Link>
-            <div>
-              <ThemeToggler />
-            </div>
-            <button
-              onClick={navbarToggleHandler}
-              id="navbarToggler"
-              aria-label="Mobile Menu"
-              className="ml-4 lg:hidden"
-            >
-              <span
-                className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${navbarOpen ? " top-[7px] rotate-45" : ""
-                  }`}
-              />
-              <span
-                className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${navbarOpen ? "opacity-0" : ""
-                  }`}
-              />
-              <span
-                className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${navbarOpen ? " top-[-8px] -rotate-45" : ""
-                  }`}
-              />
+          <div className="md:hidden flex items-center space-x-4">
+            <AuthLinks />
+            <button onClick={toggleMobileMenu} className="text-dark focus:outline-none">
+              {mobileMenuOpen ? (
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+              )}
             </button>
           </div>
+
+          {/* Desktop Menu */}
+          <nav className={`hidden md:flex items-center space-x-8`}>
+            {menu.map((item, index) => (
+              <MenuItem
+                key={item.id}
+                item={item}
+                openIndex={openIndex}
+                handleSubmenu={handleSubmenu}
+                index={index}
+                pathname={pathname}
+                isMobile={isMobile}
+                onLinkClick={handleLinkClick}
+              />
+            ))}
+          </nav>
+          <div className="hidden md:flex items-center space-x-4">
+            <AuthLinks />
+          </div>
         </div>
-      </header >
-    </>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="block md:hidden mt-4 transition-all duration-300 ease-in-out">
+            <nav className="relative">
+              {menu.map((item, index) => (
+                <div key={item.id} className="py-2">
+                  <MenuItem
+                    item={item}
+                    openIndex={openIndex}
+                    handleSubmenu={handleSubmenu}
+                    index={index}
+                    pathname={pathname}
+                    isMobile={isMobile}
+                    onLinkClick={handleLinkClick}
+                  />
+                </div>
+              ))}
+            </nav>
+          </div>
+        )}
+      </div>
+    </header>
   );
 };
 

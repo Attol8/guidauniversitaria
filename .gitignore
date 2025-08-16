@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 .vscode
+.cursor
 # testing
 /coverage
 
@@ -25,8 +26,17 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# local env files
-.env*.local
+#env files
+.env*
 
 # vercel
 .vercel
+venv
+public/images/uni_images/uni_images_tracker.csv
+*.log
+functions/*.log
+functions/__pycache__/
+
+dev_firebase_config.json
+pipelines/courses_EDA.ipynb
+pipelines/data
