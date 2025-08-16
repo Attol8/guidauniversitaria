@@ -34,9 +34,6 @@ This list merges the original README todos with new conversion-focused recommend
    - [ ] UI pager component or infinite scroll with "Load more".
    - [ ] Emit `view_item_list` event for each page of results.
 
-4. **Landing page CRO tweaks**
-   - [ ] Add accreditation badge strip using existing brand logos.
-   - [x] Change card CTA copy from "Scopri di più" to "Richiedi info".
 
 5. **Header & Navigation Fixes**
    - [x] Convert header from fixed to sticky positioning to prevent hero cutoff.
@@ -47,7 +44,6 @@ This list merges the original README todos with new conversion-focused recommend
 --- 
 ## 🌱 Backlog / Nice to have
 - [ ] Recommendation widget ("Potrebbero interessarti") using similarity search.
-- [ ] Multi-language (EN/IT) i18n support.
 - [ ] SEO optimisation for course detail (Open Graph, static props).
 - [ ] Server-side rendering for better crawlability of course lists.
 
