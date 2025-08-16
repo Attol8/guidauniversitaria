@@ -9,6 +9,7 @@ import {
   signOut as fbSignOut,
   createUserWithEmailAndPassword,
   signInWithPopup,
+  OAuthProvider,
   User,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
@@ -19,6 +20,7 @@ type AuthContextValue = {
   signInEmail: (email: string, password: string) => Promise<void>;
   signUpEmail: (email: string, password: string) => Promise<void>;
   signInGoogle: () => Promise<void>;
+  signInApple: () => Promise<void>;
   signOut: () => Promise<void>;
 };
 
@@ -63,6 +65,17 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     }, { merge: true });
   };
 
+  const signInApple = async () => {
+    const provider = new OAuthProvider("apple.com");
+    provider.addScope("email");
+    provider.addScope("name");
+    const cred = await signInWithPopup(auth, provider);
+    await setDoc(doc(db, "users", cred.user.uid), {
+      email: cred.user.email,
+      createdAt: new Date().toISOString(),
+    }, { merge: true });
+  };
+
   const signOut = async () => {
     await fbSignOut(auth);
   };
@@ -73,6 +86,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     signInEmail,
     signUpEmail,
     signInGoogle,
+    signInApple,
     signOut,
   }), [user, loading]);
 
@@ -81,7 +95,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" enableSystem={false} defaultTheme="dark">
+    <ThemeProvider attribute="class" enableSystem={true} defaultTheme="light">
       <AuthProvider>{children}</AuthProvider>
     </ThemeProvider>
   );

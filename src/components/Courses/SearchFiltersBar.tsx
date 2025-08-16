@@ -121,7 +121,7 @@ export default function SearchFiltersBar({
   ];
 
   return (
-    <div className="rounded-xl bg-white/95 dark:bg-dark/95 shadow-md p-3">
+    <div className="rounded-xl bg-white/95 dark:bg-gray-800/95 shadow-md p-3">
       <div className="grid grid-cols-1 gap-3 md:grid-cols-10">
         {/* Discipline */}
         <div className="md:col-span-3">
@@ -172,7 +172,7 @@ export default function SearchFiltersBar({
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as SortKey)}
-              className="w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-black px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
+              className="w-full rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
             >
               {sortOptions.map((o) => (
                 <option key={o.value} value={o.value}>{o.label}</option>
@@ -181,7 +181,7 @@ export default function SearchFiltersBar({
           </div>
           <button
             onClick={clearAll}
-            className="h-9 mt-auto whitespace-nowrap rounded-md border px-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+            className="h-9 mt-auto whitespace-nowrap rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 text-sm hover:bg-gray-50 dark:hover:bg-gray-600"
           >
             Pulisci
           </button>
@@ -202,7 +202,7 @@ export default function SearchFiltersBar({
 
 function Chip({ label, onClear }: { label: string; onClear: () => void }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border px-3 py-1">
+    <span className="inline-flex items-center gap-2 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-1">
       {label}
       <button className="text-gray-500 hover:text-gray-800 dark:hover:text-gray-200" aria-label="clear" onClick={onClear}>
         ×

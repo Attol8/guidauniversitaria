@@ -78,9 +78,30 @@ if ! python pipelines/update_courses.py; then
     exit 1
 fi
 
-echo "✅ Development environment ready!"
+echo "✅ Firebase emulators ready!"
+echo ""
+
+# Step 4: Start Next.js development server
+echo "⚛️ Step 4: Starting Next.js development server..."
+
+# Start Next.js in background
+npm run dev &
+NEXTJS_PID=$!
+
+# Wait a moment for Next.js to start
+sleep 5
+
+# Check if Next.js is running
+if ! kill -0 $NEXTJS_PID 2>/dev/null; then
+    echo "❌ Next.js failed to start"
+    kill $FIREBASE_PID 2>/dev/null
+    exit 1
+fi
+
+echo "✅ All development services ready!"
 echo ""
 echo "🌐 Services running:"
+echo "  • Next.js App: http://localhost:3000 (or 3001 if 3000 is busy)"
 echo "  • Firebase Emulator UI: http://127.0.0.1:4000/"
 echo "  • Firestore: 127.0.0.1:8080"  
 echo "  • Auth: 127.0.0.1:9099"
@@ -88,8 +109,27 @@ echo "  • Functions: 127.0.0.1:5001"
 echo "  • Storage: 127.0.0.1:9199"
 echo ""
 echo "🎯 Next steps:"
-echo "  1. Run 'npm run dev' to start the Next.js development server"
-echo "  2. Access your app at http://localhost:3000"
-echo "  3. Use './stop_services.sh' or '/stop-dev' to stop all services"
+echo "  • Access your app at the Next.js URL above"
+echo "  • Use './stop_services.sh' or '/stop-dev' to stop all services"
 echo ""
-echo "Firebase PID: $FIREBASE_PID (for manual cleanup if needed)"
+echo "Process IDs for manual cleanup:"
+echo "  • Firebase PID: $FIREBASE_PID"
+echo "  • Next.js PID: $NEXTJS_PID"
+echo ""
+echo "⏳ Services will continue running in background..."
+echo "Press Ctrl+C to stop all services"
+
+# Create a cleanup function
+cleanup() {
+    echo ""
+    echo "🛑 Stopping services..."
+    kill $NEXTJS_PID 2>/dev/null
+    kill $FIREBASE_PID 2>/dev/null
+    exit 0
+}
+
+# Set up trap to cleanup on script exit
+trap cleanup EXIT INT TERM
+
+# Keep script running and wait for user to stop
+wait

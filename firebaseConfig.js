@@ -25,15 +25,35 @@ const functions = getFunctions(app);
 
 // Connect to emulators in development environment
 if (process.env.NODE_ENV === 'development') {
-  connectFirestoreEmulator(db, '127.0.0.1', 8080);
+  // Connect to Firestore emulator
   try {
-    // Toggle Auth emulator with env flag (OAuth providers like Google are NOT supported on emulator)
-    if (process.env.NEXT_PUBLIC_USE_AUTH_EMULATOR === 'true') {
+    connectFirestoreEmulator(db, '127.0.0.1', 8080);
+  } catch (error) {
+    // Already connected
+  }
+
+  // Connect to Auth emulator if enabled
+  if (process.env.NEXT_PUBLIC_USE_AUTH_EMULATOR === 'true') {
+    try {
       connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+    } catch (error) {
+      // Already connected
     }
-  } catch {}
-  connectStorageEmulator(storage, '127.0.0.1', 9199);
-  connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+  }
+  
+  // Connect to Storage emulator
+  try {
+    connectStorageEmulator(storage, '127.0.0.1', 9199);
+  } catch (error) {
+    // Already connected
+  }
+  
+  // Connect to Functions emulator
+  try {
+    connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+  } catch (error) {
+    // Already connected
+  }
 }
 
 export { db, storage, functions, auth, GoogleAuthProvider };
