@@ -146,9 +146,9 @@ export default function FilterBar({ onFilterChange, initialFilters }: FilterBarP
   }
 
   return (
-    <div className="w-full p-6 bg-white shadow-md rounded-lg mb-6">
+    <div className="w-full p-6 bg-white dark:bg-gray-800 shadow-md rounded-lg mb-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-semibold text-gray-800">Filter Courses</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">Filter Courses</h2>
         <button
           onClick={clearFilters}
           className="flex items-center text-red-600 hover:text-red-800"
@@ -160,7 +160,7 @@ export default function FilterBar({ onFilterChange, initialFilters }: FilterBarP
       <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
         {/* Discipline Filter */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
             <FaGraduationCap className="inline-block mr-2 text-xl" /> Discipline
           </label>
           <Select
@@ -181,7 +181,7 @@ export default function FilterBar({ onFilterChange, initialFilters }: FilterBarP
 
         {/* Location Filter */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
             <FaMapMarkerAlt className="inline-block mr-2 text-xl" /> Location
           </label>
           <Select
@@ -202,7 +202,7 @@ export default function FilterBar({ onFilterChange, initialFilters }: FilterBarP
 
         {/* University Filter */}
         <div>
-          <label className="block text-gray-700 font-medium mb-2">
+          <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
             <FaUniversity className="inline-block mr-2 text-xl" /> University
           </label>
           <Select

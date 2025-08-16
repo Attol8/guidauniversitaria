@@ -17,7 +17,7 @@ type Opt = { value: string; label: string };
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white text-slate-900">
+    <main className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-slate-900 dark:text-gray-100">
       <Hero />
       <TrustBar />
       <Benefits />
@@ -42,17 +42,17 @@ function Hero() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="grid lg:grid-cols-12 items-center gap-8">
           <div className="lg:col-span-7">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-gray-100">
               Scegli l&apos;università giusta.<br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600">Inizia oggi.</span>
             </h1>
-            <p className="mt-4 text-slate-600 max-w-2xl">
+            <p className="mt-4 text-slate-600 dark:text-gray-300 max-w-2xl">
               Confronta corsi, requisiti e opportunità di carriera. Trova in pochi minuti il percorso di studi più adatto a te.
             </p>
             <div className="mt-6">
               <SmartSearchBar />
             </div>
-            <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-600">
+            <ul className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-600 dark:text-gray-300">
               <li className="flex items-center gap-2"><CheckIcon className="h-4 w-4 text-blue-700"/>1000+ corsi indicizzati</li>
               <li className="flex items-center gap-2"><CheckIcon className="h-4 w-4 text-blue-700"/>Filtri intelligenti</li>
               <li className="flex items-center gap-2"><CheckIcon className="h-4 w-4 text-blue-700"/>Consulenza gratuita</li>
@@ -124,16 +124,16 @@ function Benefits() {
   ];
 
   return (
-    <section id="benefits" className="py-16 bg-white">
+    <section id="benefits" className="py-16 bg-white dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-6">
           {items.map((it) => (
             <div key={it.title} className="card">
               <div className="flex items-center gap-3">
                 <div className="icon-wrap">{it.icon}</div>
-                <h3 className="font-semibold text-lg">{it.title}</h3>
+                <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">{it.title}</h3>
               </div>
-              <p className="mt-3 text-slate-600">{it.desc}</p>
+              <p className="mt-3 text-slate-600 dark:text-gray-300">{it.desc}</p>
             </div>
           ))}
         </div>
@@ -175,8 +175,8 @@ function Highlights() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-3 gap-6">
           <div className="card">
-            <h3 className="font-semibold text-lg">Top corsi del mese</h3>
-            <p className="mt-2 text-slate-600">I più cercati dagli studenti come te.</p>
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">Top corsi del mese</h3>
+            <p className="mt-2 text-slate-600 dark:text-gray-300">I più cercati dagli studenti come te.</p>
             <ul className="mt-4 space-y-2">
               {topCourses.map((c) => (
                 <li key={c.id}><a className="link" href={`/courses/${c.id}`}>{c.title}</a></li>
@@ -184,8 +184,8 @@ function Highlights() {
             </ul>
           </div>
           <div className="card">
-            <h3 className="font-semibold text-lg">Città popolari</h3>
-            <p className="mt-2 text-slate-600">Vita universitaria, stage, opportunità.</p>
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">Città popolari</h3>
+            <p className="mt-2 text-slate-600 dark:text-gray-300">Vita universitaria, stage, opportunità.</p>
             <ul className="mt-4 space-y-2">
               {topCities.map((l) => (
                 <li key={l.docId}><a className="link" href={`/corsi?location=${l.docId}`}>{l.title}</a></li>
@@ -193,8 +193,8 @@ function Highlights() {
             </ul>
           </div>
           <div className="card">
-            <h3 className="font-semibold text-lg">Atenei in evidenza</h3>
-            <p className="mt-2 text-slate-600">I più completi per offerta formativa.</p>
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">Atenei in evidenza</h3>
+            <p className="mt-2 text-slate-600 dark:text-gray-300">I più completi per offerta formativa.</p>
             <ul className="mt-4 space-y-2">
               {topUnis.map((u) => (
                 <li key={u.docId}><a className="link" href={`/corsi?university=${u.docId}`}>{u.title}</a></li>

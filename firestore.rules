@@ -24,5 +24,17 @@ service cloud.firestore {
     match /leads/{document=**} {
       allow read, write: if true;
     }
+    
+    // User documents and favourites
+    match /users/{userId} {
+      // Users can read and write their own profile
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Favourites subcollection
+      match /favourites/{courseId} {
+        // Users can manage their own favourites
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
   }
 }

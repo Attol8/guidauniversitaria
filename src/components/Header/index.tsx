@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 // import Image from "next/image";
 import Link from "next/link";
 import menuData from "./menuData";
+import { useAuth } from "@/app/providers";
 import { getTopDisciplines } from "../getTopDisciplines";
 import { getTopLocations } from "../getTopLocations";
 import { getTopUniversities } from "../getTopUniversities";
@@ -28,16 +29,27 @@ const useStickyNavbar = () => {
 };
 
 // Reusable AuthLinks component
-const AuthLinks = () => (
-  <>
-    <Link href="/signin" className="text-lg font-medium text-dark hover:text-primary">
-      Sign In
-    </Link>
-    <Link href="/signup" className="px-4 py-2 text-lg font-medium text-white bg-primary rounded-md hover:bg-opacity-90">
-      Sign Up
-    </Link>
-  </>
-);
+const AuthLinks = () => {
+  const { user, signOut } = useAuth();
+  if (user) {
+    return (
+      <div className="flex items-center gap-3">
+        <Link href="/profilo/saved" className="text-lg font-medium text-dark hover:text-primary">Salvati</Link>
+        <button onClick={signOut} className="px-3 py-1.5 text-sm font-medium text-white bg-slate-700 rounded hover:bg-slate-800">Esci</button>
+      </div>
+    );
+  }
+  return (
+    <>
+      <Link href="/signin" className="text-lg font-medium text-dark hover:text-primary">
+        Accedi
+      </Link>
+      <Link href="/signup" className="px-4 py-2 text-lg font-medium text-white bg-primary rounded-md hover:bg-opacity-90">
+        Registrati
+      </Link>
+    </>
+  );
+};
 // Reusable MenuItem component
 const MenuItem = ({ item, openIndex, handleSubmenu, index, pathname, isMobile, onLinkClick }) => {
   const [isOpen, setIsOpen] = useState(false);
