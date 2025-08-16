@@ -21,13 +21,13 @@ This list merges the original README todos with new conversion-focused recommend
    - [x] Add sticky CTA ("Richiedi informazioni") visible at every scroll depth.
 
 2. **Favourites & Authentication**
-   - [ ] Integrate Firebase Auth (email/password + Google, Instagram).
-   - [ ] make sure that authentication follows the same design as the rest of the app.
-   - [ ] make sure that the authentication follows firebase auth design.
-   - [ ] Convert heart button in `CourseCard` to `toggleFavourite(courseId)`; store under `users/{uid}/favourites/{courseId}`.
-   - [ ] New route `/profilo/saved` to list saved courses. make this page simple but make it look good.
-   - [ ] Rename Sign up and Sign in to Italian
-   - [ ] Show sign-up modal when unauthenticated users click heart or lead form.
+   - [x] Integrate Firebase Auth (email/password + Google, Apple).
+   - [x] make sure that authentication follows the same design as the rest of the app.
+   - [x] make sure that the authentication follows firebase auth design.
+   - [x] Convert heart button in `CourseCard` to `toggleFavourite(courseId)`; store under `users/{uid}/favourites/{courseId}`.
+   - [x] New route `/profilo/saved` to list saved courses. make this page simple but make it look good.
+   - [x] Rename Sign up and Sign in to Italian
+   - [x] Show sign-up modal when unauthenticated users click heart or lead form.
 
 3. **Pagination & performance**
    - [ ] Add cursor-based pagination to `CourseGrid` (e.g. 24 courses per page).
@@ -35,7 +35,6 @@ This list merges the original README todos with new conversion-focused recommend
    - [ ] Emit `view_item_list` event for each page of results.
 
 4. **Landing page CRO tweaks**
-   - [ ] Embed `CourseSearch` directly under hero subtitle.
    - [ ] Add accreditation badge strip using existing brand logos.
    - [x] Change card CTA copy from "Scopri di più" to "Richiedi info".
 
@@ -45,21 +44,7 @@ This list merges the original README todos with new conversion-focused recommend
    - [x] Implement dynamic header height tracking with ResizeObserver.
    - [x] Add global scroll-padding for proper anchor scrolling.
 
----
-## 🎨 Sprint 2 – Polish & Trust
-
-7. **UI/UX Enhancements**
-   - [ ] Testimonials carousel near lead form on course detail page.
-   - [ ] Sticky bottom CTA on mobile for quick sign-up.
-   - [ ] Add privacy & T&C quick links beneath sign-up button.
-   - [ ] Improve skeleton loading states for cards, filters and detail page.
-
-8. **Documentation & DX**
-   - [ ] Update README with new setup (analytics keys, auth instructions).
-   - [ ] Unit tests for `LeadForm` and `toggleFavourite` logic.
-   - [ ] Cypress end-to-end test: visit → filter → detail → submit lead.
-
----
+--- 
 ## 🌱 Backlog / Nice to have
 - [ ] Recommendation widget ("Potrebbero interessarti") using similarity search.
 - [ ] Multi-language (EN/IT) i18n support.
