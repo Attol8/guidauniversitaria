@@ -86,6 +86,95 @@ Based on README TODO:
 - Search functionality (basic implementation exists)
 - Future: Pagination, user authentication, saved courses
 
+## Firebase App Hosting Deployment
+
+### Prerequisites
+- Firebase CLI installed and authenticated
+- Project configured for Firebase App Hosting
+- Next.js application built for production
+
+### Deployment Process
+1. **Backend Creation**: Use `firebase apphosting:backends:create` to set up Cloud Run service
+2. **Configuration**: App Hosting automatically configures:
+   - Cloud Run service in `europe-west4` region
+   - Service account: `firebase-app-hosting-compute@guidauniversitaria.iam.gserviceaccount.com`
+   - Container deployment with Next.js production build
+3. **Build & Deploy**: Firebase App Hosting handles automatic builds from repository
+4. **Environment**: Production environment variables are configured in Firebase console
+
+### Key Configuration Files
+- `firebase.json` - Firebase project configuration
+- `next.config.js` - Next.js configuration for App Hosting compatibility
+- `.env.production` - Production environment variables
+
+### Deployment Commands
+- `firebase apphosting:backends:create` - Create new backend
+- `firebase deploy --only apphosting` - Deploy to App Hosting
+- `firebase apphosting:backends:list` - List all backends
+
+### Monitoring
+- Cloud Run logs available in Google Cloud Console
+- Firebase App Hosting dashboard for deployment status
+- Application accessible via provided App Hosting URL
+
+## Data Management Workflow
+
+### Firebase Projects
+- **Dev**: `guidauniversitaria` (878850539106) - for development and testing
+- **Prod**: `guidauniversitaria-prod` (817549673617) - for production
+
+### Data Pipeline Commands
+
+**Fetch and Process Data:**
+```bash
+# Development data (test dataset - 2 pages)
+python3 pipelines/fetch_courses_data.py --env development --fetch
+
+# Production data (full dataset with AI classification)
+python3 pipelines/fetch_courses_data.py --env production --fetch --classify
+```
+
+**Upload to Firebase:**
+```bash
+# Programmatic upload (recommended for dev testing)
+source functions/venv/bin/activate
+python3 pipelines/update_courses.py --env development
+
+# OR use Makefile shortcut
+make upload
+
+# Manual upload via Firebase Console (alternative):
+# 1. Go to https://console.firebase.google.com/project/guidauniversitaria/firestore
+# 2. Import data from pipelines/data/test_courses_data.json
+```
+
+**Firebase Authentication Setup:**
+For programmatic uploads, you need a service account key:
+1. Go to: https://console.firebase.google.com/project/guidauniversitaria/settings/serviceaccounts/adminsdk
+2. Click "Generate new private key"
+3. Save as `.firebase-credentials.json` in project root
+4. File is automatically ignored by git for security
+
+### Local Emulator Data Export/Import
+```bash
+# Export local emulator data
+firebase emulators:export ./local-data
+
+# Import to production (WARNING: overwrites existing data)
+firebase use guidauniversitaria-prod
+firebase firestore:import ./local-data
+
+# Import to dev
+firebase use guidauniversitaria
+firebase firestore:import ./local-data
+```
+
+### Data Pipeline Files
+- `fetch_courses_data.py` - Fetches and processes course data from Universitaly API
+- `update_courses.py` - Uploads processed data to Firebase Firestore
+- `data/test_courses_data.json` - Development dataset (2 pages)
+- `data/all_courses_data.json` - Production dataset (full)
+
 ## Important Notes
 
 - University images are dynamically loaded with fallbacks to placeholder images
