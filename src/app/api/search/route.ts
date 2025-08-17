@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { db } from "@/../firebaseConfig";
 import { collection, endAt, getDocs, limit, orderBy, query, startAt } from "firebase/firestore";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +8,12 @@ export async function GET(req: Request) {
   const term = searchParams.get("term") || "";
   if (!term) return NextResponse.json([]);
 
+  if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
+    return NextResponse.json([], { status: 200 });
+  }
+
   try {
+    const { db } = await import("@/../firebaseConfig");
     const cap = term.charAt(0).toUpperCase() + term.slice(1);
 
     const uniRef = collection(db, "universities");
