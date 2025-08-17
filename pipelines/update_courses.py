@@ -2,59 +2,71 @@
 
 import os
 import firebase_admin
-from firebase_admin import credentials, firestore, storage
-import grpc
+from firebase_admin import credentials, firestore
 import json
-from google.cloud.firestore_v1.services.firestore import FirestoreClient
-from google.cloud.firestore_v1.services.firestore.transports import (
-    FirestoreGrpcTransport,
-)
+import argparse
 
-# Determine the environment and load the appropriate .env file
-env = "development"
-if env == "development":
-    cred = credentials.Certificate("dev_firebase_config.json")
-    firebase_app = firebase_admin.initialize_app(
-        cred, {"storageBucket": "guidauniversitaria.appspot.com"}
-    )
-    os.environ["STORAGE_EMULATOR_HOST"] = "http://127.0.0.1:9199"
-    db = firestore.client(app=firebase_app)
-
-    # Create a channel and transport for Firestore client
-    channel = grpc.insecure_channel("localhost:8080")
-    transport = FirestoreGrpcTransport(channel=channel)
-    db._firestore_api_internal = FirestoreClient(transport=transport)
-    json_courses_path = "pipelines/data/test_courses_data.json"
-
-else:
-    firebase_app = firebase_admin.initialize_app(
-        {"storageBucket": "prod_project_id.appspot.com"}
-    )
-    db = firestore.client(app=firebase_app)
-    json_courses_path = "pipelines/data/all_courses_data.json"
+def initialize_firebase(use_emulator=True):
+    """Initialize Firebase with emulator or production settings."""
+    if not firebase_admin._apps:
+        if use_emulator:
+            # Use emulator for local development
+            os.environ["FIRESTORE_EMULATOR_HOST"] = "localhost:8080"
+            firebase_admin.initialize_app(options={'projectId': 'guidauniversitaria'})
+        else:
+            # Try service account file first, then fall back to Application Default Credentials
+            service_account_path = ".firebase-credentials.json"
+            if os.path.exists(service_account_path):
+                print(f"Using service account: {service_account_path}")
+                cred = credentials.Certificate(service_account_path)
+                firebase_admin.initialize_app(cred)
+            else:
+                print("Service account not found. Please create one:")
+                print("1. Go to: https://console.firebase.google.com/project/guidauniversitaria/settings/serviceaccounts/adminsdk")
+                print("2. Click 'Generate new private key'")
+                print("3. Save as: .firebase-credentials.json")
+                return None
+    
+    return firestore.client()
 
 
-def save_to_firestore(courses):
+def save_to_firestore(courses, db):
+    """Upload courses to Firestore."""
     collection_ref = db.collection("courses")
-    for course in courses:
-        # Use the 'id' field from the course data as the document ID
+    
+    print(f"Uploading {len(courses)} courses...")
+    
+    for i, course in enumerate(courses):
         doc_id = str(course.get("id"))
         if doc_id:
             doc_ref = collection_ref.document(doc_id)
             doc_ref.set(course)
+            if (i + 1) % 100 == 0:
+                print(f"Uploaded {i + 1}/{len(courses)} courses...")
         else:
-            print("Course data is missing 'id' field:", course)
-    print("Data has been written to Firestore.")
-
-
-def upload_json_to_storage(local_file_path, storage_path):
-    bucket = storage.bucket()
-    blob = bucket.blob(storage_path)
-    blob.upload_from_filename(local_file_path)
-    print(f"File {local_file_path} uploaded to {storage_path}.")
+            print(f"Course missing 'id' field: {course}")
+    
+    print("✅ Data uploaded to Firestore!")
 
 
 if __name__ == "__main__":
-    all_courses = json.load(open(json_courses_path))["courses"]
-    save_to_firestore(all_courses)
-    upload_json_to_storage(json_courses_path, "all_courses_data.json")
+    parser = argparse.ArgumentParser(description='Upload course data to Firebase')
+    parser.add_argument('--env', choices=['development', 'production'], 
+                       default='development', help='Environment to upload to')
+    args = parser.parse_args()
+    
+    # Initialize Firebase - always use production mode (no emulator)
+    db = initialize_firebase(use_emulator=False)
+    
+    if db is None:
+        print("❌ Could not initialize Firebase. Please create a service account key.")
+        exit(1)
+    
+    # Load data
+    data_file = "pipelines/data/test_courses_data.json" if args.env == 'development' else "pipelines/data/all_courses_data.json"
+    
+    with open(data_file, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    courses = data.get("courses", data) if isinstance(data, dict) else data
+    save_to_firestore(courses, db)
