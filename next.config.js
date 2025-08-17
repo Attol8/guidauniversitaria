@@ -8,10 +8,7 @@ module.exports = (phase, { defaultConfig }) => {
 
   const nextConfig = {
     ...defaultConfig,
-    output: 'export', // Static export for faster deployment
-    trailingSlash: true,
     images: {
-      unoptimized: true, // Required for static export
       domains: ["localhost", "picsum.photos", "via.placeholder.com"],
       remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io", port: "" }],
     },
