@@ -30,19 +30,18 @@ PLURALS = {
     "language": "languages",
 }
 
-env = "development"
-if env == "development":
-    cred = credentials.Certificate("../dev_firebase_config.json")
-    firebase_app = firebase_admin.initialize_app(
-        cred, {"storageBucket": "guidauniversitaria.appspot.com"}
-    )
-    os.environ["STORAGE_EMULATOR_HOST"] = "http://127.0.0.1:9199"
-    db = firestore.client(app=firebase_app)
+# Initialize Firebase Admin SDK
+# In production (Cloud Functions), credentials are automatically provided
+# For local development, defer initialization to avoid auth issues during deployment analysis
+db = None
 
-    # Create a channel and transport for Firestore client
-    channel = grpc.insecure_channel("localhost:8080")
-    transport = FirestoreGrpcTransport(channel=channel)
-    db._firestore_api_internal = FirestoreClient(transport=transport)
+def get_db():
+    global db
+    if db is None:
+        if not firebase_admin._apps:
+            firebase_admin.initialize_app()
+        db = firestore.client()
+    return db
 
 
 # Function to load courses from Firebase Storage
@@ -127,13 +126,13 @@ def search_universities(request: https_fn.Request) -> https_fn.Response:
         # Prefer ordering by coursesCounter if index exists; fallback to full scan
         try:
             docs = list(
-                db.collection("universities")
+                get_db().collection("universities")
                 .order_by("coursesCounter", direction=firestore.Query.DESCENDING)
                 .limit(500)
                 .stream()
             )
         except Exception:
-            docs = list(db.collection("universities").stream())
+            docs = list(get_db().collection("universities").stream())
 
         items = []
         names = []
@@ -176,13 +175,13 @@ def search_locations(request: https_fn.Request) -> https_fn.Response:
     try:
         try:
             docs = list(
-                db.collection("locations")
+                get_db().collection("locations")
                 .order_by("coursesCounter", direction=firestore.Query.DESCENDING)
                 .limit(500)
                 .stream()
             )
         except Exception:
-            docs = list(db.collection("locations").stream())
+            docs = list(get_db().collection("locations").stream())
 
         items = []
         names = []
@@ -231,7 +230,7 @@ def increment_course_counters_on_create(event: Event[DocumentSnapshot]) -> None:
         field_data = course.get(field)
         if field_data and isinstance(field_data, dict) and field_data.get("id") and field_data.get("name"):
             collection_name = PLURALS.get(field, f"{field}s")
-            field_ref = db.collection(collection_name).document(field_data["id"])
+            field_ref = get_db().collection(collection_name).document(field_data["id"])
             
             try:
                 doc_snapshot = field_ref.get()
@@ -274,8 +273,8 @@ def update_course_counters_on_update(event: Event[Change[DocumentSnapshot]]) -> 
                 after_field and isinstance(after_field, dict) and after_field.get("id")):
                 
                 # Both fields exist - update both in transaction
-                before_ref = db.collection(collection_name).document(before_field["id"])
-                after_ref = db.collection(collection_name).document(after_field["id"])
+                before_ref = get_db().collection(collection_name).document(before_field["id"])
+                after_ref = get_db().collection(collection_name).document(after_field["id"])
                 
                 try:
                     # Decrement old counter
@@ -298,7 +297,7 @@ def update_course_counters_on_update(event: Event[Change[DocumentSnapshot]]) -> 
             else:
                 # Handle single field updates
                 if before_field and isinstance(before_field, dict) and before_field.get("id"):
-                    field_ref = db.collection(collection_name).document(before_field["id"])
+                    field_ref = get_db().collection(collection_name).document(before_field["id"])
                     try:
                         doc = field_ref.get()
                         if doc.exists:
@@ -309,7 +308,7 @@ def update_course_counters_on_update(event: Event[Change[DocumentSnapshot]]) -> 
                         print(f"Error decrementing {field} counter: {e}")
 
                 if after_field and isinstance(after_field, dict) and after_field.get("id") and after_field.get("name"):
-                    field_ref = db.collection(collection_name).document(after_field["id"])
+                    field_ref = get_db().collection(collection_name).document(after_field["id"])
                     try:
                         doc = field_ref.get()
                         if doc.exists:
@@ -341,7 +340,7 @@ def decrement_course_counters_on_delete(event: Event[DocumentSnapshot]) -> None:
         field_data = course.get(field)
         if field_data and isinstance(field_data, dict) and field_data.get("id"):
             collection_name = PLURALS.get(field, f"{field}s")
-            field_ref = db.collection(collection_name).document(field_data["id"])
+            field_ref = get_db().collection(collection_name).document(field_data["id"])
             
             try:
                 doc_snapshot = field_ref.get()

@@ -181,3 +181,42 @@ firebase firestore:import ./local-data
 - Course cards use random hero images from `/images/uni_images/uni_heroes/`
 - Logo loading includes existence checks with fallback to placeholder
 - Mobile-responsive design with Tailwind grid system
+
+## Firestore Indexes
+
+The app requires composite indexes for filtering functionality. If you encounter errors like "The query requires an index", deploy the indexes:
+
+```bash
+firebase deploy --only firestore:indexes
+```
+
+Required indexes are defined in `firestore.indexes.json` and include combinations of:
+- `discipline.id` + `nomeCorso`
+- `location.id` + `nomeCorso` 
+- `university.id` + `nomeCorso`
+- Multiple filter combinations
+
+**Note**: Indexes take 2-5 minutes to build after deployment.
+
+## Firebase Functions
+
+The project includes Cloud Functions for enhanced search functionality:
+
+**Deployed Functions:**
+- `search_courses` - Fuzzy search for course names
+- `search_universities` - Fuzzy search for universities
+
+**Available but not deployed:**
+- `search_locations` - Fuzzy search for locations  
+- Database triggers for maintaining counter fields automatically
+
+**Function URLs:**
+- Search courses: `https://us-central1-guidauniversitaria.cloudfunctions.net/search_courses?term=query`
+- Search universities: `https://us-central1-guidauniversitaria.cloudfunctions.net/search_universities?term=query`
+
+**Deploy functions:**
+```bash
+firebase deploy --only functions
+```
+
+**Note**: First-time function deployment may require waiting for service account permissions to propagate.
